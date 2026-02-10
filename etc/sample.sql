@@ -1,38 +1,100 @@
-DROP DATABASE IF EXISTS itemtrade;
-CREATE DATABASE itemtrade;
-USE itemtrade;
+# 게임명: 화투로
+drop database if exists hwaturo;
+create database hwaturo;
+use hwaturo;
 
-create table items(
-	ino int auto_increment,
-	nickname varchar(30),
-    pname varchar(50),
-    comment varchar(300),
-    price int,
-    password varchar(30),
-    phone char(13),
-    addDate datetime default now(),
-    isOnsale boolean,
-    constraint primary key( ino )
+# 유저정보를 담는 users테이블 생성
+create table user(
+	user_no int auto_increment,
+    constraint primary key( user_no ),
+    uid varchar(30) not null unique,
+    upwd varchar(30) not null,
+    uname varchar(20) not null unique
 );
 
-INSERT INTO items (nickname, pname, comment, price, password, phone, addDate, isOnsale) VALUES
-('쿨거래장인', '아이폰 15 프로', '배터리 효율 95%입니다. 쿨거시 네고 가능해요.', 1150000, '1234', '010-1234-5678', '2024-02-01 10:00:00', true),
-('미니멀리스트', '다이슨 에어랩', '선물받고 한 번 써봄. 박스 풀구성입니다.', 450000, 'pass1', '010-2345-6789', '2024-02-02 11:30:00', true),
-('책벌레', '해리포터 원서 세트', '소장용이라 상태 아주 깨끗합니다.', 80000, 'book', '010-3456-7890', '2024-02-02 14:20:00', true),
-('자취생', '이케아 책상', '직접 가져가셔야 해요. 분해 도와드립니다.', 30000, 'desk', '010-4567-8901', '2024-02-03 09:15:00', false),
-('개발자A', 'LG 울트라기어 모니터', '32인치 4K 모니터입니다. 박스 없음.', 350000, 'monitor', '010-5678-9012', '2024-02-04 18:00:00', true),
-('헬린이', '덤벨 20kg 세트', '무거워서 못쓰겠어요. 직거래만 합니다.', 40000, 'health', '010-6789-0123', '2024-02-05 07:30:00', true),
-('캠핑족', '콜맨 텐트', '3회 피칭했습니다. 상태 양호.', 200000, 'camp', '010-7890-1234', '2024-02-06 12:45:00', true),
-('패피', '나이키 덩크 로우', '사이즈 270. 크림에서 구매한 정품.', 150000, 'nike', '010-8901-2345', '2024-02-07 20:10:00', false),
-('주부9단', '에어프라이어', '용량 큰 걸로 바꾸려고 팝니다.', 25000, 'cook', '010-9012-3456', '2024-02-08 15:20:00', true),
-('게임매니아', '닌텐도 스위치 OLED', '젤다 칩 포함 가격입니다.', 300000, 'game', '010-0123-4567', '2024-02-09 16:50:00', true),
-('음악대장', '기타(Fender)', '연습용으로 샀다가 방치했습니다.', 180000, 'music', '010-1234-1111', '2024-02-10 11:00:00', true),
-('식집사', '몬스테라 화분', '엄청 잘 자랍니다. 분갈이 필요.', 15000, 'plant', '010-2345-2222', '2024-02-11 10:30:00', true),
-('커피러버', '네스프레소 머신', '청소 완료. 캡슐 10개 같이 드려요.', 50000, 'coffee', '010-3456-3333', '2024-02-12 09:00:00', false),
-('자전거라이더', '로드 자전거', '입문용입니다. 타이어 교체 필요.', 120000, 'bike', '010-4567-4444', '2024-02-13 17:40:00', true),
-('육아맘', '유모차(스토케)', '사용감 있지만 튼튼합니다. 세탁 완료.', 100000, 'baby', '010-5678-5555', '2024-02-14 13:15:00', true),
-('사진작가', '소니 A7M3 바디', '컷수 5천 이하. 상태 최상입니다.', 1600000, 'camera', '010-6789-6666', '2024-02-15 19:20:00', true),
-('레트로', '필름 카메라', '작동 확인 안 됨. 인테리어용.', 30000, 'retro', '010-7890-7777', '2024-02-16 21:00:00', false),
-('스벅덕후', '스타벅스 텀블러', '한정판 미사용 새상품입니다.', 45000, 'star', '010-8901-8888', '2024-02-17 08:50:00', true),
-('기프티콘', '치킨 교환권', '생일선물 받은건데 다이어트 중이라 팝니다.', 18000, 'chicken', '010-9012-9999', '2024-02-18 12:00:00', true),
-('이사정리', '삼성 냉장고', '18년형. 엘베 없는 3층입니다. 사다리차 필요.', 250000, 'fridge', '010-0000-1234', '2024-02-19 14:30:00', true);
+# 부적,점괘 같은 아이템을 담는 item_info테이블 생성
+create table item_info(
+	item_no int auto_increment,
+    constraint primary key( item_no ),
+    name varchar(30) not null,
+    type varchar(10) not null, 
+    price int not null,
+    description varchar(100),
+    effect_code varchar(20)
+);
+
+#게임의 랭킹, 전적을 확인할 수 있게 하는 game_log테이블 생성
+create table game_log(
+	log_no int auto_increment,
+    constraint primary key( log_no ),
+    user_no int,
+    constraint foreign key ( user_no ) references user( user_no ),
+    play_date datetime default now(),
+    final_score int default 1,
+    final_round int default 1
+);
+
+#유저의 정보를 저장하는 save_file테이블 생성
+create table save_file(
+	user_no int not null,
+    constraint primary key ( user_no ),
+    constraint foreign key ( user_no ) references user( user_no ),
+    current_round int default 1,
+    current_hp int default 3,
+    current_money int default 0,
+    current_score int default 0,
+    card varchar(1000),
+    item varchar(500)
+);
+
+-- user 테이블 샘플 데이터
+INSERT INTO user (user_no, uid, upwd, uname) VALUES
+(1, 'admin', '1234', '관리자1'),
+(2, 'kafell', '141543', '아저씨1'),
+(3, 'ganatech', 'pw123', '가나전력'),
+(4, 'topline', 'pw432', '탑라인'),
+(5, 'sunnet', 'pw000', '썬네트'),
+(6, 'wireguy', 'pw001', '와이어맨'),
+(7, 'junil', 'pw4321', '준일통신'),
+(8, 'jinyoung', 'pw876', '진영씨'),
+(9, 'datahero', 'pw555', '데이터영웅'),
+(10, 'jhwang', 'pw789', '황사장');
+
+-- item_info 테이블 샘플 데이터
+INSERT INTO item_info (item_no, name, type, price, description, effect_code) VALUES
+(1, '호랑이 기운', '부적', 150, '동물(열) 패를 낼 때마다 점수 +10', 'PASSIVE_ANIMAL_BOOST'),
+(2, '재물 부적', '부적', 200, '판이 끝날 때 마다 획득 엽전 1.5배', 'PASSIVE_MONEY_UP'),
+(3, '광기 부적', '부적', 300, '모든 광의 기본 점수가 2배가 된다', 'PASSIVE_KWANG_DOUBLE'),
+(4, '신령님의 계시', '점괘', 80, '내 손패 1장을 랜덤하게 광으로 바꾼다', 'ACTIVE_CHANGE_KWANG'),
+(5, '밑장 빼기', '점괘', 50, '현재 손패를 모두 버리고 다시 뽑는다', 'ACTIVE_REDRAW_ALL'),
+(6, '조상님의 도움', '점괘', 100, '다음 족보 배수를 +3배 추가한다', 'ACTIVE_NEXT_MULT_UP'),
+(7, '동작 그만', '점괘', 300, '지금 패를 다음 판에도 유지한다', 'ACTIVE_KEEP_HAND'),
+(8, '붉은 띠', '부적', 100, '홍단 점수 +3배', 'PASSIVE_RED_MULT_UP'),
+(9, '푸른 띠', '부적', 100, '청단 점수 +3배', 'PASSIVE_BLUE_MULT_UP'),
+(10, '아수라발발타', '점괘', 400, '목숨을 3으로 만든다', 'ACTIVE_ASURA_HP');
+
+-- game_log 테이블 샘플 데이터
+INSERT INTO game_log (log_no, user_no, play_date, final_score, final_round) VALUES
+(1, 1, '2026-02-09', 9899, 8),
+(2, 1, '2026-02-09', 1542, 2),
+(3, 2, '2026-02-08', 1651, 2),
+(4, 2, '2026-02-08', 2975, 4),
+(5, 5, '2026-02-07', 8132, 7),
+(6, 3, '2026-02-07', 3206, 4),
+(7, 4, '2026-02-06', 1823, 2),
+(8, 5, '2026-02-06', 8912, 8),
+(9, 6, '2026-02-06', 5356, 6),
+(10, 6, '2026-02-05', 4954, 5);
+
+-- save_file 테이블 샘플 데이터
+INSERT INTO save_file (user_no, current_round, current_hp, current_money, current_score, card, item) VALUES
+(1, 3, 3, 400, 1400, '1, 3, 10, 22, 38, 40, 41, 42, 44, 48', 'ACTIVE_REDRAW_ALL, ACTIVE_CHANGE'),
+(2, 4, 3, 250, 1800, '1, 3, 10, 22, 38, 40, 41, 42, 44, 48', 'PASSIVE_TIGER, ACTIVE_NEXT_MULT_UP'),
+(3, 2, 3, 100, 600, '1, 3, 10, 22, 38, 40, 41, 42, 44, 48', 'PASSIVE_MONEY_UP'),
+(4, 5, 3, 400, 3000, '1, 3, 10, 22, 38, 40, 41, 42, 44, 48', 'ACTIVE_REDRAW_ALL, ACTIVE_CHANGE'),
+(5, 6, 2, 300, 3500, '1, 3, 10, 22, 38, 40, 41, 42, 44, 48', 'PASSIVE_TIGER, PASSIVE_ANIMAL_BOOST'),
+(6, 1, 3, 320, 200, '1, 3, 10, 22, 38, 40, 41, 42, 44, 48', 'PASSIVE_TIGER, ACTIVE_CHANGE'),
+(7, 2, 3, 280, 600, '1, 3, 10, 22, 38, 40, 41, 42, 44, 48', 'ACTIVE_CHANGE'),
+(8, 4, 3, 333, 1400, '1, 3, 10, 22, 38, 40, 41, 42, 44, 48', 'PASSIVE_RED_MULT_UP, ACTIVE_CHANGE'),
+(9, 5, 3, 444, 2600, '1, 3, 10, 22, 38, 40, 41, 42, 44, 48', 'PASSIVE_BLUE_MULT_UP, ACTIVE_CHANGE'),
+(10, 1, 3, 555, 100, '1, 3, 10, 22, 38, 40, 41, 42, 44, 48', 'PASSIVE_TIGER, PASSIVE_ASURA_HP');
