@@ -1,6 +1,8 @@
 package constant;
 
 import model.dto.Card;
+import model.dto.JokboDto;
+import model.dto.RoundDto;
 
 import java.util.ArrayList;
 
@@ -79,4 +81,34 @@ public class GameConst {
         BASIC_DECK.add(new Card(47, 12, "피", 1, "12월_피"));
         BASIC_DECK.add(new Card(48, 12, "피", 2, "12월_쌍피"));
     }
+
+    public static final ArrayList<JokboDto> JOKBO_LIST = new ArrayList<>();
+    static {
+        JOKBO_LIST.add(new JokboDto(1, "오광", 25, 4000));
+        JOKBO_LIST.add(new JokboDto(2, "사광", 15, 1000));
+        JOKBO_LIST.add(new JokboDto(3, "삼광", 8, 200));
+        JOKBO_LIST.add(new JokboDto(4, "띠 모음", 8, 150));
+        JOKBO_LIST.add(new JokboDto(5, "멍텅구리", 5, 150));
+        JOKBO_LIST.add(new JokboDto(6, "38광땡", 18, 600));
+        JOKBO_LIST.add(new JokboDto(7, "18광땡", 12, 300));
+        JOKBO_LIST.add(new JokboDto(8, "13광땡", 10, 200));
+        JOKBO_LIST.add(new JokboDto(9, "고도리", 10, 150));
+        JOKBO_LIST.add(new JokboDto(10, "홍단", 4, 60));
+        JOKBO_LIST.add(new JokboDto(11, "청단", 3, 45));
+        JOKBO_LIST.add(new JokboDto(12, "초단", 3, 45));
+        JOKBO_LIST.add(new JokboDto(13, "피바다", 2, 20));
+    }
+
+    public static final ArrayList<RoundDto> ROUND_LIST = new ArrayList<>();
+    static {
+        ROUND_LIST.add(new RoundDto(1, "호구", 500));
+        ROUND_LIST.add(new RoundDto(2, "곽철용", 1200));
+        ROUND_LIST.add(new RoundDto(3, "광팔이", 2500));
+        ROUND_LIST.add(new RoundDto(4, "정마담", 5000));
+        ROUND_LIST.add(new RoundDto(5, "평경장", 10000));
+        ROUND_LIST.add(new RoundDto(6, "짝귀", 20000));
+        ROUND_LIST.add(new RoundDto(7, "아귀", 30000));
+        ROUND_LIST.add(new RoundDto(8, "고니", 50000));
+    }
 }
+
