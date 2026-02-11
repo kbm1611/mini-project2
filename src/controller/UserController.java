@@ -15,4 +15,9 @@ public class UserController {
         boolean result = ud.register(uid, upw, unickname);
         return result;
     }
+
+    public  boolean login(String uid, String upw){
+        boolean result = ud.login(uid, upw);
+        return result;
+    }
 }

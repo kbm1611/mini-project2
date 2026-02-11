@@ -15,6 +15,7 @@ public class UserDao {
     private PreparedStatement ps;
     private ResultSet rs;
 
+    // 회원가입
     public boolean register(String uid, String upw, String unickname){
        try {
            Connection conn = DBDao.getConnection();
@@ -31,6 +32,23 @@ public class UserDao {
            System.out.println("[시스템] SQL "+ e);
        }return false;
 }
+    // 로그인
+    public boolean login(String uid, String upw){
+        try{
+            Thread.sleep(1000);
+            Connection conn = DBDao.getConnection();
+            String sql = "select uid,upw,unickname from user where uid = ? and upw = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, uid);
+            ps.setString(2, upw);
+
+            int count = ps.executeUpdate();
+            if(count == 1){return true;}
+            else {return false;}
+        }catch (Exception e){
+            System.out.println("[시스템] SQL"+e);
+        }return false;
+    }
 }
 
 
