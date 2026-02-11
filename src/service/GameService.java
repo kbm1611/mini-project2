@@ -10,6 +10,9 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class GameService {
+    private static GameService instance = new GameService();
+    public static GameService getInstance(){return instance;}
+
     private ArrayList<Card> deck; // 남은덱
     private ArrayList<Card> hand; // 내 손패
     private ArrayList<Card> grave; // 무덤
@@ -20,11 +23,12 @@ public class GameService {
     private int targetScore; // 목표 점수
     private int submitLeft; // 남은 카드 내기 기회
     private int discardLeft; // 남은 카드 버리기 기회
-
-    public GameService() {
+    private GameService() {
         this.deck = new ArrayList<>();
         this.hand = new ArrayList<>();
         this.grave = new ArrayList<>();
+        this.currentRound = 1;
+        this.currentScore = 0;
     }
 
     public void initDeck(){
