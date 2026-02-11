@@ -2,6 +2,7 @@ package service;
 
 import constant.GameConst;
 import model.dto.Card;
+import model.dto.JokboDto;
 import model.dto.RoundDto;
 
 import java.util.ArrayList;
@@ -101,7 +102,65 @@ public class GameService {
     }
 
 
+    public JokboDto checkJokbo(ArrayList<Card> submittedCards){
+        int kwangCount=0, yulCount =0, ddiCount = 0, piCount = 0;
+        ArrayList<Integer> kwangMonths = new ArrayList<>();
+        ArrayList<Integer> yulMonths = new ArrayList<>();
+        ArrayList<Integer> ddiMonths = new ArrayList<>();
 
+        for(Card card : submittedCards){
+            String type = card.getType();
+            int month = card.getMonth();
+
+            if (type.equals("광")){
+                kwangCount++;
+                kwangMonths.add(month);
+            } else if (type.equals("열")){
+                yulCount++;
+                yulMonths.add(month);
+            } else if (type.equals("띠")){
+                ddiCount++;
+                ddiMonths.add(month);
+            } else if (type.equals("피")){
+                piCount++;
+            }
+        }
+
+        // 1. 오광 (광 5개)
+        if (kwangCount == 5) return GameConst.JOKBO_LIST.get(0);
+        // 2. 사광 (광 4개)
+        if (kwangCount == 4) return GameConst.JOKBO_LIST.get(1);
+        // 3. 삼광 (광 3개)
+        if (kwangCount == 3) return GameConst.JOKBO_LIST.get(2);
+        // 4. 띠 모음 (띠 5개)
+        if (ddiCount == 5) return GameConst.JOKBO_LIST.get(3);
+        // 5. 멍텅구리 (열 5개)
+        if (yulCount == 5) return GameConst.JOKBO_LIST.get(4);
+
+        // 6. 38광땡 (3월 광, 8월 광 포함)
+        if (kwangMonths.contains(3) && kwangMonths.contains(8)) return GameConst.JOKBO_LIST.get(5);
+        // 7. 18광땡 (1월 광, 8월 광 포함)
+        if (kwangMonths.contains(1) && kwangMonths.contains(8)) return GameConst.JOKBO_LIST.get(6);
+        // 8. 13광땡 (1월 광, 3월 광 포함)
+        if (kwangMonths.contains(1) && kwangMonths.contains(3)) return GameConst.JOKBO_LIST.get(7);
+
+        // 9. 고도리 (2월, 4월, 8월 열 포함)
+        if (yulMonths.contains(2) && yulMonths.contains(4) && yulMonths.contains(8)) return GameConst.JOKBO_LIST.get(8);
+
+        // 10. 홍단 (1월, 2월, 3월 띠 포함)
+        if (ddiMonths.contains(1) && ddiMonths.contains(2) && ddiMonths.contains(3)) return GameConst.JOKBO_LIST.get(9);
+        // 11. 청단 (6월, 9월, 10월 띠 포함)
+        if (ddiMonths.contains(6) && ddiMonths.contains(9) && ddiMonths.contains(10)) return GameConst.JOKBO_LIST.get(10);
+        // 12. 초단 (4월, 5월, 7월 띠 포함)
+        if (ddiMonths.contains(4) && ddiMonths.contains(5) && ddiMonths.contains(7)) return GameConst.JOKBO_LIST.get(11);
+
+        // 13. 피바다 (피 5개)
+        if (piCount == 5) return GameConst.JOKBO_LIST.get(12);
+
+        // 아무 족보도 아닐 경우
+        return null;
+
+    }
 
 
 }
