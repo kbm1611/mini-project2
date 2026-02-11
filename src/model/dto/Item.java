@@ -17,53 +17,18 @@ public class Item {
         this.effect_code = effect_code;
     }
 
-    public int getItem_no() {
-        return item_no;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getEffect_code() {
-        return effect_code;
-    }
-
-    public void setItem_no(int item_no) {
-        this.item_no = item_no;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setEffect_code(String effect_code) {
-        this.effect_code = effect_code;
-    }
+    public int getItem_no() { return item_no; }
+    public String getName() { return name; }
+    public String getType() { return type; }
+    public int getPrice() { return price; }
+    public String getDescription() { return description; }
+    public String getEffect_code() { return effect_code; }
+    public void setItem_no(int item_no) { this.item_no = item_no; }
+    public void setName(String name) { this.name = name; }
+    public void setType(String type) { this.type = type; }
+    public void setPrice(int price) { this.price = price; }
+    public void setDescription(String description) { this.description = description; }
+    public void setEffect_code(String effect_code) { this.effect_code = effect_code; }
 
     @Override
     public String toString() {
