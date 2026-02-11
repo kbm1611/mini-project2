@@ -9,7 +9,7 @@ create table user(
     constraint primary key( user_no ),
     uid varchar(30) not null unique,
     upwd varchar(30) not null,
-    uname varchar(20) not null unique
+    nickname varchar(20) not null unique
 );
 
 # 부적,점괘 같은 아이템을 담는 item_info테이블 생성
@@ -31,7 +31,8 @@ create table game_log(
     constraint foreign key ( user_no ) references user( user_no ),
     play_date datetime default now(),
     final_score int default 1,
-    final_round int default 1
+    final_round int default 1,
+    final_money int default 1
 );
 
 #유저의 정보를 저장하는 save_file테이블 생성
@@ -48,7 +49,7 @@ create table save_file(
 );
 
 -- user 테이블 샘플 데이터
-INSERT INTO user (user_no, uid, upwd, uname) VALUES
+INSERT INTO user (user_no, uid, upwd, nickname) VALUES
 (1, 'admin', '1234', '관리자1'),
 (2, 'kafell', '141543', '아저씨1'),
 (3, 'ganatech', 'pw123', '가나전력'),
@@ -74,27 +75,27 @@ INSERT INTO item_info (item_no, name, type, price, description, effect_code) VAL
 (10, '아수라발발타', '점괘', 400, '목숨을 3으로 만든다', 'ACTIVE_ASURA_HP');
 
 -- game_log 테이블 샘플 데이터
-INSERT INTO game_log (log_no, user_no, play_date, final_score, final_round) VALUES
-(1, 1, '2026-02-09', 9899, 8),
-(2, 1, '2026-02-09', 1542, 2),
-(3, 2, '2026-02-08', 1651, 2),
-(4, 2, '2026-02-08', 2975, 4),
-(5, 5, '2026-02-07', 8132, 7),
-(6, 3, '2026-02-07', 3206, 4),
-(7, 4, '2026-02-06', 1823, 2),
-(8, 5, '2026-02-06', 8912, 8),
-(9, 6, '2026-02-06', 5356, 6),
-(10, 6, '2026-02-05', 4954, 5);
+INSERT INTO game_log (log_no, user_no, play_date, final_score, final_round, final_money) VALUES
+(1, 1, '2026-02-09', 9899, 8, 400),
+(2, 1, '2026-02-09', 1542, 2, 250),
+(3, 2, '2026-02-08', 1651, 2, 100),
+(4, 2, '2026-02-08', 2975, 4, 400),
+(5, 5, '2026-02-07', 8132, 7, 300),
+(6, 3, '2026-02-07', 3206, 4, 200),
+(7, 4, '2026-02-06', 1823, 2, 100),
+(8, 5, '2026-02-06', 8912, 8, 150),
+(9, 6, '2026-02-06', 5356, 6, 180),
+(10, 6, '2026-02-05', 4954, 5, 220);
 
 -- save_file 테이블 샘플 데이터
 INSERT INTO save_file (user_no, current_round, current_hp, current_money, current_score, card, item) VALUES
-(1, 3, 3, 400, 1400, '1, 3, 10, 22, 38, 40, 41, 42, 44, 48', 'ACTIVE_REDRAW_ALL, ACTIVE_CHANGE'),
-(2, 4, 3, 250, 1800, '1, 3, 10, 22, 38, 40, 41, 42, 44, 48', 'PASSIVE_TIGER, ACTIVE_NEXT_MULT_UP'),
-(3, 2, 3, 100, 600, '1, 3, 10, 22, 38, 40, 41, 42, 44, 48', 'PASSIVE_MONEY_UP'),
-(4, 5, 3, 400, 3000, '1, 3, 10, 22, 38, 40, 41, 42, 44, 48', 'ACTIVE_REDRAW_ALL, ACTIVE_CHANGE'),
-(5, 6, 2, 300, 3500, '1, 3, 10, 22, 38, 40, 41, 42, 44, 48', 'PASSIVE_TIGER, PASSIVE_ANIMAL_BOOST'),
-(6, 1, 3, 320, 200, '1, 3, 10, 22, 38, 40, 41, 42, 44, 48', 'PASSIVE_TIGER, ACTIVE_CHANGE'),
-(7, 2, 3, 280, 600, '1, 3, 10, 22, 38, 40, 41, 42, 44, 48', 'ACTIVE_CHANGE'),
-(8, 4, 3, 333, 1400, '1, 3, 10, 22, 38, 40, 41, 42, 44, 48', 'PASSIVE_RED_MULT_UP, ACTIVE_CHANGE'),
-(9, 5, 3, 444, 2600, '1, 3, 10, 22, 38, 40, 41, 42, 44, 48', 'PASSIVE_BLUE_MULT_UP, ACTIVE_CHANGE'),
-(10, 1, 3, 555, 100, '1, 3, 10, 22, 38, 40, 41, 42, 44, 48', 'PASSIVE_TIGER, PASSIVE_ASURA_HP');
+(1, 3, 3, 400, 1400, '1, 3, 10, 22, 38, 40, 41, 42, 44, 48', '5, 4'),
+(2, 4, 3, 250, 1800, '1, 3, 10, 22, 38, 40, 41, 42, 44, 48', '1, 6'),
+(3, 2, 3, 100, 600, '1, 3, 10, 22, 38, 40, 41, 42, 44, 48', '2'),
+(4, 5, 3, 400, 3000, '1, 3, 10, 22, 38, 40, 41, 42, 44, 48', '5, 4'),
+(5, 6, 2, 300, 3500, '1, 3, 10, 22, 38, 40, 41, 42, 44, 48', '1, 1'),
+(6, 1, 3, 320, 200, '1, 3, 10, 22, 38, 40, 41, 42, 44, 48', '1, 4'),
+(7, 2, 3, 280, 600, '1, 3, 10, 22, 38, 40, 41, 42, 44, 48', '4'),
+(8, 4, 3, 333, 1400, '1, 3, 10, 22, 38, 40, 41, 42, 44, 48', '8, 4'),
+(9, 5, 3, 444, 2600, '1, 3, 10, 22, 38, 40, 41, 42, 44, 48', '9, 4'),
+(10, 1, 3, 555, 100, '1, 3, 10, 22, 38, 40, 41, 42, 44, 48', '1, 10');
