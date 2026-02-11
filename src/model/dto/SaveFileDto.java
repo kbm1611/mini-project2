@@ -26,55 +26,41 @@ public class SaveFileDto {
     public int getUser_no() {
         return user_no;
     }
-
     public int getCurrent_round() {
         return current_round;
     }
-
     public int getCurrent_hp() {
         return current_hp;
     }
-
     public int getCurrent_money() {
         return current_money;
     }
-
     public int getCurrent_score() {
         return current_score;
     }
-
     public ArrayList<Card> getCards() {
         return cards;
     }
-
-    public ArrayList<Item> getItems() {
-        return items;
-    }
+    public ArrayList<Item> getItems() { return items; }
 
     public void setUser_no(int user_no) {
         this.user_no = user_no;
     }
-
     public void setCurrent_round(int current_round) {
         this.current_round = current_round;
     }
-
     public void setCurrent_hp(int current_hp) {
         this.current_hp = current_hp;
     }
-
     public void setCurrent_money(int current_money) {
         this.current_money = current_money;
     }
-
     public void setCurrent_score(int current_score) {
         this.current_score = current_score;
     }
-
     public void setCards(ArrayList<Card> cards) {
         this.cards = cards;
     }
-
     public void setItems(ArrayList<Item> items) {
         this.items = items;
     }
