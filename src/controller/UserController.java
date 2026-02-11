@@ -9,4 +9,10 @@ public class UserController {
     public static UserController getInstance(){return instance;}
 
     private UserDao ud = UserDao.getInstance();
+
+
+    public boolean register(String uid, String upw, String unickname){
+        boolean result = ud.register(uid, upw, unickname);
+        return result;
+    }
 }
