@@ -15,7 +15,7 @@ public class UserDao {
     private PreparedStatement ps;
     private ResultSet rs;
 
-    // 회원가입
+    // Dao 회원가입
     public boolean register(String uid, String upw, String unickname){
        try {
            Connection conn = DBDao.getConnection();
@@ -32,7 +32,7 @@ public class UserDao {
            System.out.println("[시스템] SQL "+ e);
        }return false;
 }
-    // 로그인
+    // Dao 로그인
     public boolean login(String uid, String upw){
         try{
             Thread.sleep(1000);
