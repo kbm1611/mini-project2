@@ -19,15 +19,3 @@ public class DBDao {
     }
 }
 
-//추후에 DB를 사용할 때 아래와 같이 사용.
-//public class CardDao {
-//    // 게시물 쓰기 함수
-//    public void write() {
-//        // 필요할 때 딱 불러와서 씀
-//        Connection conn = DBConnectionManager.getConnection();
-//        try {
-//            // ... SQL 실행 로직 ...
-//        } catch(Exception e) {
-//        }
-//    }
-//}
