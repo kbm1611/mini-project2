@@ -1,7 +1,6 @@
 package view;
 
 import controller.UserController;
-import model.dto.UserDto;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -87,10 +86,11 @@ public class UserView {
     }
 
     // main 화면(로그인 후)
+
     public void mainview(){
         System.out.println("==================================");
-        System.out.println("환영합니다.??" );
-        System.out.println("나의 최고 기록 : ???? ");
+        System.out.println("환영합니다.%s" );
+        System.out.println("나의 최고 기록 :%s ");
         System.out.println("==================================\n");
         System.out.println(" [1] 게임 시작(새로운판)");
         System.out.println(" [2] 전당 보기(랭킹확인)");
@@ -108,4 +108,6 @@ public class UserView {
             System.out.println("main 화면 선택 오류"+e);
         }
     }
+
+
 }
