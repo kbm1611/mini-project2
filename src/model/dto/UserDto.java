@@ -3,16 +3,16 @@ package model.dto;
 public class UserDto {
     private int user_no;
     private String uid;
-    private String upw;
-    private String unickname;
+    private String upwd;
+    private String nickname;
 
     public UserDto(){}
 
-    public UserDto(int user_no, String uid, String upw, String unickname) {
+    public UserDto(int user_no, String uid, String upwd, String nickname) {
         this.user_no = user_no;
         this.uid = uid;
-        this.upw = upw;
-        this.unickname = unickname;
+        this.upwd = upwd;
+        this.nickname = nickname;
     }
 
     public int getUser_no() {return user_no;}
@@ -21,19 +21,19 @@ public class UserDto {
     public String getUid() {return uid;}
     public void setUid(String uid) {this.uid = uid;}
 
-    public String getUpw() {return upw;}
-    public void setUpw(String upw) {this.upw = upw;}
+    public String getupwd() {return upwd;}
+    public void setupwd(String upwd) {this.upwd = upwd;}
 
-    public String getUnickname() {return unickname;}
-    public void setUnickname(String unickname) {this.unickname = unickname;}
+    public String getnickname() {return nickname;}
+    public void setnickname(String nickname) {this.nickname = nickname;}
 
     @Override
     public String toString() {
         return "UserDto{" +
                 "user_no=" + user_no +
                 ", uid='" + uid + '\'' +
-                ", upw='" + upw + '\'' +
-                ", unickname='" + unickname + '\'' +
+                ", upwd='" + upwd + '\'' +
+                ", nickname='" + nickname + '\'' +
                 '}';
     }
 }
