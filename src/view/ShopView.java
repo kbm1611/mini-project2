@@ -34,16 +34,29 @@ public class ShopView {
         ); //!!추후에 추가
         int ch = scan.nextInt();
         if(ch == 1){
-            System.out.printf("%s가 추가되었습니다.", "수정");
+            // 플레이어 아이템리스트에 해당 아이템 추가
+            boolean result = sc.addItem(itemlist.get(0).getItem_no(), itemlist.get(0).getPrice());
+            if(result){ System.out.printf("[안내][%s]%s가 추가되었습니다.", itemlist.get(0).getType(), itemlist.get(0).getName()); }
+            else{ System.out.println("[경고]아이템 추가에 실패하셨습니다."); }
         }else if(ch == 2){
-            System.out.printf("%s가 추가되었습니다.", "수정");
+            // 플레이어 아이템리스트에 해당 아이템 추가
+            boolean result = sc.addItem(itemlist.get(1).getItem_no(), itemlist.get(0).getPrice());
+            if(result){ System.out.printf("[안내][%s]%s가 추가되었습니다.", itemlist.get(1).getType(), itemlist.get(1).getName()); }
+            else{ System.out.println("[경고]아이템 추가에 실패하셨습니다."); }
         }else if(ch == 3){
             ArrayList<Card> cards = sc.getFiveCard();
             System.out.printf("""
                     ---------------------------뽑기 선택---------------------
                     1. [%s]  2. [%s]  3.[%s] 4.[%s] 5.[%s]
-                    """, cards.get(0).getName(), cards.get(1).getName(), cards.get(2).getName(), cards.get(3).getName(), cards.get(4).getName()); //추후에 추가 카드 랜덤 5장
-            System.out.printf("%s가 추가되었습니다.", "수정");
+                    """, cards.get(0).getName(), cards.get(1).getName(), cards.get(2).getName(), cards.get(3).getName(), cards.get(4).getName()
+            );
+            int ch2 = scan.nextInt();
+            if( ch2 >= 1 && ch2 <= 5){
+                //플레이어 덱에 해당 카드를 추가하는 알고리즘을 넣기
+                boolean result = sc.addCard( cards.get(ch2).getCard_no(), 100 );
+                System.out.printf("%s가 추가되었습니다.", "수정");
+            }
         }
+
     }
 }
