@@ -10,6 +10,9 @@ import java.util.Arrays;
 import java.util.Collections;
 
 public class GameService {
+    private static GameService instance = new GameService();
+    public static GameService getInstance(){return instance;}
+
     private ArrayList<Card> deck; // 남은덱
     private ArrayList<Card> hand; // 내 손패
     private ArrayList<Card> grave; // 무덤
@@ -20,101 +23,102 @@ public class GameService {
     private int targetScore; // 목표 점수
     private int submitLeft; // 남은 카드 내기 기회
     private int discardLeft; // 남은 카드 버리기 기회
-
-    public GameService() {
+    private GameService() {
         this.deck = new ArrayList<>();
         this.hand = new ArrayList<>();
         this.grave = new ArrayList<>();
+        this.currentRound = 1;
+        this.currentScore = 0;
     }
 
     public void initDeck(){
-        this.deck.clear();
-        this.deck.addAll(GameConst.BASIC_DECK);
-        Collections.shuffle(this.deck);
+        this.deck.clear(); // 덱 비우기
+        this.deck.addAll(GameConst.BASIC_DECK); // 상수 덱가져오기 (48장의 카드로 이루어진)
+        Collections.shuffle(this.deck); // 덱 섞기
     }
 
-    public RoundDto startRound(int roundNo){
-        this.currentRound = roundNo;
-        this.currentScore = 0;
+    public RoundDto startRound(int roundNo){ // 라운드 번호를 매개변수로 받음
+        this.currentRound = roundNo; // 현제 라운드는 받은 라운드 번호
+        this.currentScore = 0; // 점수 초기화
 
-        RoundDto boss = GameConst.ROUND_LIST.get(roundNo-1);
-        this.targetScore = boss.getTargetScore();
+        RoundDto boss = GameConst.ROUND_LIST.get(roundNo-1); // 보스 불러오기
+        this.targetScore = boss.getTargetScore(); // 목표 점수 설정
 
-        this.submitLeft = 5;
-        this.discardLeft = 3;
+        this.submitLeft = 5; // 제출기회 초기화
+        this.discardLeft = 3; // 버리기 기회 초기화
 
-        Collections.shuffle(this.deck);
-        return boss;
+        Collections.shuffle(this.deck); // 덱 섞기
+        return boss; // 보스 객체를 리턴해 프론트에서 몇라운드 보스이름 목표점수 출력
     }
 
     public void recycleGrave(){
-        if(this.grave.isEmpty()){
-            return;
+        if(this.grave.isEmpty()){ // 무덤이 비었으면(덱으로 되돌릴 카드가 없음)
+            return; //아무것도 리턴 안함
         }
-        this.deck.addAll(this.grave);
-        this.grave.clear();
-        Collections.shuffle(this.deck);
+        this.deck.addAll(this.grave); // 무덤에 있는 카드들을 덱으로 옮김
+        this.grave.clear(); // 무덤 비우기
+        Collections.shuffle(this.deck); // 덱섞기
 
         // 반환값을 boolean 으로 바꿔서 view에서 출력해도 됨
         System.out.println("\"\uD83D\uDD04 덱이 다 떨어져서 버린 패를 섞었습니다!\"");
     }
 
-    public ArrayList<Card> drawCard(int count){
-        ArrayList<Card> newlyDrawn = new ArrayList<>();
+    public ArrayList<Card> drawCard(int count){ //뽑아야 하는 카드 수를 매개변수로 받음
+        ArrayList<Card> newlyDrawn = new ArrayList<>(); // 뽑은 패를 놓아놓는 AraayList
 
-        for(int i = 0; i < count; i++){
-            if(this.deck.isEmpty()){
-                recycleGrave();
+        for(int i = 0; i < count; i++){ //뽑아야 하는 카드 수만큼 반복
+            if(this.deck.isEmpty()){ // 덱이 비어있다면
+                recycleGrave(); // 무덤에 있는 카드들을 덱으로 이동
 
-                if (this.deck.isEmpty()){
+                if (this.deck.isEmpty()){ // 그래도 덱이 비어있다면 무덤도 비어있고 덱도 비어있는 엄청 안나오는 특이한 상황
                     System.out.println("⚠️ 더 이상 뽑을 카드가 없습니다!");
                     break;
                 }
             }
 
-            Card drawnCard = this.deck.remove(0);
-            this.hand.add(drawnCard);
-            newlyDrawn.add(drawnCard);
+            Card drawnCard = this.deck.remove(0); // 덱에서 제일 첫번째 카드를 뽑아옴
+            this.hand.add(drawnCard); // 핸드에 추가
+            newlyDrawn.add(drawnCard); // 뽑은 패를 놓아놓는 리스트에 추가
         }
-        return newlyDrawn;
+        return newlyDrawn; //뽑은 목록 반환
     }
 
 
-    public ArrayList<Card> discardHand(int[] indexes){
-        if (this.discardLeft <= 0){
+    public ArrayList<Card> discardHand(int[] indexes){ // 버릴 카드의 위치 indexes를 매개변수로 받음
+        if (this.discardLeft <= 0){ // 버리기 기회를 이미 다쓴 상황
             System.out.println("⚠️ 패 버리기 기회를 모두 소모했습니다!");
-            return new ArrayList<>();
+            return new ArrayList<>(); // 빈배열 반환
         }
 
-        this.discardLeft--;
-        Arrays.sort(indexes);
-        for (int i = indexes.length-1; i>=0; i--){
-            int idx = indexes[i];
-            Card trashedCard = this.hand.remove(idx);
-            this.grave.add(trashedCard);
+        this.discardLeft--; // 버리기 기회 소모
+        Arrays.sort(indexes); // 버리는 인덱스들을 정렬함 이유는 0번 버리고 1번 버리면 0번 버리고 나서 1번이 0번 위치로 가기 때문
+        for (int i = indexes.length-1; i>=0; i--){ //버리는 인덱스 배열의 길이 = 버릴 카드의 수 만큼 반복
+            int idx = indexes[i]; // 버릴 카드의 위치 저장 변수
+            Card trashedCard = this.hand.remove(idx); //버리는 카드 저장하는 객체 = 핸드에서 idx 번째를 뽑은 객체
+            this.grave.add(trashedCard); // 이것을 무덤에 추가
         }
 
-        int dropCount = indexes.length;
-        ArrayList<Card> newlyDrawn = drawCard(dropCount);
+        int dropCount = indexes.length; // 버린 카드의 수  = 버리는 인덱스 길이
+        ArrayList<Card> newlyDrawn = drawCard(dropCount); // 버려진 만큼 카드를 뽑아서 배열에 저장
         System.out.println("🗑️ 카드 " + dropCount + "장을 버리고 새로 뽑았습니다. (남은 기회: " + this.discardLeft + ")");
 
-        return newlyDrawn;
+        return newlyDrawn; // 뽑은 카드들을 저장해 놓은 배열을 리턴
     }
 
 
-    public JokboDto checkJokbo(ArrayList<Card> submittedCards){
-        int kwangCount=0, yulCount =0, ddiCount = 0, piCount = 0;
-        ArrayList<Integer> kwangMonths = new ArrayList<>();
-        ArrayList<Integer> yulMonths = new ArrayList<>();
-        ArrayList<Integer> ddiMonths = new ArrayList<>();
+    public JokboDto checkJokbo(ArrayList<Card> submittedCards){ // 제출하는 카드들의 모임인 배열이 매개변수
+        int kwangCount=0, yulCount =0, ddiCount = 0, piCount = 0; // 각각의 타입 카운트 변수들
+        ArrayList<Integer> kwangMonths = new ArrayList<>(); // 월 계산 변수
+        ArrayList<Integer> yulMonths = new ArrayList<>(); // ""
+        ArrayList<Integer> ddiMonths = new ArrayList<>(); // ""
 
-        for(Card card : submittedCards){
-            String type = card.getType();
-            int month = card.getMonth();
+        for(Card card : submittedCards){ //제출한 카드만큼 반복
+            String type = card.getType(); // 카드의 타입 저장 지역 변수
+            int month = card.getMonth(); // 카드의 월 저장 지역 변수
 
-            if (type.equals("광")){
-                kwangCount++;
-                kwangMonths.add(month);
+            if (type.equals("광")){ // 만약 카드의 타입이 광일경우
+                kwangCount++; // 광의 카운트 증가
+                kwangMonths.add(month); // 월계산 배열에 해당 월 넣기
             } else if (type.equals("열")){
                 yulCount++;
                 yulMonths.add(month);

@@ -33,11 +33,9 @@ public class UserView {
 
             try {
                 int ch = userscan.nextInt();
-                if (ch == 1) {
-                    register();
-                } else if (ch == 2) {
-                } else if (ch == 3) {
-                }
+                if (ch == 1) {register();}
+                else if (ch == 2) { login();}
+                else if (ch == 3) {}
             } catch (NullPointerException e1) {
                 System.out.println("숫자를 입력하세요.");
 
@@ -49,11 +47,11 @@ public class UserView {
         }
     }
 
-    // 회원가입
+    // 1. 회원가입
     public void register() {
         System.out.println("==================================");
         System.out.println("             [회원가입]");
-        System.out.println("==================================");
+        System.out.println("==================================\n");
         System.out.println("사용할 아이디와 비밀번호를 입력하세요");
 
         System.out.print(">> 아이디 : ");
@@ -69,6 +67,21 @@ public class UserView {
         } else {
             System.out.println("회원가입 실패");
         }
+    }
+    // 2. 로그인
+    public void login(){
+        System.out.println("==================================");
+        System.out.println("             [로그인]");
+        System.out.println("==================================\n");
+        System.out.println(">> 아이디 : "); String uid = userscan.next();
+        System.out.println(">> 비밀번호 : "); String upw = userscan.next();
 
+        boolean result = uc.login(uid, upw);
+        if(result){
+            System.out.println("(시스템) 로그인 확인중 .. ");
+        }else {
+            System.out.println("(시스템) 로그인 실패 ");
+        }
+        System.out.println("(시스템) 로그인 성공");
     }
 }
