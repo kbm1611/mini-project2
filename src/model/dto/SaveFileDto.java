@@ -8,12 +8,10 @@ public class SaveFileDto {
     private int current_hp;
     private int current_money;
     private int current_score;
+    private String cards;
+    private String items;
 
-    //각각 카드번호와 아이템번호가 들어가 있는 배열리스트
-    private ArrayList<Card> cards;
-    private ArrayList<Item> items;
-
-    public SaveFileDto(int user_no, int current_round, int current_hp, int current_money, int current_score, ArrayList<Card> cards, ArrayList<Item> items) {
+    public SaveFileDto(int user_no, int current_round, int current_hp, int current_money, int current_score, String cards, String items) {
         this.user_no = user_no;
         this.current_round = current_round;
         this.current_hp = current_hp;
@@ -38,10 +36,8 @@ public class SaveFileDto {
     public int getCurrent_score() {
         return current_score;
     }
-    public ArrayList<Card> getCards() {
-        return cards;
-    }
-    public ArrayList<Item> getItems() { return items; }
+    public String getCards() { return cards; }
+    public String getItems() { return items; }
 
     public void setUser_no(int user_no) {
         this.user_no = user_no;
@@ -58,12 +54,8 @@ public class SaveFileDto {
     public void setCurrent_score(int current_score) {
         this.current_score = current_score;
     }
-    public void setCards(ArrayList<Card> cards) {
-        this.cards = cards;
-    }
-    public void setItems(ArrayList<Item> items) {
-        this.items = items;
-    }
+    public void setCards(String cards) { this.cards = cards; }
+    public void setItems(String items) { this.items = items; }
 
     @Override
     public String toString() {
@@ -73,8 +65,8 @@ public class SaveFileDto {
                 ", current_hp=" + current_hp +
                 ", current_money=" + current_money +
                 ", current_score=" + current_score +
-                ", cards=" + cards +
-                ", items=" + items +
+                ", cards='" + cards + '\'' +
+                ", items='" + items + '\'' +
                 '}';
     }
 }
