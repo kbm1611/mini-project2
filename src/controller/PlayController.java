@@ -74,14 +74,15 @@ public class PlayController {
     }
 
     private void processViewDeck() {
+        ArrayList<Card> sortedDeck = GS.getDeckInfo();
+        PV.printDeckInfo(sortedDeck);
+    }
+
+    private void processDiscardHand() {
+
         int[] indexes = PV.getInputIndexes("버릴 카드 번호를 입력하세요");
         if (indexes == null) return;
         GS.discardHand(indexes);
         PV.printMessage("🗑️ 카드를 버리고 새로 뽑았습니다.");
-    }
-
-    private void processDiscardHand() {
-        ArrayList<Card> sortedDeck = GS.getDeckInfo();
-        PV.printDeckInfo(sortedDeck);
     }
 }
