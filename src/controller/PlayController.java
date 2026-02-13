@@ -28,9 +28,9 @@ public class PlayController {
                 PV.printGameStatus(boss,GS.getCurrentScore(),GS.getSubmitLeft(),GS.getDiscardLeft(),GS.getHand());
                 int choice = PV.printMenu();
                 if (choice == 1){
-                    //아이템
+                    // 점괘 사용하기
                 } else if (choice == 2) {
-                    //아이템
+                    // 부적 효과 보기
                 } else if (choice == 3) {
                     processDiscardHand();
                 } else if (choice == 4) {
