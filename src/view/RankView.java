@@ -52,7 +52,7 @@ public class RankView {
                 =====================================================
                  최종 점수    |   도달 라운드   |   남은 엽전   |   달성일자
                 ------------------------------------------------------
-                \n""", myLogs.get(0).getNickname() );
+                \n""", myLogs.getFirst().getNickname() );
         for(GameLogDto mylog : myLogs){
             System.out.printf("""
                    %d 점  |     %d R         |    %d 냥   |   %s

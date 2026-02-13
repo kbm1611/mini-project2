@@ -67,7 +67,7 @@ public class GameLogDao {
         try{
             conn = DBDao.getConnection(); //DBDao에서 연결 설정 가져오기.
             //닉네임,최고점수,달성일를 가져온 뒤 최고점수 기준으로 정렬 후 상위 5개만 가져옴
-            String sql = "select log_no, final_score, final_round, final_money, play_date from game_log where user_no = ? order by play_date limit 10";
+            String sql = "select log_no, nickname, final_score, final_round, final_money, play_date from game_log join user on user.user_no = game_log.user_no where game_log.user_no = ? order by play_date limit 10";
             ps = conn.prepareStatement( sql );
             ps.setInt(1, user_no);
 
@@ -75,8 +75,8 @@ public class GameLogDao {
             while( rs.next() ){
                 int log_no = rs.getInt("log_no");   int final_score = rs.getInt("final_score");
                 int final_round = rs.getInt("final_round"); int final_money = rs.getInt("final_money");
-                String play_date = rs.getString("play_date");
-                GameLogDto myLog = new GameLogDto(log_no, final_score, final_round, final_money, play_date);
+                String play_date = rs.getString("play_date"); String nickname = rs.getString("nickname");
+                GameLogDto myLog = new GameLogDto(log_no, nickname, final_score, final_round, final_money, play_date);
 
                 myLogs.add( myLog );
             }

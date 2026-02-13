@@ -24,8 +24,9 @@ public class GameLogDto {
         this.play_date = play_date;
     }
 
-    public GameLogDto(int log_no, int final_score, int final_round, int final_money, String play_date) {
+    public GameLogDto(int log_no, String nickname, int final_score, int final_round, int final_money, String play_date) {
         this.log_no = log_no;
+        this.nickname = nickname;
         this.final_score = final_score;
         this.final_round = final_round;
         this.final_money = final_money;
