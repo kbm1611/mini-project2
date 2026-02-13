@@ -101,7 +101,7 @@ public class PlayView {
         }
         System.out.println("\n------------------------------------------------");
         System.out.println("[ 🎴 조합 결과 ]");
-        System.out.println(">>> ⚠️ [\" + result.getJokboName() + \"] 완성!!");
+        System.out.println(">>> ⚠️ [" + result.getJokboName() + "] 완성!!");
 
         // 기본점수 * 배율 부분
 
