@@ -29,7 +29,7 @@ public class RankView {
         for(GameLogDto rank : ranks){ //컨트롤러에서 랭킹 함수를 가져와 출력
             System.out.printf("""
                   %d    |   %s     |   %d점    | %s
-                \n""");
+                \n""", rank.getLog_no(), rank.getNickname(), rank.getFinal_score(), rank.getPlay_date());
         }
         System.out.println("================================================");
         System.out.println("[0] 뒤로 가기");
