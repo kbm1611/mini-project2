@@ -166,5 +166,38 @@ public class GameService {
 
     }
 
+    private int getCardScore(Card card) { // 카드의 기본 점수 가져오는 함수 매개변수는 카드 객체
+        String type = card.getType(); // 카드객체의 type 값 저장하는 문자열 변수
+        if (type.equals("광")) return 20;
+        if (type.equals("열")) return 10;
+        if (type.equals("띠")) return 5;
+        return 1;
+    }
+    public int calculateScore(ArrayList<Card> submittedCards, JokboDto jokbo){ //점수 계산 하는 함수 매개변수는 제출된 카드 배열, 족보 계산해서 넘어온 족보
+        int totalChips = jokbo.getJokboScore(); // 일단 족보의 기본점수를 총합 점수 변수에 저장
+        int totalMult = jokbo.getJokboRatio(); // 일단 족보의 기본 배율을 종합 배율 변수에 저장
+
+        for(Card card : submittedCards){ // 제출된 카드 객체를 돌며
+            int cardScore = getCardScore(card); // 카드 점수는 객체의 카드 점수
+            totalChips += cardScore; // 총합 점수에 카드 점수 더해주기
+        }
+
+        /*
+
+        아이템 적용 구간 나중에 구현
+
+        */
+
+
+        int finalScore = totalChips * totalMult; // 최종 점수 계산
+
+        System.out.println("🧮 계산 결과: (" + totalChips + " 칩) x (" + totalMult + " 배) = " + finalScore + "점");
+
+        return finalScore;
+    }
+
+
+
+
 
 }
