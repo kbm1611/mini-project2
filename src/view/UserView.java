@@ -1,6 +1,7 @@
 package view;
 
 import controller.UserController;
+import model.dto.UserDto;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;

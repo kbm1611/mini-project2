@@ -3,7 +3,7 @@ package model.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
+import model.dto.UserDto;
 public class UserDao {
 
     private UserDao(){}
@@ -33,7 +33,8 @@ public class UserDao {
        }return false;
 }
     // Dao 로그인
-    public boolean login(String uid, String upw){
+    public int login(String uid, String upw){
+
         try{
             Thread.sleep(1000);
             Connection conn = DBDao.getConnection();
@@ -43,12 +44,17 @@ public class UserDao {
             ps.setString(2, upw);
 
             int count = ps.executeUpdate();
-            if(count == 1){return true;}
-            else {return false;}
+            rs.next();
+            int user_no =rs.getInt("user_no");
+
+            if(count == 1){return user_no;}
+            else {return -1;}
         }catch (Exception e){
             System.out.println("[시스템] SQL"+e);
-        }return false;
+        }return -1;
     }
+
+
 }
 
 
