@@ -18,7 +18,7 @@ public class PlayView {
     public void printGameStatus(RoundDto boss, int currentScore, int submitLeft, int discardLeft, ArrayList<Card> hand){
         System.out.println("\n\n\n\n\n");
         System.out.println("================================================");
-        System.out.printf("[ Round %d : 목표 점수 %d점 ]\n", boss.getRoundNo(), boss.getTargetScore());
+        System.out.printf("[ Round %d  %s : 목표 점수 %d점 ]\n", boss.getRoundNo(), boss.getRoundName(), boss.getTargetScore());
         System.out.printf("현재 점수: %d | 남은 손패 횟수: %d | 버리기 횟수: %d\n", currentScore, submitLeft, discardLeft);
         System.out.println("================================================");
 
@@ -40,41 +40,56 @@ public class PlayView {
         for (int i = 0; i < totalCards; i += cardsPerRow){
             int end = Math.min(i + cardsPerRow, totalCards);
 
-            // 1. 카드 번호 출력 (1.   2.   3.   4.)
+            // 1. 카드 번호
             for (int j = i; j < end; j++) {
-                System.out.printf("   %d.      ", j); // 인덱스 그대로 보여줌 (0번부터면 j, 1번부터면 j+1)
+                System.out.printf("   %-3s    ", j + ".");
             }
             System.out.println();
 
-            // 2. 박스 뚜껑 (┌───┐)
-            for (int j = i; j < end; j++) System.out.print(" ┌───┐    ");
-            System.out.println();
-
-            // 3. 월 정보 (│ 1월 │)
+            // 2. 박스 뚜껑 (절대 안 깨지는 + 와 - 조합)
             for (int j = i; j < end; j++) {
-                String monthStr = String.format("%2d월", hand.get(j).getMonth());
-                System.out.print(" │" + monthStr + " │    ");
+                System.out.print(" +------+ ");
             }
             System.out.println();
 
-            // 4. 중간 공백 (│    │)
-            for (int j = i; j < end; j++) System.out.print(" │    │    ");
+            // 3. 월 정보
+            for (int j = i; j < end; j++) {
+                int month = hand.get(j).getMonth();
+                if (month < 10) {
+                    System.out.print(" |  " + month + "월 | ");
+                } else {
+                    System.out.print(" | " + month + "월 | ");
+                }
+            }
             System.out.println();
 
-            // 5. 타입 정보 (│ 광 │)
+            // 4. 타입 정보 (홍단/청단/초단 변환)
             for (int j = i; j < end; j++) {
                 String typeStr = hand.get(j).getType();
-                // 한글 2글자(피, 광, 띠, 열) 길이를 맞추기 위한 공백 처리
-                if(typeStr.length() == 1) System.out.print(" │ " + typeStr + "  │    ");
-                else System.out.print(" │ " + typeStr + " │    ");
+                int month = hand.get(j).getMonth();
+
+                if (typeStr.equals("띠")) {
+                    if (month == 1 || month == 2 || month == 3) typeStr = "홍단";
+                    else if (month == 6 || month == 9 || month == 10) typeStr = "청단";
+                    else if (month == 4 || month == 5 || month == 7) typeStr = "초단";
+                }
+
+                // 여백 완벽 계산
+                if(typeStr.length() == 1) {
+                    System.out.print(" |  " + typeStr + "  | ");
+                } else if (typeStr.length() == 2) {
+                    System.out.print(" | " + typeStr + " | ");
+                } else {
+                    System.out.print(" |" + typeStr + "| ");
+                }
             }
             System.out.println();
 
-            // 6. 박스 바닥 (└───┘)
-            for (int j = i; j < end; j++) System.out.print(" └───┘    ");
+            // 5. 박스 바닥
+            for (int j = i; j < end; j++) {
+                System.out.print(" +------+ ");
+            }
             System.out.println();
-
-            // 줄바꿈 (다음 4장을 위해)
             System.out.println();
         }
     }
