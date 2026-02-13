@@ -9,6 +9,7 @@ import model.dto.RoundDto;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 
 public class GameService {
     private static GameService instance = new GameService();
@@ -246,5 +247,34 @@ public class GameService {
         return false;
     }
 
+    public ArrayList<Card> getDeckInfo(){ // 현재 덱을 정렬해서 보여주는 함수
+
+        ArrayList<Card> sortedDeck = new ArrayList<>(this.deck); //현재 덱 복사
+        Collections.sort(sortedDeck, new Comparator<Card>() {
+            @Override
+            public int compare(Card c1, Card c2) {
+                if (c1.getMonth() != c2.getMonth()){
+                    return c1.getMonth() - c2.getMonth();
+                }
+                return c1.getName().compareTo(c2.getName());
+            }
+        });
+
+        return sortedDeck;
+    }
+
+    public void resetRound(){ // 라운드 종료후 다음 라운드 세팅하는 함수
+        if (!this.hand.isEmpty()){ // 손패에 카드가 있다면
+            this.deck.addAll(this.hand); // 덱에 손패 카드들을 모두 더함
+            this.hand.clear(); // 손패 비우기
+        }
+
+        if (!this.grave.isEmpty()){ // 무덤에 카드가 있다면
+            this.deck.addAll(this.grave); // 덱에 무덤 카드들을 모두 더함
+            this.grave.clear(); // 무덤 비우기
+        }
+
+        Collections.shuffle(this.deck); // 덱섞기
+    }
 
 }
