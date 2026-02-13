@@ -36,7 +36,7 @@ public class RankView {
         System.out.print(">>입력:"); int ch = scan.nextInt();
 
         if(ch == 0){
-            //!!추후에 메인메뉴화면으로 넘어가기
+            UserView.getInstance().mainview();
         }
     }
     public void myLogView(){
@@ -71,7 +71,7 @@ public class RankView {
                 """);
         int ch = scan.nextInt();
         if(ch == 0){
-            //!!추후에 메인메뉴화면으로 넘어가기
+            UserView.getInstance().mainview();
         }
 
     }
