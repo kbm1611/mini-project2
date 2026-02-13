@@ -44,7 +44,7 @@ public class ItemDao {
 
     //점괘 리스트 가져오는 함수
     public ArrayList<Item> getFortune(){
-        ArrayList<Item> items = null;
+        ArrayList<Item> items = new ArrayList<>();
         try{
             conn = DBDao.getConnection();
             String sql = "select * from item_info where type = '점괘'";

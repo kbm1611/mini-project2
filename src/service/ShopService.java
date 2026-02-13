@@ -81,7 +81,7 @@ public class ShopService {
         //현재 플레이어의 잔고 변경해야함
         if(player.getCurrent_monney() >= price){
             int money = player.getCurrent_monney();
-            player.getCard().add(card);
+            player.getCard().remove(card);
             player.setCurrent_monney(money - price);
             return true;
         }else{

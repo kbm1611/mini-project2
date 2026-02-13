@@ -63,7 +63,7 @@ public class ShopView {
             else{ System.out.println("[경고]아이템 추가에 실패하셨습니다."); }
         }else if(ch == 2){
             // 플레이어 아이템리스트에 해당 아이템 추가
-            boolean result = sc.addItem(itemlist.get(1).getItem_no(), itemlist.get(0).getPrice());
+            boolean result = sc.addItem(itemlist.get(1).getItem_no(), itemlist.get(1).getPrice());
             if(result){ System.out.printf("[안내][%s]%s이/가 추가되었습니다.\n", itemlist.get(1).getType(), itemlist.get(1).getName()); }
             else{ System.out.println("[경고]아이템 추가에 실패하셨습니다."); }
         }else if(ch == 3 && rand == 1){
@@ -76,8 +76,8 @@ public class ShopView {
             int ch2 = scan.nextInt();
             if( ch2 >= 1 && ch2 <= 5){
                 //플레이어 덱에 해당 카드를 추가하는 알고리즘을 넣기
-                boolean result = sc.addCard( cards.get(ch2).getCard_no(), 100 );
-                if(result){ System.out.printf("[안내][%s]이/가 추가되었습니다.\n", cards.get(ch2).getName()); }
+                boolean result = sc.addCard( cards.get(ch2-1).getCard_no(), 100 );
+                if(result){ System.out.printf("[안내][%s]이/가 추가되었습니다.\n", cards.get(ch2-1).getName()); }
                 else{ System.out.println("[경고]카드 추가에 실패하셨습니다."); }
             }
         }else if(ch == 3 && rand == 2){
@@ -87,7 +87,7 @@ public class ShopView {
             boolean result = false;
             System.out.print("삭제할 카드명을 정확하게 입력하세요: "); String removeCard = scan.nextLine();
             for(Card card : cards){
-                if(removeCard.equals(card)){
+                if(removeCard.equals(card.getName())){
                     result = sc.removeCard(card.getCard_no(), 100);
                     break;
                 }
