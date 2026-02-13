@@ -4,6 +4,7 @@ import constant.GameConst;
 import model.dao.ItemDao;
 import model.dto.Card;
 import model.dto.Item;
+import model.dto.PlayerDto;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -41,4 +42,56 @@ public class ShopService {
         }
         return cardlist;
     }
+
+    //현재 플레이어의 정보를 담은 싱글톤 객체
+    PlayerDto player = PlayerDto.getInstance();
+
+    // 플레이어의 아이템 리스트에 아이템을 추가하는 함수(플레이어의 잔고랑 비교)
+    public boolean addItem(int item_no, int price){
+        Item item = itd.getItem(item_no);
+        //현재 플레이어의 아이템 리스트를 변경해야함.
+        //현재 플레이어의 잔고 변경해야함
+        if(player.getCurrent_monney() >= price){
+            int money = player.getCurrent_monney();
+            player.getItem().add(item);
+            player.setCurrent_monney(money - price);
+            return true;
+        }else{
+            return false;
+        }
+    }
+    // 플레이어의 카드 리스트에 카드를 추가하는 함수(플레이어의 잔고랑 비교)
+    public boolean addCard(int card_no, int price){
+        Card card = cards.get(card_no-1);
+        //현재 플레이어의 카드 리스트를 변경해야함.
+        //현재 플레이어의 잔고 변경해야함
+        if(player.getCurrent_monney() >= price){
+            int money = player.getCurrent_monney();
+            player.getCard().add(card);
+            player.setCurrent_monney(money - price);
+            return true;
+        }else{
+            return false;
+        }
+    }
+    // 플레이어의 카드 리스트에 카드를 삭제하는 함수(플레이어의 잔고랑 비교)
+    public boolean removeCard(int card_no, int price){
+        Card card = cards.get(card_no-1);
+        //현재 플레이어의 카드 리스트를 변경해야함.
+        //현재 플레이어의 잔고 변경해야함
+        if(player.getCurrent_monney() >= price){
+            int money = player.getCurrent_monney();
+            player.getCard().add(card);
+            player.setCurrent_monney(money - price);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public ArrayList<Card> getPlayerCard(){
+        ArrayList<Card>cards = player.getCard();
+        return cards;
+    }
+
 }

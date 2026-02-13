@@ -5,6 +5,7 @@ import model.dto.Card;
 import model.dto.Item;
 
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class ShopView {
@@ -18,10 +19,19 @@ public class ShopView {
 
     public void printShopView(){
         ArrayList<Item> itemlist = sc.getAmFo();
+        int rand = new Random().nextInt(2)+1;
+        if(rand == 1){
+            String addText = "[뽑기]새로운 화투패 추가(가격: 100냥)";
+        }else if(rand == 2){
+            String removeText = "[삭제]화투패 삭제(가격: 100냥)";
+        }
+
+
         System.out.println("========== [ 🏚️ 만물상 (상점) ] ==========");
         System.out.printf("보유 엽전: %d냥", 500);
 
-        System.out.printf("""
+        if(rand == 1){
+            System.out.printf("""
                1. [%s]%s(가격: %d)
                   ㄴ효과: %s
                2. [%s]%s(가격: %d)
@@ -30,20 +40,61 @@ public class ShopView {
                ---------------------------------------------
                >>선택: 
                """, itemlist.get(0).getType(),itemlist.get(0).getName(),itemlist.get(0).getPrice(),itemlist.get(0).getDescription()
-        , itemlist.get(1).getType(),itemlist.get(1).getName(),itemlist.get(1).getPrice(),itemlist.get(1).getDescription()
-        ); //!!추후에 추가
+                    , itemlist.get(1).getType(),itemlist.get(1).getName(),itemlist.get(1).getPrice(),itemlist.get(1).getDescription()
+            );
+        }else if(rand == 2){
+            System.out.printf("""
+               1. [%s]%s(가격: %d)
+                  ㄴ효과: %s
+               2. [%s]%s(가격: %d)
+                  ㄴ효과: %s
+               3. [뽑기]새로운 화투패 추가(가격: 100냥)
+               ---------------------------------------------
+               >>선택: 
+               """, itemlist.get(0).getType(),itemlist.get(0).getName(),itemlist.get(0).getPrice(),itemlist.get(0).getDescription()
+                    , itemlist.get(1).getType(),itemlist.get(1).getName(),itemlist.get(1).getPrice(),itemlist.get(1).getDescription()
+            );
+        }
         int ch = scan.nextInt();
         if(ch == 1){
-            System.out.printf("%s가 추가되었습니다.", "수정");
+            // 플레이어 아이템리스트에 해당 아이템 추가
+            boolean result = sc.addItem(itemlist.get(0).getItem_no(), itemlist.get(0).getPrice());
+            if(result){ System.out.printf("[안내][%s]%s이/가 추가되었습니다.\n", itemlist.get(0).getType(), itemlist.get(0).getName()); }
+            else{ System.out.println("[경고]아이템 추가에 실패하셨습니다."); }
         }else if(ch == 2){
-            System.out.printf("%s가 추가되었습니다.", "수정");
-        }else if(ch == 3){
+            // 플레이어 아이템리스트에 해당 아이템 추가
+            boolean result = sc.addItem(itemlist.get(1).getItem_no(), itemlist.get(0).getPrice());
+            if(result){ System.out.printf("[안내][%s]%s이/가 추가되었습니다.\n", itemlist.get(1).getType(), itemlist.get(1).getName()); }
+            else{ System.out.println("[경고]아이템 추가에 실패하셨습니다."); }
+        }else if(ch == 3 && rand == 1){
             ArrayList<Card> cards = sc.getFiveCard();
             System.out.printf("""
                     ---------------------------뽑기 선택---------------------
                     1. [%s]  2. [%s]  3.[%s] 4.[%s] 5.[%s]
-                    """, cards.get(0).getName(), cards.get(1).getName(), cards.get(2).getName(), cards.get(3).getName(), cards.get(4).getName()); //추후에 추가 카드 랜덤 5장
-            System.out.printf("%s가 추가되었습니다.", "수정");
+                    """, cards.get(0).getName(), cards.get(1).getName(), cards.get(2).getName(), cards.get(3).getName(), cards.get(4).getName()
+            );
+            int ch2 = scan.nextInt();
+            if( ch2 >= 1 && ch2 <= 5){
+                //플레이어 덱에 해당 카드를 추가하는 알고리즘을 넣기
+                boolean result = sc.addCard( cards.get(ch2).getCard_no(), 100 );
+                if(result){ System.out.printf("[안내][%s]이/가 추가되었습니다.\n", cards.get(ch2).getName()); }
+                else{ System.out.println("[경고]카드 추가에 실패하셨습니다."); }
+            }
+        }else if(ch == 3 && rand == 2){
+            scan.nextLine();
+            ArrayList<Card> cards = sc.getPlayerCard();//현재 플레이어의 카드
+
+            boolean result = false;
+            System.out.print("삭제할 카드명을 정확하게 입력하세요: "); String removeCard = scan.nextLine();
+            for(Card card : cards){
+                if(removeCard.equals(card)){
+                    result = sc.removeCard(card.getCard_no(), 100);
+                    break;
+                }
+            }
+            if(result){ System.out.println("[안내]카드 삭제에 성공하셨습니다."); }
+            else{ System.out.println("[경고]카드 삭제에 실패하셨습니다."); }
         }
+
     }
 }

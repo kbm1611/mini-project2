@@ -66,5 +66,27 @@ public class ItemDao {
         }
         return null;
     }
+    public Item getItem(int item_no){
+        Item item = null;
+        try {
+            conn = DBDao.getConnection();
+            String sql = "select * from item_info where item_no = ?";
+            ps = conn.prepareStatement( sql );
+            ps.setInt(1, item_no);
+
+            rs = ps.executeQuery();
+            rs.next();
+            int item_no1 = rs.getInt("item_no"); String name = rs.getString("name");
+            String type = rs.getString("type"); int price = rs.getInt("price");
+            String description = rs.getString("description"); String effect_code = rs.getString("effect_code");
+            item = new Item(item_no1, name, type, price, description, effect_code);
+
+            if( item != null){ return item; }
+            else{ return null; }
+        }catch (SQLException e){
+            System.out.println("[시스템오류] SQL 문법 문제 발생");
+        }
+        return null;
+    }
 
 }
