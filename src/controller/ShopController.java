@@ -1,6 +1,10 @@
 package controller;
 
+import model.dto.Card;
+import model.dto.Item;
 import service.ShopService;
+
+import java.util.ArrayList;
 
 public class ShopController {
     private ShopController(){}
@@ -9,4 +13,11 @@ public class ShopController {
         return instance;
     }
     private ShopService ssv = ShopService.getInstance();
+
+    public ArrayList<Item> getAmFo(){
+        return ssv.getAmFo();
+    }
+    public ArrayList<Card> getFiveCard(){
+        return ssv.getFiveCards();
+    }
 }
