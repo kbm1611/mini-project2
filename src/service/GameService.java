@@ -3,6 +3,7 @@ package service;
 import constant.GameConst;
 import model.dto.Card;
 import model.dto.JokboDto;
+import model.dto.ResultDto;
 import model.dto.RoundDto;
 
 import java.util.ArrayList;
@@ -197,7 +198,53 @@ public class GameService {
     }
 
 
+    public ResultDto submitHand(int[] indexes){ // 카드 제출 함수 제출하는 손패에서의 카드 인덱스 번호들을 배열로 매개변수로 받음
+        if(this.submitLeft <= 0){ // 만약 제출 기회가 없다면
+            return new ResultDto(false, "❌ 남은 기회가 없습니다!", "없음", 0, this.currentScore); //이 결과 객체 반환
+        }
 
+        Arrays.sort(indexes); // 제출한 카드들을 순서대로 정렬 0번을 빼고 1번을 빼면 0번을뺏을때 1번이 0번 자리로가서 1번을 빼지를 못해서
+        ArrayList<Card> submittedCards = new ArrayList<>(); // 제출한 카드들을 저장할 변수
+
+        for (int i = indexes.length-1; i >= 0; i--){ // 제출한 배열의 길이만큼 반복 == 카드수만큼 반복
+            int idx = indexes[i]; // 인덱스값 가져오는 변수
+            Card card = this.hand.remove(idx); // 패에서 카드를 가져와서 card 객체에 저장
+            submittedCards.add(card); // 패에서 가져온 카드를 제출 배열에 삽입
+        }
+
+        JokboDto jokbo = checkJokbo(submittedCards); // 제출한 카드들의 배열로 족보 판별을 해서 저장
+        if (jokbo == null){ // 판별한 족보가 null이라면 족보가 없는 경우임
+            jokbo = new JokboDto(0, "족보 없음(꽝)", 1, 0);
+        }
+
+        int gainedScore = calculateScore(submittedCards, jokbo); // 얻을 점수 계산
+
+        this.currentScore += gainedScore; // 현재 점수 갱신
+        drawCard(submittedCards.size()); // 제출한 카드 수만큼 카드 뽑기 진행
+        String msg = "🎉 [" + jokbo.getJokboName() + "] 완성! " + gainedScore + "점을 획득했습니다.";
+        System.out.println(msg);
+
+        return new ResultDto(true, msg, jokbo.getJokboName(), gainedScore, this.currentScore);
+
+    }
+
+
+    public boolean checkRoundClear(){
+        if (this.currentScore >= this.targetScore) {
+            System.out.println("🎉 [클리어] 목표 점수 " + this.targetScore + "점 달성! 다음 라운드로 갑니다.");
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean isGameOver(){
+        if (this.submitLeft <= 0 && this.currentScore < this.targetScore){
+            System.out.println("💀 [게임 오버] 기회를 모두 사용햇는데 목표 점수에 도달하지 못했습니다...");
+            return true;
+        }
+        return false;
+    }
 
 
 }
