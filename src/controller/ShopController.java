@@ -26,4 +26,7 @@ public class ShopController {
         //!!추후에 추가 -> 만약 현재 유저의 카드리스트가 0이면 false값 반환
         return ssv.removeCard(card_no, price);
     }
+    public ArrayList<Card> getPlayerCard(){
+        return ssv.getPlayerCard();
+    }
 }
