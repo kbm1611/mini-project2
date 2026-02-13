@@ -26,4 +26,4 @@ UserDao
 <병모님>
 DBDao
 GameLogDao
-SaveDao
+SaveDao -> String 형식으로 저장하고 service함수에서 string -> ArrayList로 변환하여 사용
