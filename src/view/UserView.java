@@ -36,7 +36,7 @@ public class UserView {
                 int ch = userscan.nextInt();
                 if (ch == 1) {register();}
                 else if (ch == 2) { login();}
-                else if (ch == 3) {}
+                else if (ch == 3) {break;}
             } catch (NullPointerException e1) {
                 System.out.println("숫자를 입력하세요.");
 
@@ -80,6 +80,7 @@ public class UserView {
         boolean result = uc.login(uid, upwd);
         if(result){
             System.out.println("(시스템) 로그인 성공 ");
+            mainview();
         }else {
             System.out.println("(시스템) 로그인 실패 ");
         }
@@ -87,6 +88,24 @@ public class UserView {
 
     // main 화면(로그인 후)
     public void mainview(){
-
+        System.out.println("==================================");
+        System.out.println("환영합니다.??" );
+        System.out.println("나의 최고 기록 : ???? ");
+        System.out.println("==================================\n");
+        System.out.println(" [1] 게임 시작(새로운판)");
+        System.out.println(" [2] 전당 보기(랭킹확인)");
+        System.out.println(" [3] 지난 기록");
+        System.out.println(" [4] 로그아웃");
+        System.out.println("==================================");
+        System.out.print(">>선택");
+        try{
+            int ch = userscan.nextInt();
+            if (ch == 1){}
+            else if(ch == 2 ){}
+            else if(ch == 3){}
+            else if(ch == 4){}
+        }catch (Exception e){
+            System.out.println("main 화면 선택 오류"+e);
+        }
     }
 }
