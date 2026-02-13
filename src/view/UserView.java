@@ -1,22 +1,18 @@
 package view;
 
+import controller.PlayController;
 import controller.UserController;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class UserView {
-    private UserView() {
-    }
-
+    private UserView() { }
     private static final UserView instance = new UserView();
-
     public static UserView getInstance() {
         return instance;
     }
-
     private UserController uc = UserController.getInstance();
-
     private Scanner userscan = new Scanner(System.in);
 
     public void index() {
@@ -100,10 +96,10 @@ public class UserView {
         System.out.print(">>선택");
         try{
             int ch = userscan.nextInt();
-            if (ch == 1){}
-            else if(ch == 2 ){}
-            else if(ch == 3){}
-            else if(ch == 4){}
+            if (ch == 1){ PlayController.getInstance().play(); }
+            else if(ch == 2 ){RankView.getInstance().rankingView();}
+            else if(ch == 3){RankView.getInstance().myLogView();}
+            else if(ch == 4){index();}
         }catch (Exception e){
             System.out.println("main 화면 선택 오류"+e);
         }
