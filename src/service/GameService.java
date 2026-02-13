@@ -223,7 +223,7 @@ public class GameService {
         this.currentScore += gainedScore; // 현재 점수 갱신
         drawCard(submittedCards.size()); // 제출한 카드 수만큼 카드 뽑기 진행
         String msg = "🎉 [" + jokbo.getJokboName() + "] 완성! " + gainedScore + "점을 획득했습니다.";
-        System.out.println(msg);
+
 
         return new ResultDto(true, msg, jokbo.getJokboName(), gainedScore, this.currentScore);
 
