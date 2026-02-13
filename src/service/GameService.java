@@ -70,7 +70,10 @@ public class GameService {
         this.discardLeft = 3; // 버리기 기회 초기화
 
         Collections.shuffle(this.deck); // 덱 섞기
+        initDeck();
+        drawCard(8);
         return boss; // 보스 객체를 리턴해 프론트에서 몇라운드 보스이름 목표점수 출력
+
     }
 
     public void recycleGrave(){
@@ -244,7 +247,8 @@ public class GameService {
         drawCard(submittedCards.size()); // 제출한 카드 수만큼 카드 뽑기 진행
         String msg = "🎉 [" + jokbo.getJokboName() + "] 완성! " + gainedScore + "점을 획득했습니다.";
 
-
+        this.submitLeft--;
+        this.grave.addAll(submittedCards);
         return new ResultDto(true, msg, jokbo.getJokboName(), gainedScore, this.currentScore);
 
     }
