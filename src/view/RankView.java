@@ -29,7 +29,7 @@ public class RankView {
         for(GameLogDto rank : ranks){ //컨트롤러에서 랭킹 함수를 가져와 출력
             System.out.printf("""
                   %d    |   %s     |   %d점    | %s
-                """);
+                \n""");
         }
         System.out.println("================================================");
         System.out.println("[0] 뒤로 가기");
@@ -52,11 +52,11 @@ public class RankView {
                 =====================================================
                  최종 점수    |   도달 라운드   |   남은 엽전   |   달성일자
                 ------------------------------------------------------
-                """, myLogs.get(0).getNickname() );
+                \n""", myLogs.get(0).getNickname() );
         for(GameLogDto mylog : myLogs){
             System.out.printf("""
                    %d 점  |     %d R         |    %d 냥   |   %s
-                   """, mylog.getFinal_score(), mylog.getFinal_round(), mylog.getFinal_money(), mylog.getPlay_date());
+                   \n""", mylog.getFinal_score(), mylog.getFinal_round(), mylog.getFinal_money(), mylog.getPlay_date());
             playCount++;
             if(mylog.getFinal_round() > 8){
                 winCount++;
