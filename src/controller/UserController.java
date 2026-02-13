@@ -15,16 +15,16 @@ public class UserController {
 
 
     // controller 회원가입
-    public boolean register(String uid, String upw, String unickname){
-        boolean result = ud.register(uid, upw, unickname);
+    public boolean register(String uid, String upwd, String nickname){
+        boolean result = ud.register(uid, upwd, nickname);
         return result;
     }
 
 
 
     //  controller 로그인
-    public boolean login(String uid, String upw){
-        int result = ud.login(uid, upw);
+    public boolean login(String uid, String upwd){
+        int result = ud.login(uid, upwd);
         if(result !=-1){
             loginSession = result;
                 return true;

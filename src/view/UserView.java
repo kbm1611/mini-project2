@@ -58,11 +58,11 @@ public class UserView {
         System.out.print(">> 아이디 : ");
         String uid = userscan.next();
         System.out.print(">> 비밀번호 : ");
-        String upw = userscan.next();
+        String upwd = userscan.next();
         System.out.print(">> 닉네임 : ");
-        String unickname = userscan.next();
+        String nickname = userscan.next();
 
-        boolean result = uc.register(uid, upw, unickname);
+        boolean result = uc.register(uid, upwd, nickname);
         if (result) {
             System.out.println("(시스템)환영합니다. 가입이 완료되었습니다.");
         } else {
@@ -75,14 +75,18 @@ public class UserView {
         System.out.println("             [로그인]");
         System.out.println("==================================\n");
         System.out.println(">> 아이디 : "); String uid = userscan.next();
-        System.out.println(">> 비밀번호 : "); String upw = userscan.next();
+        System.out.println(">> 비밀번호 : "); String upwd = userscan.next();
 
-        boolean result = uc.login(uid, upw);
+        boolean result = uc.login(uid, upwd);
         if(result){
-            System.out.println("(시스템) 로그인 확인중 .. ");
+            System.out.println("(시스템) 로그인 성공 ");
         }else {
             System.out.println("(시스템) 로그인 실패 ");
         }
-        System.out.println("(시스템) 로그인 성공");
+    }
+
+    // main 화면(로그인 후)
+    public void mainview(){
+
     }
 }

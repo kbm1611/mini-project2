@@ -16,14 +16,14 @@ public class UserDao {
     private ResultSet rs;
 
     // Dao 회원가입
-    public boolean register(String uid, String upw, String unickname){
+    public boolean register(String uid, String upwd, String nickname){
        try {
            Connection conn = DBDao.getConnection();
-        String sql = "insert into user(uid, upw, unickname) values(?, ?, ?)";
+        String sql = "insert into user(uid, upwd, nickname) values(?, ?, ?)";
            PreparedStatement ps = conn.prepareStatement(sql);
            ps.setString(1, uid);
-           ps.setString(2, upw);
-           ps.setString(3, unickname);
+           ps.setString(2, upwd);
+           ps.setString(3, nickname);
 
            int count =ps.executeUpdate();
            if(count == 1){return true;}
@@ -33,22 +33,20 @@ public class UserDao {
        }return false;
 }
     // Dao 로그인
-    public int login(String uid, String upw){
-
+    public int login(String uid, String upwd){
         try{
-            Thread.sleep(1000);
             Connection conn = DBDao.getConnection();
-            String sql = "select uid,upw,unickname from user where uid = ? and upw = ?";
+            String sql = "select user_no from user where uid = ? and upwd = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, uid);
-            ps.setString(2, upw);
+            ps.setString(2, upwd);
 
-            int count = ps.executeUpdate();
-            rs.next();
-            int user_no =rs.getInt("user_no");
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
 
-            if(count == 1){return user_no;}
-            else {return -1;}
+               return rs.getInt("user_no");
+            }
+
         }catch (Exception e){
             System.out.println("[시스템] SQL"+e);
         }return -1;
