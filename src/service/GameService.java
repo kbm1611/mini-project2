@@ -18,13 +18,32 @@ public class GameService {
     private ArrayList<Card> deck; // 남은덱
     private ArrayList<Card> hand; // 내 손패
     private ArrayList<Card> grave; // 무덤
-
-
     private int currentRound;  // 현재 라운드
     private int currentScore;  // 현재 점수
     private int targetScore; // 목표 점수
     private int submitLeft; // 남은 카드 내기 기회
-    private int discardLeft; // 남은 카드 버리기 기회
+    private int discardLeft;// 남은 카드 버리기 기회
+
+    public static void setInstance(GameService instance) {
+        GameService.instance = instance;
+    }
+
+    public ArrayList<Card> getDeck() {return deck;}
+    public void setDeck(ArrayList<Card> deck) {this.deck = deck;}
+    public ArrayList<Card> getHand() {return hand;}
+    public void setHand(ArrayList<Card> hand) {this.hand = hand;}
+    public ArrayList<Card> getGrave() {return grave;}
+    public void setGrave(ArrayList<Card> grave) {this.grave = grave;}
+    public int getCurrentRound() {return currentRound;}
+    public void setCurrentRound(int currentRound) {this.currentRound = currentRound;}
+    public int getCurrentScore() {return currentScore;}
+    public void setCurrentScore(int currentScore) {this.currentScore = currentScore;}
+    public int getTargetScore() {return targetScore;}
+    public void setTargetScore(int targetScore) {this.targetScore = targetScore;}
+    public int getSubmitLeft() {return submitLeft;}
+    public void setSubmitLeft(int submitLeft) {this.submitLeft = submitLeft;}
+    public int getDiscardLeft() {return discardLeft;}
+    public void setDiscardLeft(int discardLeft) {this.discardLeft = discardLeft;}
     private GameService() {
         this.deck = new ArrayList<>();
         this.hand = new ArrayList<>();
@@ -32,6 +51,7 @@ public class GameService {
         this.currentRound = 1;
         this.currentScore = 0;
     }
+
 
     public void initDeck(){
         this.deck.clear(); // 덱 비우기
