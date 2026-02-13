@@ -63,7 +63,7 @@ public class RankView {
             }
         }
         System.out.println("\uD83D\uDCCA [ 전적 요약 ]");
-        System.out.printf("▶ 총 플레이 : %d 판      ▶ 승률 : %d %", playCount, winCount);
+        System.out.printf("▶ 총 플레이 : %d 판      ▶ 승률 : %d %\n", playCount, winCount);
         System.out.println("""
                 ===================================================================
                 [0] 뒤로 가기
