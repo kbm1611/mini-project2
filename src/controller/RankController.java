@@ -13,7 +13,6 @@ public class RankController {
     }
     private RankService rsv = RankService.getInstance();
 
-    public ArrayList<GameLogDto> printRanking(){
-        return rsv.printRanking();
-    }
+    public ArrayList<GameLogDto> printRanking(){ return rsv.printRanking(); }
+    public ArrayList<GameLogDto> printMyLog(int user_id){ return rsv.printMyLog(user_id); }
 }

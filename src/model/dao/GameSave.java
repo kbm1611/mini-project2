@@ -21,13 +21,16 @@ public class GameSave {
     private PreparedStatement ps;
     private ResultSet rs;
 
+    // 게임 저장
     public boolean saveGame(int user_no, int current_round, int current_hp, int current_money, int current_score, String card, String item){
         try{
             conn = DBDao.getConnection(); //DBDao에서 연결 설정 가져오기.
-            String sql = ""; //update문 작성
+            String sql = "update save_file set current_round = ?, current_hp = ?, current_money = ?, current_score = ?, card = ?, item = ? where user_no = ?"; //update문 작성
             ps = conn.prepareStatement( sql );
-            ps.setInt(1, user_no); ps.setInt(2, final_score);
-            ps.setInt(3, final_round); ps.setInt(4, final_money);
+            ps.setInt(1, current_round); ps.setInt(2, current_hp);
+            ps.setInt(3, current_money); ps.setInt(4, current_score);
+            ps.setString(5, card); ps.setString(6, item);
+            ps.setInt(7, user_no);
 
             int count = ps.executeUpdate();
             if( count == 1){ return true; }
@@ -38,6 +41,7 @@ public class GameSave {
         return false;
     }
 
+    //게임 불러오기
     public SaveFileDto loadGame(int user_no){
         SaveFileDto game = null;
         try{
