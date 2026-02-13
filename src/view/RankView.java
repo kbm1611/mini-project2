@@ -3,7 +3,6 @@ package view;
 import controller.RankController;
 import controller.UserController;
 import model.dto.GameLogDto;
-import model.dto.UserDto;
 
 import java.util.ArrayList;
 import java.util.Scanner;
