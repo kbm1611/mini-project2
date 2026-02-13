@@ -14,7 +14,6 @@ public class RankView {
         return instance;
     }
     private RankController rc = RankController.getInstance();
-    private UserController uc = UserController.getInstance();
     private Scanner scan = new Scanner(System.in);
 
     public void rankingView(){
