@@ -19,7 +19,7 @@ public class ItemDao {
 
     // 부적 리스트 가져오는 함수
     public ArrayList<Item> getAmulet(){
-        ArrayList<Item> items = null;
+        ArrayList<Item> items = new ArrayList<>();
         try{
             conn = DBDao.getConnection();
             String sql = "select * from item_info where type = '부적'";
@@ -75,11 +75,12 @@ public class ItemDao {
             ps.setInt(1, item_no);
 
             rs = ps.executeQuery();
-            rs.next();
-            int item_no1 = rs.getInt("item_no"); String name = rs.getString("name");
-            String type = rs.getString("type"); int price = rs.getInt("price");
-            String description = rs.getString("description"); String effect_code = rs.getString("effect_code");
-            item = new Item(item_no1, name, type, price, description, effect_code);
+            if(rs.next()){
+                int item_no1 = rs.getInt("item_no"); String name = rs.getString("name");
+                String type = rs.getString("type"); int price = rs.getInt("price");
+                String description = rs.getString("description"); String effect_code = rs.getString("effect_code");
+                item = new Item(item_no1, name, type, price, description, effect_code);
+            }
 
             if( item != null){ return item; }
             else{ return null; }
