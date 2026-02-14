@@ -3,6 +3,7 @@ package view;
 import controller.ShopController;
 import model.dto.Card;
 import model.dto.Item;
+import model.dto.PlayerDto;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -19,42 +20,34 @@ public class ShopView {
 
     public void printShopView(){
         ArrayList<Item> itemlist = sc.getAmFo();
+        PlayerDto playerDto = PlayerDto.getInstance(); //로그인한 유저의 정보 객체
+
+        String ThirdText = "";
         int rand = new Random().nextInt(2)+1;
         if(rand == 1){
-            String addText = "[뽑기]새로운 화투패 추가(가격: 100냥)";
-        }else if(rand == 2){
-            String removeText = "[삭제]화투패 삭제(가격: 100냥)";
+            ThirdText = "[뽑기]새로운 화투패 추가(가격: 100냥)";
+        }else{
+            ThirdText = "[삭제]덱에서 화투패 삭제(가격: 100냥)";
         }
 
 
         System.out.println("========== [ 🏚️ 만물상 (상점) ] ==========");
-        System.out.printf("보유 엽전: %d냥", 500);
+        System.out.printf("보유 엽전: %d냥\n", playerDto.getCurrent_monney());
 
-        if(rand == 1){
-            System.out.printf("""
+
+        System.out.printf("""
                1. [%s]%s(가격: %d)
                   ㄴ효과: %s
                2. [%s]%s(가격: %d)
                   ㄴ효과: %s
-               3. [뽑기]새로운 화투패 추가(가격: 100냥)
+               3. %s
                ---------------------------------------------
-               >>선택: 
-               """, itemlist.get(0).getType(),itemlist.get(0).getName(),itemlist.get(0).getPrice(),itemlist.get(0).getDescription()
-                    , itemlist.get(1).getType(),itemlist.get(1).getName(),itemlist.get(1).getPrice(),itemlist.get(1).getDescription()
-            );
-        }else if(rand == 2){
-            System.out.printf("""
-               1. [%s]%s(가격: %d)
-                  ㄴ효과: %s
-               2. [%s]%s(가격: %d)
-                  ㄴ효과: %s
-               3. [뽑기]새로운 화투패 추가(가격: 100냥)
-               ---------------------------------------------
-               >>선택: 
-               """, itemlist.get(0).getType(),itemlist.get(0).getName(),itemlist.get(0).getPrice(),itemlist.get(0).getDescription()
-                    , itemlist.get(1).getType(),itemlist.get(1).getName(),itemlist.get(1).getPrice(),itemlist.get(1).getDescription()
-            );
-        }
+               >>선택:"""
+                , itemlist.get(0).getType(),itemlist.get(0).getName(),itemlist.get(0).getPrice(),itemlist.get(0).getDescription()
+                , itemlist.get(1).getType(),itemlist.get(1).getName(),itemlist.get(1).getPrice(),itemlist.get(1).getDescription(),
+                ThirdText
+        ); System.out.print(" ");
+
         int ch = scan.nextInt();
         if(ch == 1){
             // 플레이어 아이템리스트에 해당 아이템 추가
