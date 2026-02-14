@@ -19,19 +19,21 @@ public class RankView {
     public void rankingView(){
         ArrayList<GameLogDto> ranks = rc.printRanking(); //함수 선언
 
-        System.out.println("""
-                ================================================
+        int count = 1;
+        System.out.print("""
+                ====================================================
                          🏆 [ 명 예 의  전 당 ] TOP 5 🏆
-                ================================================
-                 순위    |    닉네임    |    최고 점수   |   달성일
-                ------------------------------------------------
+                ====================================================
+                 순위 |   닉네임   |  최고 점수  |         달성일
+                ----------------------------------------------------
                 """);
         for(GameLogDto rank : ranks){ //컨트롤러에서 랭킹 함수를 가져와 출력
             System.out.printf("""
-                  %d    |   %s     |   %d점    | %s
-                \n""", rank.getLog_no(), rank.getNickname(), rank.getFinal_score(), rank.getPlay_date());
+                %3d  |%6s    |%6d점   | %s
+                """, count, rank.getNickname(), rank.getFinal_score(), rank.getPlay_date());
+            count++;
         }
-        System.out.println("================================================");
+        System.out.println("====================================================");
         System.out.println("[0] 뒤로 가기");
         System.out.print(">>입력:"); int ch = scan.nextInt();
 
@@ -41,34 +43,36 @@ public class RankView {
     }
     public void myLogView(){
         int playCount = 0;
-        int winCount = 0;
+        double winCount = 0;
 
         int user_id = 1; //!!추후에 로그인 정보 넣어주기
         ArrayList<GameLogDto> myLogs = rc.printMyLog(user_id);
 
         System.out.printf("""
-                =====================================================
+                =======================================================
                 👤 플레이어 : [ %s ] 님의 지난 기록
-                =====================================================
-                 최종 점수    |   도달 라운드   |   남은 엽전   |   달성일자
-                ------------------------------------------------------
-                \n""", myLogs.getFirst().getNickname() );
+                =======================================================
+                  최종 점수 | 도달 라운드 | 남은 엽전 |      달성일자
+                -------------------------------------------------------
+                """, myLogs.getFirst().getNickname() );
         for(GameLogDto mylog : myLogs){
             System.out.printf("""
-                   %d 점  |     %d R         |    %d 냥   |   %s
-                   \n""", mylog.getFinal_score(), mylog.getFinal_round(), mylog.getFinal_money(), mylog.getPlay_date());
+                   %6d 점  |%5d R    |%5d 냥  | %s
+                   """, mylog.getFinal_score(), mylog.getFinal_round(), mylog.getFinal_money(), mylog.getPlay_date());
             playCount++;
             if(mylog.getFinal_round() > 8){
                 winCount++;
             }
         }
-        System.out.println("\uD83D\uDCCA [ 전적 요약 ]");
-        System.out.printf("▶ 총 플레이 : %d 판      ▶ 승률 : %d %\n", playCount, winCount);
-        System.out.println("""
+        winCount = (winCount / playCount) * 100; //승률계산
+        System.out.println("\n\uD83D\uDCCA [ 전적 요약 ]");
+        System.out.printf("▶ 총 플레이 : %d 판      ▶ 승률 : %.1f%%", playCount, winCount);
+        System.out.print("""
+                
                 ===================================================================
                 [0] 뒤로 가기
-                >> 입력 :
-                """);
+                >> 입력 :""");
+        System.out.print(" ");
         int ch = scan.nextInt();
         if(ch == 0){
             UserView.getInstance().mainview();
