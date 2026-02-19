@@ -6,15 +6,17 @@ public class SaveFileDto {
     private int user_no;
     private int current_round;
     private int current_hp;
+    private int current_discard;
     private int current_money;
     private int current_score;
     private String cards;
     private String items;
 
-    public SaveFileDto(int user_no, int current_round, int current_hp, int current_money, int current_score, String cards, String items) {
+    public SaveFileDto(int user_no, int current_round, int current_hp, int current_discard, int current_money, int current_score, String cards, String items) {
         this.user_no = user_no;
         this.current_round = current_round;
         this.current_hp = current_hp;
+        this.current_discard = current_discard;
         this.current_money = current_money;
         this.current_score = current_score;
         this.cards = cards;
@@ -30,6 +32,11 @@ public class SaveFileDto {
     public int getCurrent_hp() {
         return current_hp;
     }
+
+    public int getCurrent_discard() {
+        return current_discard;
+    }
+
     public int getCurrent_money() {
         return current_money;
     }
@@ -48,6 +55,11 @@ public class SaveFileDto {
     public void setCurrent_hp(int current_hp) {
         this.current_hp = current_hp;
     }
+
+    public void setCurrent_discard(int current_discard) {
+        this.current_discard = current_discard;
+    }
+
     public void setCurrent_money(int current_money) {
         this.current_money = current_money;
     }
@@ -63,6 +75,7 @@ public class SaveFileDto {
                 "user_no=" + user_no +
                 ", current_round=" + current_round +
                 ", current_hp=" + current_hp +
+                ", current_discard=" + current_discard +
                 ", current_money=" + current_money +
                 ", current_score=" + current_score +
                 ", cards='" + cards + '\'' +

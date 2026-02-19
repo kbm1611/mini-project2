@@ -30,6 +30,7 @@ public class GameSaveService {
         int user_no = player.getUser_no();
         int current_round = player.getCurrent_round();
         int current_hp = player.getCurrent_hp();
+        int current_discard = player.getCurrent_discard();
         int current_money = player.getCurrent_money();
         int current_score = player.getCurrent_score();
 
@@ -54,7 +55,7 @@ public class GameSaveService {
             }
         }
 
-        boolean savefile = gs.saveGame(user_no, current_round, current_hp, current_money, current_score, cardsStr, itemsStr); //저장
+        boolean savefile = gs.saveGame(user_no, current_round, current_hp, current_discard, current_money, current_score, cardsStr, itemsStr); //저장
         return savefile;
     }
     //불러오기 기능 -> 로그인 시 불러옴
@@ -64,6 +65,7 @@ public class GameSaveService {
         if(loadfile == null){ //처음 사용자라면
             player.setCurrent_round(1); //시작 라운드
             player.setCurrent_hp(3);    // 시작 체력
+            player.setCurrent_discard(3); //시작 버리기 횟수
             player.setCurrent_money(0); // 시작 돈
             player.setCurrent_score(0); // 시작 점수
             player.setCard(new ArrayList<>(GameConst.BASIC_DECK)); //기본 덱 지급
@@ -74,6 +76,7 @@ public class GameSaveService {
         // 기존유저의 경우
         player.setCurrent_round(loadfile.getCurrent_round());
         player.setCurrent_hp(loadfile.getCurrent_hp());
+        player.setCurrent_discard(loadfile.getCurrent_discard());
         player.setCurrent_money(loadfile.getCurrent_money());
         player.setCurrent_score(loadfile.getCurrent_score());
 
