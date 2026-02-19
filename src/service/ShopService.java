@@ -34,11 +34,12 @@ public class ShopService {
     //랜덤한 5개의 카드 반환
     public ArrayList<Card> getFiveCards(){
         ArrayList<Card> cardlist = new ArrayList<>();
-        //랜덤한 5장의 카드 뽑아서 넣기
+        //랜덤한 5장의 카드 뽑아서 넣기(중복x)
+        ArrayList<Card> tempDeck = new ArrayList<>(cards);
         for(int i = 1; i <= 5; i++){
-            int rand = new Random().nextInt(48)+1;
-            Card card = cards.get(rand);
-            cardlist.add(card);
+            int rand = new Random().nextInt(cards.size());
+            cardlist.add(tempDeck.get(rand));
+            tempDeck.remove(rand);
         }
         return cardlist;
     }
