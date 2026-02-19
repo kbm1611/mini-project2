@@ -38,6 +38,10 @@ public class ItemDao {
             else{ return null; }
         }catch (SQLException e){
             System.out.println("[시스템오류] SQL 문법 문제 발생");
+        }finally { // DB자원 반납
+            try{ if( rs != null) rs.close(); } catch (Exception e){}
+            try{ if( ps != null) ps.close(); } catch (Exception e){}
+            try{ if( conn != null) conn.close(); } catch (Exception e){}
         }
         return null;
     }
@@ -63,6 +67,10 @@ public class ItemDao {
             else{ return null; }
         }catch (SQLException e){
             System.out.println("[시스템오류] SQL 문법 문제 발생");
+        }finally { // DB자원 반납
+            try{ if( rs != null) rs.close(); } catch (Exception e){}
+            try{ if( ps != null) ps.close(); } catch (Exception e){}
+            try{ if( conn != null) conn.close(); } catch (Exception e){}
         }
         return null;
     }
@@ -86,6 +94,10 @@ public class ItemDao {
             else{ return null; }
         }catch (SQLException e){
             System.out.println("[시스템오류] SQL 문법 문제 발생");
+        }finally { // DB자원 반납
+            try{ if( rs != null) rs.close(); } catch (Exception e){}
+            try{ if( ps != null) ps.close(); } catch (Exception e){}
+            try{ if( conn != null) conn.close(); } catch (Exception e){}
         }
         return null;
     }
