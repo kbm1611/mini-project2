@@ -134,15 +134,39 @@ public class ItemUseService {
         }
         //==============================================
 
-    // 아이템 번호 6 (조상님의 도움)(점괘)
-    public boolean ancestorHelp(){
-        // 다음 족보 배수를 +3배 추가한다
-        if(!hasItem(6)){
-            return true; // 아이템이 사용하면 +3배
+    // 1회용 아이템 사용시 player가 보유한 리스트에서 삭제(6번, 10번)
+    private boolean consumeItem(int itemId) {
+        if (player.getItem() == null) return false;
+
+        for (int i = 0; i < player.getItem().size(); i++) {
+            if (player.getItem().get(i).getItem_no() == itemId) {
+                player.getItem().remove(i);
+                return true;
+            }
         }
         return false;
-
     }
+
+    // 아이템 번호 6 (조상님의 도움)(점괘)
+    private boolean ancestorBuffActive = false;
+    public boolean ancestorHelp(){
+        // 다음 족보 배수를 +3배 추가한다
+        ancestorBuffActive = true;   // 다음 족보에 적용
+        consumeItem(6);              // player 보유 아이템 리스트에서 삭제
+
+        System.out.println("[조상님의 도움 발동] 다음 족보 배수 +3");
+        return true;
+    }
+
+    public int getAncestorMultiplier() {
+
+        if (!ancestorBuffActive)
+            return 0; // 아이템 발동중이 아니면 +0배
+
+        ancestorBuffActive = false; // 한 번 적용 후 자동 해제
+        return 3;
+    }
+
     // 아이템 번호 7 (동작 그만)(점괘)
     public void moveStop(){
         //지금 패를 다음 판에도 유지한다
@@ -174,11 +198,12 @@ public class ItemUseService {
         if (!hasItem(10)){
            return false;
         }
-        if(player.getCurrent_hp() == 3){
+        if(player.getCurrent_hp() == 3){   // 현재 목숨이 3개이면 사용 불가
             System.out.println("아이템 사용불가(현재 목숨 : 3)");
             return false;
         }
-        player.setCurrent_hp(3);
+        player.setCurrent_hp(3); // 목숨 : 3
+        consumeItem(10); // 아이템 10번 삭제
         System.out.println("[아수라발발타 발동] 목숨 : 3");
         return true;
     }

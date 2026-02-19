@@ -67,6 +67,10 @@ public class PlayController {
                         service.ItemUseService.getInstance().useRevelationOfSpirit(); // 신령님 발동!
                     } else if (itemChoice == 5) {
                         service.ItemUseService.getInstance().useBottomDealing(); // 밑장 빼기 발동!
+                    }else if (itemChoice == 6){
+                        service.ItemUseService.getInstance().ancestorHelp(); // 조상님의 도움 발동
+                    }else if (itemChoice == 10){
+                        service.ItemUseService.getInstance().magic(); // 아수라발발타 발동
                     } else if (itemChoice != -1 && itemChoice != 0) {
                         PV.printMessage("⚠️ 잘못된 점괘 번호입니다.");
                     }
