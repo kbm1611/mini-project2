@@ -30,7 +30,7 @@ public class GameSaveService {
         int user_no = player.getUser_no();
         int current_round = player.getCurrent_round();
         int current_hp = player.getCurrent_hp();
-        int current_money = player.getCurrent_monney();
+        int current_money = player.getCurrent_money();
         int current_score = player.getCurrent_score();
 
         if( cardList != null && !cardList.isEmpty() ){ //cardList가 null이 아니고 동시에 비어있지 않을 때
@@ -62,7 +62,7 @@ public class GameSaveService {
         // playerDto에 현재 플레이어 정보 넣기
         player.setCurrent_round(loadfile.getCurrent_round());
         player.setCurrent_hp(loadfile.getCurrent_hp());
-        player.setCurrent_monney(loadfile.getCurrent_money());
+        player.setCurrent_money(loadfile.getCurrent_money());
         player.setCurrent_score(loadfile.getCurrent_score());
 
         //card, item은 파싱해서 객체로 만들어줘야 함.
