@@ -1,10 +1,7 @@
 package service;
 
 import constant.GameConst;
-import model.dto.Card;
-import model.dto.JokboDto;
-import model.dto.ResultDto;
-import model.dto.RoundDto;
+import model.dto.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,27 +50,58 @@ public class GameService {
     }
 
 
-    public void initDeck(){
-        this.deck.clear(); // 덱 비우기
-        this.deck.addAll(GameConst.BASIC_DECK); // 상수 덱가져오기 (48장의 카드로 이루어진)
-        Collections.shuffle(this.deck); // 덱 섞기
+    // 🆕 [새 게임 시작] (타이틀에서 1번 선택 시 호출)
+    public void startNewGame() {
+        PlayerDto player = PlayerDto.getInstance();
+
+        // 1. 플레이어 스탯 초기화
+        player.setCurrent_round(1);
+        player.setCurrent_score(0);
+        player.setCurrent_money(0);
+
+        player.setCard(new ArrayList<>(GameConst.BASIC_DECK));
+        player.setItem(new ArrayList<>());
+
+        System.out.println("🆕 새로운 타짜의 길을 걷습니다. (기본 화투패 48장 지급 완료)");
+    }
+    public boolean loadGame() {
+        PlayerDto player = PlayerDto.getInstance();
+
+        // (나중에 DAO 연결하면 여기서 DB 데이터를 PlayerDto에 담아옵니다)
+
+        // 만약 카드가 1장이라도 있다면 진행 중인 게임으로 간주!
+        if (player.getCard() != null && !player.getCard().isEmpty()) {
+            System.out.println("💾 저장된 게임을 불러왔습니다! (" + player.getCurrent_round() + "라운드부터 시작)");
+            return true;
+        } else {
+            System.out.println("🚫 저장된 데이터가 없습니다. 새로하기를 선택해 주세요.");
+            return false;
+        }
     }
 
-    public RoundDto startRound(int roundNo){ // 라운드 번호를 매개변수로 받음
-        this.currentRound = roundNo; // 현제 라운드는 받은 라운드 번호
-        this.currentScore = 0; // 점수 초기화
+    public RoundDto startRound(int roundNo){
+        PlayerDto player = PlayerDto.getInstance();
 
-        RoundDto boss = GameConst.ROUND_LIST.get(roundNo-1); // 보스 불러오기
-        this.targetScore = boss.getTargetScore(); // 목표 점수 설정
+        // 1. 라운드 및 점수 세팅
+        player.setCurrent_round(roundNo);
+        this.currentRound = roundNo;
+        this.currentScore = 0;
+        RoundDto boss = GameConst.ROUND_LIST.get(roundNo-1);
+        this.targetScore = boss.getTargetScore();
+        // 2. 기회 초기화
+        this.submitLeft = 5;
+        this.discardLeft = 3;
 
-        this.submitLeft = 5; // 제출기회 초기화
-        this.discardLeft = 3; // 버리기 기회 초기화
+        this.deck.clear();
+        this.deck.addAll(player.getCard());
+        Collections.shuffle(this.deck);
 
-        Collections.shuffle(this.deck); // 덱 섞기
-        initDeck();
+        this.hand.clear();
+        this.grave.clear();
+        // 4. 8장 뽑기
         drawCard(8);
-        return boss; // 보스 객체를 리턴해 프론트에서 몇라운드 보스이름 목표점수 출력
 
+        return boss;
     }
 
     public void recycleGrave(){
@@ -264,8 +292,27 @@ public class GameService {
     }
 
     public boolean isGameOver(){
-        if (this.submitLeft <= 0 && this.currentScore < this.targetScore){
-            System.out.println("💀 [게임 오버] 기회를 모두 사용햇는데 목표 점수에 도달하지 못했습니다...");
+        if (this.currentScore >= this.targetScore) {
+            PlayerDto player = PlayerDto.getInstance();
+            //  돈 계산 공식
+            int baseMoney = 100 + (player.getCurrent_round() * 50);
+            // 남은 기회 보너스
+            int bonusMoney = this.submitLeft * 20;
+            // 이자 보너스 (현재 가진 돈의 10%, 최대 250원까지)
+            int interestMoney = (int)(player.getCurrent_money() * 0.1);
+            if (interestMoney > 250) interestMoney = 250; // 이자 상한선 250원
+            int totalEarned = baseMoney + bonusMoney + interestMoney; // 총 수익
+            int newBalance = player.getCurrent_money() + totalEarned;
+            player.setCurrent_money(newBalance);
+
+            view.PlayView.getInstance().printClearReceipt(
+                    player.getCurrent_round(),
+                    baseMoney,
+                    bonusMoney,
+                    interestMoney,
+                    totalEarned,
+                    newBalance
+            );
             return true;
         }
         return false;

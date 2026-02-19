@@ -14,6 +14,17 @@ public class PlayView {
     private Scanner sc = new Scanner(System.in);
 
 
+    public int printTitleMenu() {
+        System.out.println("================================================");
+        System.out.println("                 🃏 화투로 🃏                    ");
+        System.out.println("================================================");
+        System.out.println("  1. 🆕 새로하기 (New Game)");
+        System.out.println("  2. 💾 이어하기 (Continue)");
+        System.out.println("  0. ❌ 종료하기 (Exit)");
+        System.out.println("================================================");
+        System.out.print(">> 선택 : ");
+        return getInputNumber();
+    }
 
     public void printGameStatus(RoundDto boss, int currentScore, int submitLeft, int discardLeft, ArrayList<Card> hand){
         System.out.println("\n\n\n\n\n");
@@ -127,6 +138,22 @@ public class PlayView {
 
         System.out.println("엔터를 치면 계속합니다...");
         sc.nextLine();
+    }
+    public void printClearReceipt(int round, int base, int bonus, int interest, int total, int currentMoney) {
+        System.out.println("\n\n");
+        System.out.println("  🎉  R O U N D  " + round + "  C L E A R !  🎉  ");
+        System.out.println("┌──────────────────────────────────────┐");
+        System.out.println("│              💸 정 산 표             │");
+        System.out.println("├──────────────────────────────────────┤");
+        System.out.printf("│  1. 라운드 기본급          + %4d원   │\n", base);
+        System.out.printf("│  2. 남은 기회 보너스       + %4d원   │\n", bonus);
+        System.out.printf("│  3. 저축 이자 (최대 250)   + %4d원   │\n", interest);
+        System.out.println("├──────────────────────────────────────┤");
+        System.out.printf("│  💰 총 획득 금액           + %4d원   │\n", total);
+        System.out.println("└──────────────────────────────────────┘");
+        System.out.println("   👉 현재 소지금: [ " + currentMoney + " 원 ]");
+        System.out.println("\n엔터를 치면 다음 라운드로 이동합니다...");
+        sc.nextLine(); // 사용자 입력 대기
     }
 
     public int[] getInputIndexes(String msg) {

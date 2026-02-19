@@ -18,6 +18,34 @@ public class PlayController {
     private PlayView PV = PlayView.getInstance();
 
     public void play(){
+        boolean isGameReady = false;
+
+        while (!isGameReady) {
+            int menuChoice = PV.printTitleMenu();
+
+            if (menuChoice == 1) {
+                // 🆕 [새로하기] : 데이터 초기화 & 기본 덱 지급
+                GS.startNewGame();
+                isGameReady = true; // 게임 시작 준비 완료!
+
+            } else if (menuChoice == 2) {
+                // 💾 [이어하기] : 저장된 데이터 확인
+                if (GS.loadGame()) {
+                    isGameReady = true; // 불러오기 성공하면 시작!
+                } else {
+                    // 실패하면(데이터 없음) 다시 메뉴로 돌아감
+                }
+
+            } else if (menuChoice == 0) {
+                // ❌ [종료]
+                PV.printMessage("게임을 종료합니다. 안녕히 가세요! 👋");
+                return; // 프로그램 종료
+
+            } else {
+                PV.printMessage("⚠️ 잘못된 입력입니다. 다시 선택해 주세요.");
+            }
+        }
+
         PV.printMessage("============== 🎴 화투로 시작 🎴 ==============");
 
         int currentStage = 1;
