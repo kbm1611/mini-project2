@@ -51,10 +51,10 @@ public class ShopService {
         Item item = itd.getItem(item_no);
         //현재 플레이어의 아이템 리스트를 변경해야함.
         //현재 플레이어의 잔고 변경해야함
-        if(player.getCurrent_monney() >= price){
-            int money = player.getCurrent_monney();
+        if(player.getCurrent_money() >= price){
+            int money = player.getCurrent_money();
             player.getItem().add(item);
-            player.setCurrent_monney(money - price);
+            player.setCurrent_money(money - price);
             return true;
         }else{
             return false;
@@ -65,10 +65,10 @@ public class ShopService {
         Card card = cards.get(card_no-1);
         //현재 플레이어의 카드 리스트를 변경해야함.
         //현재 플레이어의 잔고 변경해야함
-        if(player.getCurrent_monney() >= price){
-            int money = player.getCurrent_monney();
+        if(player.getCurrent_money() >= price){
+            int money = player.getCurrent_money();
             player.getCard().add(card);
-            player.setCurrent_monney(money - price);
+            player.setCurrent_money(money - price);
             return true;
         }else{
             return false;
@@ -79,10 +79,10 @@ public class ShopService {
         Card card = cards.get(card_no-1);
         //현재 플레이어의 카드 리스트를 변경해야함.
         //현재 플레이어의 잔고 변경해야함
-        if(player.getCurrent_monney() >= price){
-            int money = player.getCurrent_monney();
+        if(player.getCurrent_money() >= price){
+            int money = player.getCurrent_money();
             player.getCard().remove(card);
-            player.setCurrent_monney(money - price);
+            player.setCurrent_money(money - price);
             return true;
         }else{
             return false;
