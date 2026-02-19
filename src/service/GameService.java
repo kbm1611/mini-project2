@@ -145,11 +145,15 @@ public class GameService {
 
         this.discardLeft--; // 버리기 기회 소모
         Arrays.sort(indexes); // 버리는 인덱스들을 정렬함 이유는 0번 버리고 1번 버리면 0번 버리고 나서 1번이 0번 위치로 가기 때문
+        ArrayList<Card> trashedCards = new ArrayList<>();
         for (int i = indexes.length-1; i>=0; i--){ //버리는 인덱스 배열의 길이 = 버릴 카드의 수 만큼 반복
             int idx = indexes[i]; // 버릴 카드의 위치 저장 변수
             Card trashedCard = this.hand.remove(idx); //버리는 카드 저장하는 객체 = 핸드에서 idx 번째를 뽑은 객체
-            this.grave.add(trashedCard); // 이것을 무덤에 추가
+            trashedCards.add(trashedCard); // 임시 리스트에 버릴 카드 추가
         }
+
+        ItemUseService.getInstance().revertCardIfNeeded(trashedCards);
+        this.grave.addAll(trashedCards);
 
         int dropCount = indexes.length; // 버린 카드의 수  = 버리는 인덱스 길이
         ArrayList<Card> newlyDrawn = drawCard(dropCount); // 버려진 만큼 카드를 뽑아서 배열에 저장
@@ -221,7 +225,10 @@ public class GameService {
 
     private int getCardScore(Card card) { // 카드의 기본 점수 가져오는 함수 매개변수는 카드 객체
         String type = card.getType(); // 카드객체의 type 값 저장하는 문자열 변수
-        if (type.equals("광")) return 20;
+        if (type.equals("광")) {
+            int multi = ItemUseService.getInstance().getKwangMultiplier();
+            return 20 * multi;
+        }
         if (type.equals("열")) return 10;
         if (type.equals("띠")) return 5;
         return 1;
@@ -240,6 +247,7 @@ public class GameService {
         아이템 적용 구간 나중에 구현
 
         */
+        totalChips += ItemUseService.getInstance().getAnimalBoostScore(submittedCards);
 
 
         int finalScore = totalChips * totalMult; // 최종 점수 계산
@@ -276,35 +284,37 @@ public class GameService {
         String msg = "🎉 [" + jokbo.getJokboName() + "] 완성! " + gainedScore + "점을 획득했습니다.";
 
         this.submitLeft--;
+        ItemUseService.getInstance().revertCardIfNeeded(submittedCards);
         this.grave.addAll(submittedCards);
         return new ResultDto(true, msg, jokbo.getJokboName(), gainedScore, this.currentScore);
 
     }
 
 
-    public boolean checkRoundClear(){
+    public boolean checkRoundClear() {
         if (this.currentScore >= this.targetScore) {
             System.out.println("🎉 [클리어] 목표 점수 " + this.targetScore + "점 달성! 다음 라운드로 갑니다.");
-            return true;
-        }
 
-        return false;
-    }
-
-    public boolean isGameOver(){
-        if (this.currentScore >= this.targetScore) {
             PlayerDto player = PlayerDto.getInstance();
+
             //  돈 계산 공식
             int baseMoney = 100 + (player.getCurrent_round() * 50);
-            // 남은 기회 보너스
+
+            //  남은 기회 보너스
             int bonusMoney = this.submitLeft * 20;
-            // 이자 보너스 (현재 가진 돈의 10%, 최대 250원까지)
+
+            //  이자 보너스 (현재 가진 돈의 10%, 최대 250원까지)
             int interestMoney = (int)(player.getCurrent_money() * 0.1);
             if (interestMoney > 250) interestMoney = 250; // 이자 상한선 250원
+
+            // [아이템 연동] 재물 부적(2번)이 있다면 1.5배 뻥튀기
             int totalEarned = baseMoney + bonusMoney + interestMoney; // 총 수익
+            totalEarned = ItemUseService.getInstance().applyWealthAmulet(totalEarned);
+
             int newBalance = player.getCurrent_money() + totalEarned;
             player.setCurrent_money(newBalance);
 
+            // 영수증 출력
             view.PlayView.getInstance().printClearReceipt(
                     player.getCurrent_round(),
                     baseMoney,
@@ -313,6 +323,16 @@ public class GameService {
                     totalEarned,
                     newBalance
             );
+            return true;
+        }
+
+        return false;
+    }
+
+    public boolean isGameOver() {
+        // 남은 기회가 0 이하인데, 현재 점수가 목표 점수에 도달하지 못했을 때
+        if (this.submitLeft <= 0 && this.currentScore < this.targetScore) {
+            System.out.println("💀 [게임 오버] 기회를 모두 사용했는데 목표 점수에 도달하지 못했습니다...");
             return true;
         }
         return false;
@@ -335,6 +355,7 @@ public class GameService {
     }
 
     public void resetRound(){ // 라운드 종료후 다음 라운드 세팅하는 함수
+        ItemUseService.getInstance().clearBuff();
         if (!this.hand.isEmpty()){ // 손패에 카드가 있다면
             this.deck.addAll(this.hand); // 덱에 손패 카드들을 모두 더함
             this.hand.clear(); // 손패 비우기
