@@ -57,7 +57,7 @@ public class GameService {
         // 1. 플레이어 스탯 초기화
         player.setCurrent_round(1);
         player.setCurrent_score(0);
-        player.setCurrent_monney(0);
+        player.setCurrent_money(0);
 
         player.setCard(new ArrayList<>(GameConst.BASIC_DECK));
         player.setItem(new ArrayList<>());
@@ -292,8 +292,27 @@ public class GameService {
     }
 
     public boolean isGameOver(){
-        if (this.submitLeft <= 0 && this.currentScore < this.targetScore){
-            System.out.println("💀 [게임 오버] 기회를 모두 사용햇는데 목표 점수에 도달하지 못했습니다...");
+        if (this.currentScore >= this.targetScore) {
+            PlayerDto player = PlayerDto.getInstance();
+            //  돈 계산 공식
+            int baseMoney = 100 + (player.getCurrent_round() * 50);
+            // 남은 기회 보너스
+            int bonusMoney = this.submitLeft * 20;
+            // 이자 보너스 (현재 가진 돈의 10%, 최대 250원까지)
+            int interestMoney = (int)(player.getCurrent_money() * 0.1);
+            if (interestMoney > 250) interestMoney = 250; // 이자 상한선 250원
+            int totalEarned = baseMoney + bonusMoney + interestMoney; // 총 수익
+            int newBalance = player.getCurrent_money() + totalEarned;
+            player.setCurrent_money(newBalance);
+
+            view.PlayView.getInstance().printClearReceipt(
+                    player.getCurrent_round(),
+                    baseMoney,
+                    bonusMoney,
+                    interestMoney,
+                    totalEarned,
+                    newBalance
+            );
             return true;
         }
         return false;

@@ -139,6 +139,22 @@ public class PlayView {
         System.out.println("엔터를 치면 계속합니다...");
         sc.nextLine();
     }
+    public void printClearReceipt(int round, int base, int bonus, int interest, int total, int currentMoney) {
+        System.out.println("\n\n");
+        System.out.println("  🎉  R O U N D  " + round + "  C L E A R !  🎉  ");
+        System.out.println("┌──────────────────────────────────────┐");
+        System.out.println("│              💸 정 산 표             │");
+        System.out.println("├──────────────────────────────────────┤");
+        System.out.printf("│  1. 라운드 기본급          + %4d원   │\n", base);
+        System.out.printf("│  2. 남은 기회 보너스       + %4d원   │\n", bonus);
+        System.out.printf("│  3. 저축 이자 (최대 250)   + %4d원   │\n", interest);
+        System.out.println("├──────────────────────────────────────┤");
+        System.out.printf("│  💰 총 획득 금액           + %4d원   │\n", total);
+        System.out.println("└──────────────────────────────────────┘");
+        System.out.println("   👉 현재 소지금: [ " + currentMoney + " 원 ]");
+        System.out.println("\n엔터를 치면 다음 라운드로 이동합니다...");
+        sc.nextLine(); // 사용자 입력 대기
+    }
 
     public int[] getInputIndexes(String msg) {
         System.out.println(msg);
