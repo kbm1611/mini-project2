@@ -60,9 +60,20 @@ public class PlayController {
                 PV.printGameStatus(boss,GS.getCurrentScore(),GS.getSubmitLeft(),GS.getDiscardLeft(),GS.getHand());
                 int choice = PV.printMenu();
                 if (choice == 1){
-                    // 점괘 사용하기
+                    ArrayList<model.dto.Item> myItems = model.dto.PlayerDto.getInstance().getItem();
+                    int itemChoice = PV.printActiveItemMenu(myItems);
+
+                    if (itemChoice == 4) {
+                        service.ItemUseService.getInstance().useRevelationOfSpirit(); // 신령님 발동!
+                    } else if (itemChoice == 5) {
+                        service.ItemUseService.getInstance().useBottomDealing(); // 밑장 빼기 발동!
+                    } else if (itemChoice != -1 && itemChoice != 0) {
+                        PV.printMessage("⚠️ 잘못된 점괘 번호입니다.");
+                    }
                 } else if (choice == 2) {
                     // 부적 효과 보기
+                    ArrayList<model.dto.Item> myItems = model.dto.PlayerDto.getInstance().getItem();
+                    PV.printPassiveItems(myItems);
                 } else if (choice == 3) {
                     processDiscardHand();
                 } else if (choice == 4) {
