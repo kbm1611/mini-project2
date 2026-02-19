@@ -14,6 +14,17 @@ public class PlayView {
     private Scanner sc = new Scanner(System.in);
 
 
+    public int printTitleMenu() {
+        System.out.println("================================================");
+        System.out.println("                 🃏 화투로 🃏                    ");
+        System.out.println("================================================");
+        System.out.println("  1. 🆕 새로하기 (New Game)");
+        System.out.println("  2. 💾 이어하기 (Continue)");
+        System.out.println("  0. ❌ 종료하기 (Exit)");
+        System.out.println("================================================");
+        System.out.print(">> 선택 : ");
+        return getInputNumber();
+    }
 
     public void printGameStatus(RoundDto boss, int currentScore, int submitLeft, int discardLeft, ArrayList<Card> hand){
         System.out.println("\n\n\n\n\n");
