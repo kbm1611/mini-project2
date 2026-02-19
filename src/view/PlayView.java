@@ -28,16 +28,37 @@ public class PlayView {
     }
 
     public void printGameStatus(RoundDto boss, int currentScore, int submitLeft, int discardLeft, ArrayList<Card> hand){
+        model.dto.PlayerDto player = model.dto.PlayerDto.getInstance();
+        int currentMoney = player.getCurrent_money();
+        ArrayList<model.dto.Item> myItems = player.getItem();
         System.out.println("\n\n\n\n\n");
         System.out.println("================================================");
         System.out.printf("[ Round %d  %s : 목표 점수 %d점 ]\n", boss.getRoundNo(), boss.getRoundName(), boss.getTargetScore());
-        System.out.printf("현재 점수: %d | 남은 손패 횟수: %d | 버리기 횟수: %d\n", currentScore, submitLeft, discardLeft);
+        System.out.printf("현재 점수: %d | 💵 잔액: %d원 | 남은 손패 횟수: %d | 버리기 횟수: %d\n",
+                currentScore, currentMoney, submitLeft, discardLeft);
         System.out.println("================================================");
 
-        // 아이템 기능 구현 전
-        System.out.println("소유한 아이템");
-        System.out.println("부적: 호랑이 기운");
-        System.out.println("점괘: 신령님의 계시(0), 산신령의 축복(1)");
+        String amulets = "";     // 부적 (패시브)
+        String divinations = ""; // 점괘 (액티브)
+
+        if (myItems != null && !myItems.isEmpty()) {
+            for (model.dto.Item item : myItems) {
+                if ("부적".equals(item.getType())) {
+                    amulets += "[" + item.getName() + "] ";
+                } else if ("점괘".equals(item.getType())) {
+                    divinations += item.getName() + "(" + item.getItem_no() + ") ";
+                }
+            }
+        }
+
+        // 아무것도 없을 때의 처리
+        if (amulets.isEmpty()) amulets = "없음";
+        if (divinations.isEmpty()) divinations = "없음";
+
+        // 3. 분류한 아이템 출력
+        System.out.println("[ 소유한 아이템 ]");
+        System.out.println("🛡️ 부적: " + amulets);
+        System.out.println("🔮 점괘: " + divinations);
         System.out.println("================================================");
 
         System.out.println("[ 나의 손패 (" + hand.size() + "장) ]");
