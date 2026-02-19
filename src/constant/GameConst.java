@@ -101,7 +101,7 @@ public class GameConst {
 
     public static final ArrayList<RoundDto> ROUND_LIST = new ArrayList<>();
     static {
-        ROUND_LIST.add(new RoundDto(1, "호구", 500));
+        ROUND_LIST.add(new RoundDto(1, "호구", 100));
         ROUND_LIST.add(new RoundDto(2, "곽철용", 1200));
         ROUND_LIST.add(new RoundDto(3, "광팔이", 2500));
         ROUND_LIST.add(new RoundDto(4, "정마담", 5000));
