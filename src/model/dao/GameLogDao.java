@@ -1,6 +1,7 @@
 package model.dao;
 
 import model.dto.GameLogDto;
+import model.dto.SaveFileDto;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -66,7 +67,7 @@ public class GameLogDao {
         ArrayList<GameLogDto> myLogs = new ArrayList<>();
         try{
             conn = DBDao.getConnection(); //DBDao에서 연결 설정 가져오기.
-            //닉네임,최고점수,달성일를 가져온 뒤 최고점수 기준으로 정렬 후 상위 5개만 가져옴
+            //닉네임,최고점수,달성일를 가져온 뒤 날짜 기준으로 정렬 후 상위 10개만 가져옴
             String sql = "select log_no, nickname, final_score, final_round, final_money, play_date from game_log join user on user.user_no = game_log.user_no where game_log.user_no = ? order by play_date limit 10";
             ps = conn.prepareStatement( sql );
             ps.setInt(1, user_no);
@@ -86,6 +87,25 @@ public class GameLogDao {
             System.out.println("[시스템오류] SQL 문법 문제 발생");
         }
         return myLogs;
+    }
+
+    //내 최고기록 반환 함수
+    public int myBestScore(int user_no){
+        try{
+            conn = DBDao.getConnection(); //DBDao에서 연결 설정 가져오기.
+            //닉네임,최고점수,달성일를 가져온 뒤 최고점수 기준으로 정렬 후 상위 5개만 가져옴
+            String sql = "select MAX(final_score) from game_log where user_no = ?";
+            ps = conn.prepareStatement( sql );
+            ps.setInt(1, user_no);
+
+            rs = ps.executeQuery();
+            rs.next();
+            int final_score = rs.getInt("final_score");
+            return final_score;
+        }catch (SQLException e){
+            System.out.println("[시스템오류] SQL 문법 문제 발생");
+        }
+        return 0;
     }
 
 

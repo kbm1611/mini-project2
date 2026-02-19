@@ -21,7 +21,7 @@ public class GameSaveService {
 
 
     //저장하는 기능 -> 게임종료 시 저장됨
-    public void saveGame(){
+    public boolean saveGame(){
         ArrayList<Card> cardList = player.getCard();
         ArrayList<Item> itemList = player.getItem();
         String cardsStr = "";
@@ -55,6 +55,7 @@ public class GameSaveService {
         }
 
         boolean savefile = gs.saveGame(user_no, current_round, current_hp, current_money, current_score, cardsStr, itemsStr); //저장
+        return savefile;
     }
     //불러오기 기능 -> 로그인 시 불러옴
     public void loadGame(int user_no){
