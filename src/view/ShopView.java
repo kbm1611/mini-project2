@@ -32,7 +32,7 @@ public class ShopView {
 
 
         System.out.println("========== [ 🏚️ 만물상 (상점) ] ==========");
-        System.out.printf("보유 엽전: %d냥\n", playerDto.getCurrent_monney());
+        System.out.printf("보유 엽전: %d냥\n", playerDto.getCurrent_money());
 
 
         System.out.printf("""
