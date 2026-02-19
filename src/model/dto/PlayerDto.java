@@ -30,7 +30,7 @@ public class PlayerDto {
         return current_hp;
     }
     public int getCurrent_discard() { return current_discard; }
-    public int getCurrent_monney() {
+    public int getCurrent_money() {
         return current_money;
     }
     public int getCurrent_score() {
@@ -55,8 +55,8 @@ public class PlayerDto {
         this.current_hp = current_hp;
     }
     public void setCurrent_discard(int current_discard) { this.current_discard = current_discard; }
-    public void setCurrent_monney(int current_monney) {
-        this.current_money = current_monney;
+    public void setCurrent_money(int current_money) {
+        this.current_money = current_money;
     }
     public void setCurrent_score(int current_score) {
         this.current_score = current_score;
