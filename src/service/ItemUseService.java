@@ -10,10 +10,10 @@ import java.util.Random;
 
 public class ItemUseService {
         // 1. DB에서 아이템 번호 가져오기
-        private ItemUseService(){}
+        private ItemUseService() { }
         private static final ItemUseService instance = new ItemUseService();
-        public  static ItemUseService getInstance(){return instance;}
-        ArrayList< JokboDto > jokbo = new ArrayList<>();
+        public static ItemUseService getInstance() { return instance; }
+        ArrayList<JokboDto> jokbo = new ArrayList<>();
         ArrayList<Card> cards = new ArrayList<>();
 
         private PlayerDto player = PlayerDto.getInstance();
@@ -21,6 +21,7 @@ public class ItemUseService {
 
         private Card buffedCard = null;
         private String originalType = "";
+
         //[공통] 유저가 특정 번호의 아이템을 가지고 있는지 확인하는 메서드
         public boolean hasItem(int itemId) {
                 if (player.getItem() == null) return false;
@@ -62,6 +63,7 @@ public class ItemUseService {
                 System.out.println("👉 이번 턴에만 [" + targetCard.getMonth() + "월 " + originalType + "] 카드가 [광]으로 취급됩니다!");
                 return true;
         }
+
         public void revertCardIfNeeded(ArrayList<Card> movedCards) {
                 if (buffedCard == null) return; // 변환했던 카드가 없으면 패스
 
@@ -72,6 +74,7 @@ public class ItemUseService {
                         originalType = "";
                 }
         }
+
         public void clearBuff() {
                 if (buffedCard != null) {
                         buffedCard.setType(originalType);
@@ -114,13 +117,15 @@ public class ItemUseService {
                 }
                 return bonus;
         }
+
         public int applyWealthAmulet(int totalMoney) {
                 if (!hasItem(2)) return totalMoney; // 아이템 없으면 원래 돈 그대로
 
-                int boostedMoney = (int)(totalMoney * 1.5);
+                int boostedMoney = (int) (totalMoney * 1.5);
                 System.out.println("💸 [재물 부적 발동] 엽전이 복사됩니다! 획득 금액 1.5배 증가!");
                 return boostedMoney;
         }
+
         public int getKwangMultiplier() {
                 if (hasItem(3)) {
                         return 2; // 아이템 있으면 광 점수 2배!
@@ -128,22 +133,14 @@ public class ItemUseService {
                 return 1; // 없으면 평범하게 1배
         }
 
-
-
-
-}
-
 // 2. 가져온 아이템 분류(부적, 점괘)
 // 2-1) 점괘은 즉시 적용
 // 2-2) 부적은 계속 효과유지
 // 3. 가지고 있는 아이템을 확인해서 사용시 적용
 
-
-
     // 아이템 번호 6 (조상님의 도움)(점괘)
     public void ancestorHelp(){
         // 다음 족보 배수를 +3배 추가한다
-
 
     }
     // 아이템 번호 7 (동작 그만)(점괘)
