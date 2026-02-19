@@ -5,6 +5,7 @@ import model.dto.ResultDto;
 import model.dto.RoundDto;
 import service.GameService;
 import view.PlayView;
+import view.ShopView;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -45,7 +46,7 @@ public class PlayController {
                     PV.printMessage("\n🎉 축하합니다! [" + boss.getRoundName() + "] 라운드를 클리어했습니다!");
                     GS.resetRound();
                     currentStage++;
-
+                    ShopView.getInstance().printShopView();
                     if (currentStage > 8){
                         PV.printMessage("\uD83C\uDFC6 전설의 타짜가 되셨습니다! 게임 승리!");
                         // 게임 결과 저장하고 메인화면으로 나가지기
