@@ -3,6 +3,7 @@ package controller;
 
 import model.dao.GameLogDao;
 import model.dao.UserDao;
+import model.dto.PlayerDto;
 import service.GameSaveService;
 
 public class UserController {
@@ -31,6 +32,11 @@ public class UserController {
         int result = ud.login(uid, upwd);
         if(result !=-1){
             GameSaveService.getInstance().loadGame(result); //로그인 성공 시 게임정보 불러오기
+
+            //닉네임 설정
+            String nickname = ud.printNickName(result);
+            PlayerDto.getInstance().setNickname(nickname);
+
             return true;
         }
         return false;

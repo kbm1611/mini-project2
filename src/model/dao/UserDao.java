@@ -52,6 +52,35 @@ public class UserDao {
         }return -1;
     }
 
+    //닉네임 불러오기
+    public String printNickName(int user_no){
+        String nickname = "";
+        try {
+            conn = DBDao.getConnection();
+            String sql = "select nickname from user where user_no = ?";
+            ps = conn.prepareStatement(sql);
+
+            ps.setInt(1, user_no);
+
+            rs = ps.executeQuery();
+            if( rs.next() ){
+                nickname = rs.getString("nickname");
+                if(nickname != null){
+                    return nickname;
+                }else{
+                    return "";
+                }
+            }
+        }catch (Exception e){
+            System.out.println("[시스템] SQL"+e);
+        }finally {
+            try { if (rs != null) rs.close(); } catch (Exception e) {}
+            try { if (ps != null) ps.close(); } catch (Exception e) {}
+            try { if (conn != null) conn.close(); } catch (Exception e) {}
+        }
+        return nickname;
+    }
+
 
 }
 

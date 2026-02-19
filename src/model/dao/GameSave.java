@@ -52,18 +52,22 @@ public class GameSave {
             ps.setInt(1, user_no);
 
             rs = ps.executeQuery();
-            rs.next();
 
-            int user_no1 = rs.getInt("user_no");  int current_round = rs.getInt("current_round");
-            int current_hp = rs.getInt("current_hp"); int current_money = rs.getInt("current_money");
-            int current_score = rs.getInt("current_score");
-            String card = rs.getString("card"); String item = rs.getString("item");
-            game = new SaveFileDto(user_no1, current_round, current_hp, current_money, current_score, card, item);
-
-            if( game != null ){ return game; }
-            else{ return null; }
+            if(rs.next()){
+                int user_no1 = rs.getInt("user_no");  int current_round = rs.getInt("current_round");
+                int current_hp = rs.getInt("current_hp"); int current_money = rs.getInt("current_money");
+                int current_score = rs.getInt("current_score");
+                String card = rs.getString("card"); String item = rs.getString("item");
+                game = new SaveFileDto(user_no1, current_round, current_hp, current_money, current_score, card, item);
+            }
+            if(game == null){ return null; }
+            else{ return game; }
         }catch (SQLException e){
             System.out.println("[시스템오류] SQL 문법 문제 발생");
+        }finally { // DB자원 반납
+            try{ if( rs != null) rs.close(); } catch (Exception e){}
+            try{ if( ps != null) ps.close(); } catch (Exception e){}
+            try{ if( conn != null) conn.close(); } catch (Exception e){}
         }
         return game;
     }

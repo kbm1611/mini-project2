@@ -94,7 +94,7 @@ public class GameLogDao {
         try{
             conn = DBDao.getConnection(); //DBDao에서 연결 설정 가져오기.
             //닉네임,최고점수,달성일를 가져온 뒤 최고점수 기준으로 정렬 후 상위 5개만 가져옴
-            String sql = "select MAX(final_score) from game_log where user_no = ?";
+            String sql = "select MAX(final_score) as final_score from game_log where user_no = ?";
             ps = conn.prepareStatement( sql );
             ps.setInt(1, user_no);
 
@@ -103,7 +103,7 @@ public class GameLogDao {
             int final_score = rs.getInt("final_score");
             return final_score;
         }catch (SQLException e){
-            System.out.println("[시스템오류] SQL 문법 문제 발생");
+            System.out.println("[DB 에러 원인]" + e.getMessage());
         }
         return 0;
     }

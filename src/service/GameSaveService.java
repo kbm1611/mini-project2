@@ -61,16 +61,28 @@ public class GameSaveService {
     public void loadGame(int user_no){
         SaveFileDto loadfile = gs.loadGame(user_no); //유저정보 DB에서 가져오기
         // playerDto에 현재 플레이어 정보 넣기
+        if(loadfile == null){ //처음 사용자라면
+            player.setCurrent_round(1); //시작 라운드
+            player.setCurrent_hp(3);    // 시작 체력
+            player.setCurrent_money(0); // 시작 돈
+            player.setCurrent_score(0); // 시작 점수
+            player.setCard(new ArrayList<>(GameConst.BASIC_DECK)); //기본 덱 지급
+            player.setItem(new ArrayList<>()); // 빈 아이템 창 지급
+            return; //신규 유저 세팅 종료
+        }
+
+        // 기존유저의 경우
         player.setCurrent_round(loadfile.getCurrent_round());
         player.setCurrent_hp(loadfile.getCurrent_hp());
         player.setCurrent_money(loadfile.getCurrent_money());
         player.setCurrent_score(loadfile.getCurrent_score());
 
         //card, item은 파싱해서 객체로 만들어줘야 함.
-
-        //신규 유저일 경우 비교
         String cardsStr;
         String itemsStr;
+        ArrayList<Card> cardList = new ArrayList<>();
+        ArrayList<Item> itemList = new ArrayList<>();
+
         if(loadfile.getCards() == null){
             cardsStr = "";
         }else{
@@ -81,9 +93,6 @@ public class GameSaveService {
         }else{
             itemsStr = loadfile.getItems().replaceAll(" ", ""); //공백 제거
         }
-
-        ArrayList<Card> cardList = new ArrayList<>();
-        ArrayList<Item> itemList = new ArrayList<>();
 
         if( cardsStr.isBlank() ){ //카드리스트가 비어있다면 기본덱 제공
             cardList = new ArrayList<>(GameConst.BASIC_DECK);
