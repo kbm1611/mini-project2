@@ -9,11 +9,13 @@ public class PlayerDto {
     private int user_no;
     private String nickname;
     private int current_round;
-    private int current_hp;
-    private int current_monney;
+    private int current_hp; // 남은 내기 기회
+    private int current_discard; // 남은 버리기 기회
+    private int current_money;
     private int current_score;
     private ArrayList<Card> card;
     private ArrayList<Item> item;
+
 
     public int getUser_no() {
         return user_no;
@@ -27,8 +29,9 @@ public class PlayerDto {
     public int getCurrent_hp() {
         return current_hp;
     }
+    public int getCurrent_discard() { return current_discard; }
     public int getCurrent_monney() {
-        return current_monney;
+        return current_money;
     }
     public int getCurrent_score() {
         return current_score;
@@ -51,8 +54,9 @@ public class PlayerDto {
     public void setCurrent_hp(int current_hp) {
         this.current_hp = current_hp;
     }
+    public void setCurrent_discard(int current_discard) { this.current_discard = current_discard; }
     public void setCurrent_monney(int current_monney) {
-        this.current_monney = current_monney;
+        this.current_money = current_monney;
     }
     public void setCurrent_score(int current_score) {
         this.current_score = current_score;
@@ -71,7 +75,7 @@ public class PlayerDto {
                 ", nickname='" + nickname + '\'' +
                 ", current_round=" + current_round +
                 ", current_hp=" + current_hp +
-                ", current_monney=" + current_monney +
+                ", current_money=" + current_money +
                 ", current_score=" + current_score +
                 ", card=" + card +
                 ", item=" + item +
