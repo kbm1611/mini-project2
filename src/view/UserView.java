@@ -69,8 +69,8 @@ public class UserView {
         System.out.println("==================================");
         System.out.println("             [로그인]");
         System.out.println("==================================\n");
-        System.out.println(">> 아이디 : "); String uid = userscan.next();
-        System.out.println(">> 비밀번호 : "); String upwd = userscan.next();
+        System.out.print(">> 아이디 : "); String uid = userscan.next();
+        System.out.print(">> 비밀번호 : "); String upwd = userscan.next();
 
         boolean result = uc.login(uid, upwd);
         if(result){
