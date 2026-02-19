@@ -34,10 +34,10 @@ public class ItemUseService {
     // 아이템 번호 8 (붉은 띠)(부적)
     public void redBand(){
         // 홍단 점수 +3배
-        if() {
+       /* if() {
             jokbo.set(9, new JokboDto(12, "홍단", 3, 30));
             System.out.println("붉은 띠 적용완료");
-        }
+        }*/
     }
 
     // 아이템 번호 9 (푸른 띠)(부적)
