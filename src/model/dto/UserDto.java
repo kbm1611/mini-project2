@@ -7,7 +7,6 @@ public class UserDto {
     private String nickname;
 
     public UserDto(){}
-
     public UserDto(int user_no, String uid, String upwd, String nickname) {
         this.user_no = user_no;
         this.uid = uid;

@@ -2,7 +2,7 @@ package view;
 
 import controller.PlayController;
 import controller.UserController;
-import model.dto.PlayerDto;
+
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -32,7 +32,7 @@ public class UserView {
                 int ch = userscan.nextInt();
                 if (ch == 1) {register();}
                 else if (ch == 2) { login();}
-                else if (ch == 3) { break;}
+                else if (ch == 3) {break;}
             } catch (NullPointerException e1) {
                 System.out.println("숫자를 입력하세요.");
 
@@ -85,10 +85,9 @@ public class UserView {
     // main 화면(로그인 후)
 
     public void mainview(){
-        PlayerDto player = PlayerDto.getInstance();
         System.out.println("==================================");
-        System.out.printf("환영합니다.%s\n", player.getNickname() );
-        System.out.printf("나의 최고 기록 :%s\n", uc.myBestScore(player.getUser_no()));
+        System.out.printf("환영합니다.%s");
+        System.out.printf("나의 최고 기록 :%s ");
         System.out.println("==================================\n");
         System.out.println(" [1] 게임 시작(새로운판)");
         System.out.println(" [2] 전당 보기(랭킹확인)");
@@ -101,15 +100,7 @@ public class UserView {
             if (ch == 1){ PlayController.getInstance().play(); }
             else if(ch == 2 ){RankView.getInstance().rankingView();}
             else if(ch == 3){RankView.getInstance().myLogView();}
-            else if(ch == 4){
-                //게임 저장
-                boolean result = uc.saveGame();
-                if(result){ System.out.println("(시스템)게임 저장 성공"); }
-                else{ System.out.println("(시스템)게임 저장 실패"); }
-
-                //메인화면으로 이동
-                index();
-            }
+            else if(ch == 4){index();}
         }catch (Exception e){
             System.out.println("main 화면 선택 오류"+e);
         }
