@@ -53,12 +53,12 @@ public class ShopView {
             // 플레이어 아이템리스트에 해당 아이템 추가
             boolean result = sc.addItem(itemlist.get(0).getItem_no(), itemlist.get(0).getPrice());
             if(result){ System.out.printf("[안내][%s]%s이/가 추가되었습니다.\n", itemlist.get(0).getType(), itemlist.get(0).getName()); }
-            else{ System.out.println("[경고]아이템 추가에 실패하셨습니다."); }
+            else{ System.out.println("[경고]돈이 부족합니다."); }
         }else if(ch == 2){
             // 플레이어 아이템리스트에 해당 아이템 추가
             boolean result = sc.addItem(itemlist.get(1).getItem_no(), itemlist.get(1).getPrice());
             if(result){ System.out.printf("[안내][%s]%s이/가 추가되었습니다.\n", itemlist.get(1).getType(), itemlist.get(1).getName()); }
-            else{ System.out.println("[경고]아이템 추가에 실패하셨습니다."); }
+            else{ System.out.println("[경고]돈이 부족합니다."); }
         }else if(ch == 3 && rand == 1){
             ArrayList<Card> cards = sc.getFiveCard();
             System.out.printf("""
@@ -71,7 +71,7 @@ public class ShopView {
                 //플레이어 덱에 해당 카드를 추가하는 알고리즘을 넣기
                 boolean result = sc.addCard( cards.get(ch2-1).getCard_no(), 100 );
                 if(result){ System.out.printf("[안내][%s]이/가 추가되었습니다.\n", cards.get(ch2-1).getName()); }
-                else{ System.out.println("[경고]카드 추가에 실패하셨습니다."); }
+                else{ System.out.println("[경고]돈이 부족합니다."); }
             }
         }else if(ch == 3 && rand == 2){
             scan.nextLine();
