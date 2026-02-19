@@ -26,7 +26,7 @@ public class UserDao {
            ps.setString(3, nickname);
 
            int count =ps.executeUpdate();
-           if(count == 1){return true;}
+           if(count == 1){ return true; }
            else {return false;}
     }catch (Exception e){
            System.out.println("[시스템] SQL "+ e);
