@@ -26,14 +26,17 @@ public class PlayController {
             if (menuChoice == 1) {
                 // 🆕 [새로하기] : 데이터 초기화 & 기본 덱 지급
                 GS.startNewGame();
-                isGameReady = true; // 게임 시작 준비 완료!
+                service.GameSaveService.getInstance().saveGame();
+                isGameReady = true;
 
             } else if (menuChoice == 2) {
                 // 💾 [이어하기] : 저장된 데이터 확인
-                if (GS.loadGame()) {
-                    isGameReady = true; // 불러오기 성공하면 시작!
+                if (model.dto.PlayerDto.getInstance().getCurrent_hp() > 0) {
+                    PV.printMessage("💾 저장된 게임을 불러왔습니다! ("
+                            + model.dto.PlayerDto.getInstance().getCurrent_round() + "라운드부터 시작)");
+                    isGameReady = true;
                 } else {
-                    // 실패하면(데이터 없음) 다시 메뉴로 돌아감
+                    PV.printMessage("🚫 저장된 데이터가 없거나 이미 파산했습니다. '새로하기'를 선택하세요.");
                 }
 
             } else if (menuChoice == 0) {
@@ -67,7 +70,9 @@ public class PlayController {
                 } else if (choice == 5) {
                     processViewDeck();
                 } else if (choice == 6) {
-                    //저장하고 나가기
+                    service.GameSaveService.getInstance().saveGame();
+                    PV.printMessage("💾 게임이 성공적으로 저장되었습니다. 안녕히 가세요!");
+                    return;
                 } else {PV.printMessage("⚠️ 잘못된 입력입니다. 다시 선택해 주세요.");}
 
                 if(GS.checkRoundClear()){
@@ -87,7 +92,8 @@ public class PlayController {
                 }
                 if (GS.isGameOver()){
                     PV.printMessage("\n💀 게임 오버... [" + boss.getRoundName() + "]에게 패배했습니다.");
-                    // 게임 결과 저장하고 나가기
+                    GS.startNewGame();
+                    service.GameSaveService.getInstance().saveGame();
                     return;
                 }
             }
