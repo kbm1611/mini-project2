@@ -37,7 +37,7 @@ public class ShopService {
         //랜덤한 5장의 카드 뽑아서 넣기(중복x)
         ArrayList<Card> tempDeck = new ArrayList<>(cards);
         for(int i = 1; i <= 5; i++){
-            int rand = new Random().nextInt(cards.size());
+            int rand = new Random().nextInt(tempDeck.size());
             cardlist.add(tempDeck.get(rand));
             tempDeck.remove(rand);
         }
