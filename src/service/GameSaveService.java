@@ -9,7 +9,6 @@ import model.dto.PlayerDto;
 import model.dto.SaveFileDto;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class GameSaveService {
     private GameSaveService(){}
@@ -20,7 +19,7 @@ public class GameSaveService {
     private ItemDao itd = ItemDao.getInstance();
 
 
-    //저장하는 기능 -> 게임종료 시 저장됨
+    //저장하는 기능 -> 게임종료(로그아웃, 플레이 중 저장하고 나가기 선택) 시 저장됨
     public boolean saveGame(){
         ArrayList<Card> cardList = player.getCard();
         ArrayList<Item> itemList = player.getItem();
@@ -58,6 +57,7 @@ public class GameSaveService {
         boolean savefile = gs.saveGame(user_no, current_round, current_hp, current_discard, current_money, current_score, cardsStr, itemsStr); //저장
         return savefile;
     }
+
     //불러오기 기능 -> 로그인 시 불러옴
     public void loadGame(int user_no){
         SaveFileDto loadfile = gs.loadGame(user_no); //유저정보 DB에서 가져오기
