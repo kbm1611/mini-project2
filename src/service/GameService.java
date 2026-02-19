@@ -250,6 +250,11 @@ public class GameService {
         totalChips += ItemUseService.getInstance().getAnimalBoostScore(submittedCards);
 
 
+        // 수정 start
+        totalMult += ItemUseService.getInstance().redBand(jokbo);
+        totalMult += ItemUseService.getInstance().blueBand(jokbo);
+        // 수정 end
+
         int finalScore = totalChips * totalMult; // 최종 점수 계산
 
         System.out.println("🧮 계산 결과: (" + totalChips + " 칩) x (" + totalMult + " 배) = " + finalScore + "점");

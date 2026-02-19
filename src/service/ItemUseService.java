@@ -135,11 +135,12 @@ public class ItemUseService {
         //==============================================
 
     // 아이템 번호 6 (조상님의 도움)(점괘)
-    public void ancestorHelp(){
+    public boolean ancestorHelp(){
         // 다음 족보 배수를 +3배 추가한다
         if(!hasItem(6)){
-            return;
+            return true; // 아이템이 사용하면 +3배
         }
+        return false;
 
     }
     // 아이템 번호 7 (동작 그만)(점괘)
@@ -148,35 +149,39 @@ public class ItemUseService {
     }
 
     // 아이템 번호 8 (붉은 띠)(부적)
-    public void redBand(ArrayList<JokboDto> applyJokbo){
+    public int redBand(JokboDto jokbo){
         // 홍단 점수 +3배
-        if(hasItem(8)) {
-
-            jokbo.set(9, new JokboDto(12, "홍단", 6, 30));
+        if(hasItem(8) && jokbo.getJokboNo() == 10) {
             System.out.println("[붉은 띠 발동] 홍단 점수가 +3배 ");
-        }else if(!hasItem(8)){
-            jokbo.set(9, new JokboDto(12, "홍단", 3, 30));
+            return 3;
         }
+        return 0;
     }
 
     // 아이템 번호 9 (푸른 띠)(부적)
-    public void blueBand() {
+    public int blueBand(JokboDto jokbo) {
         // 청단 점수 +3배
-        if (hasItem(9)) {
-            jokbo.set(10, new JokboDto(12, "청단", 6, 30));
-            System.out.println(" [푸른 띠 발동] 청단 점수가 +3배");
-        }else if(!hasItem(8)){
-            jokbo.set(10, new JokboDto(12, "청단", 3, 30));
+        if(hasItem(9) && jokbo.getJokboNo() == 11) {
+            System.out.println("[붉은 띠 발동 청단 점수가 +3배 ");
+            return 3;
         }
+        return 0;
     }
-    /*
+
     // 아이템 번호 10 (아수라발발타)(점괘)
     public boolean magic(){
         // 목숨을 3개로 만든다.
-        if (player.getCurrent_hp() != 3){
-           player.getCurrent_hp() = 3;
+        if (!hasItem(10)){
+           return false;
         }
-    }*/
+        if(player.getCurrent_hp() == 3){
+            System.out.println("아이템 사용불가(현재 목숨 : 3)");
+            return false;
+        }
+        player.setCurrent_hp(3);
+        System.out.println("[아수라발발타 발동] 목숨 : 3");
+        return true;
+    }
 }
 
 
