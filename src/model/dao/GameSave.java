@@ -25,15 +25,36 @@ public class GameSave {
     public boolean saveGame(int user_no, int current_round, int current_hp, int current_discard, int current_money, int current_score, String card, String item){
         try{
             conn = DBDao.getConnection(); //DBDao에서 연결 설정 가져오기.
-            String sql = "update save_file set current_round = ?, current_hp = ?, current_discard = ?, current_money = ?, current_score = ?, card = ?, item = ? where user_no = ?"; //update문 작성
-            ps = conn.prepareStatement( sql );
-            ps.setInt(1, current_round); ps.setInt(2, current_hp);
-            ps.setInt(3, current_discard); ps.setInt(4, current_money);
-            ps.setInt(5, current_score); ps.setString(6, card);
-            ps.setString(7, item); ps.setInt(8, user_no);
 
-            int count = ps.executeUpdate();
-            if( count == 1){ return true; }
+            //먼저 유저 데이터가 존재하는지 확인
+            String checkSql = "select count(*) from save_file where user_no = ?";
+            ps = conn.prepareStatement(checkSql);
+            ps.setInt(1, user_no);
+
+            rs = ps.executeQuery();
+            rs.next();
+            int count = rs.getInt(1);
+
+            ps.close(); // 체크용 ps 닫기
+
+            if( count > 0 ){ //기존 유저시
+                String sql = "update save_file set current_round = ?, current_hp = ?, current_discard = ?, current_money = ?, current_score = ?, card = ?, item = ? where user_no = ?"; //update문 작성
+                ps = conn.prepareStatement( sql );
+                ps.setInt(1, current_round); ps.setInt(2, current_hp);
+                ps.setInt(3, current_discard); ps.setInt(4, current_money);
+                ps.setInt(5, current_score); ps.setString(6, card);
+                ps.setString(7, item); ps.setInt(8, user_no);
+            }else{ //신규 유저시
+                String sql = "insert into save_file(current_round, current_hp, current_discard, current_money, current_score, card, item, user_no) values(?,?,?,?,?,?,?,?)";
+                ps = conn.prepareStatement(sql);
+                ps.setInt(1, current_round); ps.setInt(2, current_hp);
+                ps.setInt(3, current_discard); ps.setInt(4, current_money);
+                ps.setInt(5, current_score); ps.setString(6, card);
+                ps.setString(7, item); ps.setInt(8, user_no);
+            }
+
+            int cnt = ps.executeUpdate();
+            if( cnt == 1){ return true; }
             else{ return false; }
         }catch (SQLException e){
             System.out.println("[시스템오류] SQL 문법 문제 발생");
