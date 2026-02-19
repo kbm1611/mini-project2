@@ -8,7 +8,7 @@ public class DBDao {
         Connection conn = null;
         try{
             String url = "jdbc:mysql://localhost:3306/hwaturo";
-            String user = "root"; String password = "";
+            String user = "root"; String password = "0950";
             Class.forName("com.mysql.cj.jdbc.Driver"); // mysql 라이브러리 객체 메모리할당/불러오기
             conn = DriverManager.getConnection( url, user, password );
             System.out.println("[준비] 데이터베이스 연동 성공");
