@@ -1,6 +1,7 @@
 package view;
 
 import model.dto.Card;
+import model.dto.Item;
 import model.dto.ResultDto;
 import model.dto.RoundDto;
 
@@ -120,6 +121,59 @@ public class PlayView {
         return getInputNumber();
     }
 
+    public int printActiveItemMenu(ArrayList<Item> items) {
+        System.out.println("\n================================================");
+        System.out.println("              [ 🔮 보유 중인 점괘 ]              ");
+        System.out.println("================================================");
+
+        boolean hasActive = false;
+        if (items != null) {
+            for (Item item : items) {
+                if ("점괘".equals(item.getType())) {
+                    System.out.println(" [" + item.getItem_no() + "] "
+                            + item.getName() + " : " + item.getDescription());
+                    hasActive = true;
+                }
+            }
+        }
+
+        if (!hasActive) {
+            System.out.println("  사용 가능한 점괘가 없습니다.");
+            System.out.println("================================================");
+            System.out.println("엔터를 치면 돌아갑니다...");
+            sc.nextLine();
+            return -1;
+        }
+
+        System.out.println("================================================");
+        System.out.println("사용할 점괘의 번호를 입력하세요. (0: 취소)");
+        System.out.print(">> 선택: ");
+        return getInputNumber();
+    }
+
+    public void printPassiveItems(ArrayList<Item> items) {
+        System.out.println("\n================================================");
+        System.out.println("              [ 🛡️ 적용 중인 부적 ]              ");
+        System.out.println("================================================");
+
+        boolean hasPassive = false;
+        if (items != null) {
+            for (Item item : items) {
+                if ("부적".equals(item.getType())) {
+                    System.out.println(" [" + item.getName() + "] : " + item.getDescription());
+                    hasPassive = true;
+                }
+            }
+        }
+
+        if (!hasPassive) {
+            System.out.println("  가진 게 없습니다... 상점에서 부적을 구매하세요!");
+        }
+        System.out.println("================================================");
+        System.out.println("엔터를 치면 돌아갑니다...");
+        sc.nextLine();
+    }
+
     public void printSubmitResult(ResultDto result) {
         if (!result.isSuccess()) {
             System.out.println("\n🚫 " + result.getMessage());
@@ -139,6 +193,7 @@ public class PlayView {
         System.out.println("엔터를 치면 계속합니다...");
         sc.nextLine();
     }
+
     public void printClearReceipt(int round, int base, int bonus, int interest, int total, int currentMoney) {
         System.out.println("\n\n");
         System.out.println("  🎉  R O U N D  " + round + "  C L E A R !  🎉  ");
