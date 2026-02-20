@@ -169,11 +169,27 @@ public class ItemUseService {
         ancestorBuffActive = false; // 한 번 적용 후 자동 해제
         return 3;
     }
+    // 7번
+    private boolean itemstate = false;
 
     // 아이템 번호 7 (동작 그만)(점괘)
-    public void moveStop(){
+    public boolean moveStop(){
         //지금 패를 다음 판에도 유지한다
+        if (!hasItem(7)) return false;
+
+        itemstate = true;
+        consumeItem(7);
+        System.out.println("[동작 그만 발동] 지금 패를 다음 판에도 유지");
+        return true;
     }
+    public  boolean getItemstate(){
+        if(!itemstate){
+            return false;
+        }
+        itemstate = false;
+        return true;
+    }
+
 
     // 아이템 번호 8 (붉은 띠)(부적)
     public int redBand(JokboDto jokbo){

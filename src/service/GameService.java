@@ -274,10 +274,13 @@ public class GameService {
         Arrays.sort(indexes); // 제출한 카드들을 순서대로 정렬 0번을 빼고 1번을 빼면 0번을뺏을때 1번이 0번 자리로가서 1번을 빼지를 못해서
         ArrayList<Card> submittedCards = new ArrayList<>(); // 제출한 카드들을 저장할 변수
 
+        // 아이템 7번을 위한 if문 추가
+        if (!ItemUseService.getInstance().getItemstate()){
         for (int i = indexes.length-1; i >= 0; i--){ // 제출한 배열의 길이만큼 반복 == 카드수만큼 반복
             int idx = indexes[i]; // 인덱스값 가져오는 변수
             Card card = this.hand.remove(idx); // 패에서 카드를 가져와서 card 객체에 저장
             submittedCards.add(card); // 패에서 가져온 카드를 제출 배열에 삽입
+        }
         }
 
         JokboDto jokbo = checkJokbo(submittedCards); // 제출한 카드들의 배열로 족보 판별을 해서 저장
@@ -288,7 +291,10 @@ public class GameService {
         int gainedScore = calculateScore(submittedCards, jokbo); // 얻을 점수 계산
 
         this.currentScore += gainedScore; // 현재 점수 갱신
-        drawCard(submittedCards.size()); // 제출한 카드 수만큼 카드 뽑기 진행
+        // 수정
+        if (!ItemUseService.getInstance().getItemstate()){ // 동작 그만 아이템이 사용중이지 않으면
+            drawCard(submittedCards.size());}  // 제출한 카드 수만큼 카드 뽑기 진행
+
         String msg = "🎉 [" + jokbo.getJokboName() + "] 완성! " + gainedScore + "점을 획득했습니다.";
 
         this.submitLeft--;
