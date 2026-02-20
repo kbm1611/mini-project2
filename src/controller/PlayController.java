@@ -51,7 +51,7 @@ public class PlayController {
 
         PV.printMessage("============== 🎴 화투로 시작 🎴 ==============");
 
-        int currentStage = 1;
+        int currentStage = model.dto.PlayerDto.getInstance().getCurrent_round();
 
         while (true){
             RoundDto boss = GS.startRound(currentStage);
@@ -94,6 +94,7 @@ public class PlayController {
                     PV.printMessage("\n🎉 축하합니다! [" + boss.getRoundName() + "] 라운드를 클리어했습니다!");
                     GS.resetRound();
                     currentStage++;
+                    model.dto.PlayerDto.getInstance().setCurrent_round(currentStage);
                     ShopView.getInstance().printShopView();
                     if (currentStage > 8){
                         PV.printMessage("\uD83C\uDFC6 전설의 타짜가 되셨습니다! 게임 승리!");
