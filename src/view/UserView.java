@@ -92,7 +92,7 @@ public class UserView {
             System.out.printf("환영합니다.%s\n", player.getNickname());
             System.out.printf("나의 최고 기록 :%s\n", uc.myBestScore(player.getUser_no()));
             System.out.println("==================================\n");
-            System.out.println(" [1] 게임 시작(새로운판)");
+            System.out.println(" [1] 게임 시작");
             System.out.println(" [2] 전당 보기(랭킹확인)");
             System.out.println(" [3] 지난 기록");
             System.out.println(" [4] 로그아웃");
