@@ -23,10 +23,12 @@ public class GameSaveService {
     public boolean saveGame(){
         ArrayList<Card> cardList = player.getCard();
         ArrayList<Item> itemList = player.getItem();
-        ArrayList<Card> grave = player.getCurrent_grave();
+        ArrayList<Card> current_grave = player.getCurrent_grave();
         ArrayList<Card> current_hand = player.getCurrent_hand();
         String cardsStr = "";
         String itemsStr = "";
+        String graveStr = "";
+        String handStr = "";
 
         int user_no = player.getUser_no();
         int current_round = player.getCurrent_round();
@@ -35,21 +37,21 @@ public class GameSaveService {
         int current_money = player.getCurrent_money();
         int current_score = player.getCurrent_score();
 
-        if( grave != null && !grave.isEmpty()){
-            for(Card card : cardList ){
-                if(cardsStr.isEmpty()) {
-                    cardsStr += card.getCard_no(); // 첫 번째는 콤마 없이
+        if( current_grave != null && !current_grave.isEmpty()){
+            for(Card card : current_grave ){
+                if(graveStr.isEmpty()) {
+                    graveStr += card.getCard_no(); // 첫 번째는 콤마 없이
                 } else {
-                    cardsStr += "," + card.getCard_no(); // 두 번째부터 콤마 추가
+                    graveStr += "," + card.getCard_no(); // 두 번째부터 콤마 추가
                 }
             }
         }
         if( current_hand != null && !current_hand.isEmpty()){
-            for(Card card : cardList ){
-                if(cardsStr.isEmpty()) {
-                    cardsStr += card.getCard_no(); // 첫 번째는 콤마 없이
+            for(Card card : current_hand ){
+                if(handStr.isEmpty()) {
+                    handStr += card.getCard_no(); // 첫 번째는 콤마 없이
                 } else {
-                    cardsStr += "," + card.getCard_no(); // 두 번째부터 콤마 추가
+                    handStr += "," + card.getCard_no(); // 두 번째부터 콤마 추가
                 }
             }
         }
@@ -75,7 +77,7 @@ public class GameSaveService {
             }
         }
 
-        boolean savefile = gs.saveGame(user_no, current_round, current_hp, current_discard, current_money, current_score, cardsStr, itemsStr); //저장
+        boolean savefile = gs.saveGame(user_no, current_round, current_hp, current_discard, graveStr, handStr, current_money, current_score, cardsStr, itemsStr); //저장
         return savefile;
     }
 
@@ -91,6 +93,8 @@ public class GameSaveService {
             player.setCurrent_score(0); // 시작 점수
             player.setCard(new ArrayList<>(GameConst.BASIC_DECK)); //기본 덱 지급
             player.setItem(new ArrayList<>()); // 빈 아이템 창 지급
+            player.setCurrent_grave(new ArrayList<>()); //빈 무덤 지급
+            player.setCurrent_hand(new ArrayList<>()); // 빈 핸드 지급
             return; //신규 유저 세팅 종료
         }
 
@@ -104,8 +108,12 @@ public class GameSaveService {
         //card, item은 파싱해서 객체로 만들어줘야 함.
         String cardsStr;
         String itemsStr;
+        String graveStr;
+        String handStr;
         ArrayList<Card> cardList = new ArrayList<>();
         ArrayList<Item> itemList = new ArrayList<>();
+        ArrayList<Card> current_grave = new ArrayList<>();
+        ArrayList<Card> current_hand = new ArrayList<>();
 
         if(loadfile.getCards() == null){
             cardsStr = "";
@@ -116,6 +124,16 @@ public class GameSaveService {
             itemsStr = "";
         }else{
             itemsStr = loadfile.getItems().replaceAll(" ", ""); //공백 제거
+        }
+        if(loadfile.getGrave() == null){
+            graveStr = "";
+        }else{
+            graveStr = loadfile.getGrave().replaceAll(" ", ""); //공백 제거
+        }
+        if(loadfile.getHand() == null){
+            handStr = "";
+        }else{
+            handStr = loadfile.getHand().replaceAll(" ", ""); //공백 제거
         }
 
         if( cardsStr.isBlank() ){ //카드리스트가 비어있다면 기본덱 제공
@@ -135,5 +153,25 @@ public class GameSaveService {
             }
         }
         player.setItem(itemList); //아이템리스트 추가
+
+        if( graveStr.isBlank() ){ //무덤이 비어있다면 그대로 전송
+            current_grave = new ArrayList<>();
+        }else{
+            for(String cardNo : graveStr.split(",")){
+                int no = Integer.parseInt(cardNo);
+                current_grave.add(GameConst.BASIC_DECK.get(no-1));
+            }
+        }
+        player.setCurrent_grave(current_grave); //무덤에
+
+        if( handStr.isBlank() ){ //핸드가 비어있다면
+            current_hand = new ArrayList<>();
+        }else{
+            for(String cardNo : handStr.split(",")){
+                int no = Integer.parseInt(cardNo);
+                current_hand.add(GameConst.BASIC_DECK.get(no-1));
+            }
+        }
+        player.setCurrent_hand(current_hand); //카드리스트 추가
     }
 }

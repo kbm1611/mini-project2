@@ -22,7 +22,7 @@ public class GameSave {
     private ResultSet rs;
 
     // 게임 저장
-    public boolean saveGame(int user_no, int current_round, int current_hp, int current_discard, int current_money, int current_score, String card, String item){
+    public boolean saveGame(int user_no, int current_round, int current_hp, int current_discard, String current_grave, String current_hand, int current_money, int current_score, String card, String item){
         try{
             conn = DBDao.getConnection(); //DBDao에서 연결 설정 가져오기.
 
@@ -38,19 +38,21 @@ public class GameSave {
             ps.close(); // 체크용 ps 닫기
 
             if( count > 0 ){ //기존 유저시
-                String sql = "update save_file set current_round = ?, current_hp = ?, current_discard = ?, current_money = ?, current_score = ?, card = ?, item = ? where user_no = ?"; //update문 작성
+                String sql = "update save_file set current_round = ?, current_hp = ?, current_discard = ?, current_grave = ?, current_hand = ?, current_money = ?, current_score = ?, card = ?, item = ? where user_no = ?"; //update문 작성
                 ps = conn.prepareStatement( sql );
                 ps.setInt(1, current_round); ps.setInt(2, current_hp);
-                ps.setInt(3, current_discard); ps.setInt(4, current_money);
-                ps.setInt(5, current_score); ps.setString(6, card);
-                ps.setString(7, item); ps.setInt(8, user_no);
+                ps.setInt(3, current_discard); ps.setString(4, current_grave);
+                ps.setString(5, current_hand); ps.setInt(6, current_money);
+                ps.setInt(7, current_score); ps.setString(8, card);
+                ps.setString(9, item); ps.setInt(10, user_no);
             }else{ //신규 유저시
-                String sql = "insert into save_file(current_round, current_hp, current_discard, current_money, current_score, card, item, user_no) values(?,?,?,?,?,?,?,?)";
+                String sql = "insert into save_file(current_round, current_hp, current_discard, current_grave, current_hand, current_money, current_score, card, item, user_no) values(?,?,?,?,?,?,?,?,?,?)";
                 ps = conn.prepareStatement(sql);
                 ps.setInt(1, current_round); ps.setInt(2, current_hp);
-                ps.setInt(3, current_discard); ps.setInt(4, current_money);
-                ps.setInt(5, current_score); ps.setString(6, card);
-                ps.setString(7, item); ps.setInt(8, user_no);
+                ps.setInt(3, current_discard); ps.setString(4, current_grave);
+                ps.setString(5, current_hand); ps.setInt(6, current_money);
+                ps.setInt(7, current_score); ps.setString(8, card);
+                ps.setString(9, item); ps.setInt(10, user_no);
             }
 
             int cnt = ps.executeUpdate();
@@ -83,7 +85,8 @@ public class GameSave {
                 int current_hp = rs.getInt("current_hp"); int current_discard = rs.getInt("current_discard");
                 int current_money = rs.getInt("current_money"); int current_score = rs.getInt("current_score");
                 String card = rs.getString("card"); String item = rs.getString("item");
-                game = new SaveFileDto(user_no1, current_round, current_hp, current_discard, current_money, current_score, card, item);
+                String grave = rs.getString("current_grave"); String hand = rs.getString("current_hand");
+                game = new SaveFileDto(user_no1, current_round, current_hp, current_discard, grave, hand, current_money, current_score, card, item);
             }
             if(game == null){ return null; }
             else{ return game; }
