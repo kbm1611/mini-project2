@@ -11,16 +11,36 @@ public class SaveFileDto {
     private int current_score;
     private String cards;
     private String items;
+    private String grave;
+    private String hand;
 
-    public SaveFileDto(int user_no, int current_round, int current_hp, int current_discard, int current_money, int current_score, String cards, String items) {
+    public SaveFileDto(int user_no, int current_round, int current_hp, int current_discard, String grave, String hand, int current_money, int current_score, String cards, String items) {
         this.user_no = user_no;
         this.current_round = current_round;
         this.current_hp = current_hp;
+        this.grave = grave;
+        this.hand = hand;
         this.current_discard = current_discard;
         this.current_money = current_money;
         this.current_score = current_score;
         this.cards = cards;
         this.items = items;
+    }
+
+    public String getGrave() {
+        return grave;
+    }
+
+    public String getHand() {
+        return hand;
+    }
+
+    public void setGrave(String grave) {
+        this.grave = grave;
+    }
+
+    public void setHand(String hand) {
+        this.hand = hand;
     }
 
     public int getUser_no() {
@@ -80,6 +100,8 @@ public class SaveFileDto {
                 ", current_score=" + current_score +
                 ", cards='" + cards + '\'' +
                 ", items='" + items + '\'' +
+                ", grave='" + grave + '\'' +
+                ", hand='" + hand + '\'' +
                 '}';
     }
 }
