@@ -57,7 +57,15 @@ public class PlayController {
             RoundDto boss = GS.startRound(currentStage);
 
             while (true){
-                PV.printGameStatus(boss,GS.getCurrentScore(),GS.getSubmitLeft(),GS.getDiscardLeft(),GS.getHand());
+                model.dto.PlayerDto player = model.dto.PlayerDto.getInstance();
+
+                PV.printGameStatus(
+                        boss,
+                        player.getCurrent_score(),    // 현재 점수
+                        player.getCurrent_hp(),       // 남은 손패 내기 기회
+                        player.getCurrent_discard(),  // 남은 버리기 기회
+                        player.getCurrent_hand()              // 현재 내 손패
+                );
                 int choice = PV.printMenu();
                 if (choice == 1){
                     ArrayList<model.dto.Item> myItems = model.dto.PlayerDto.getInstance().getItem();

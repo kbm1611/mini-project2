@@ -33,7 +33,7 @@ public class ItemUseService {
         }
 
         public boolean useRevelationOfSpirit() {
-                ArrayList<Card> hand = gameService.getHand();
+                ArrayList<Card> hand = gameService.getCurrent_hand();
 
                 // 현재 손패에서 '광'이 아닌 카드만 추려냄
                 ArrayList<Card> nonKwangCards = new ArrayList<>();
@@ -84,7 +84,7 @@ public class ItemUseService {
         }
 
         public boolean useBottomDealing() {
-                ArrayList<Card> hand = gameService.getHand();
+                ArrayList<Card> hand = gameService.getCurrent_hand();
                 if (hand.isEmpty()) {
                         System.out.println("⚠️ 버릴 손패가 없습니다!");
                         return false;
@@ -93,7 +93,7 @@ public class ItemUseService {
                 int handSize = hand.size();
 
                 // 손패를 모두 무덤으로
-                gameService.getGrave().addAll(hand);
+                gameService.getCurrent_grave().addAll(hand);
                 hand.clear();
 
                 // 버린 만큼 새로 덱에서 뽑기
