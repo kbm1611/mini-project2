@@ -128,8 +128,14 @@ public class PlayController {
     }
 
     private void processSubmitHand() {
-        int[] indexes = PV.getInputIndexes("내실 카드 번호를 입력하세요");
+        int[] indexes = PV.getInputIndexes("내실 카드 번호를 입력하세요 (최대 5장)");
         if (indexes == null) return;
+
+        if (indexes.length > 5) {
+            PV.printMessage("⚠️ 카드는 한 번에 최대 5장까지만 낼 수 있습니다.");
+            return;
+        }
+
         ResultDto result = GS.submitHand(indexes);
         PV.printSubmitResult(result);
     }
