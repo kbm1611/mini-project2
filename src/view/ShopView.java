@@ -16,6 +16,7 @@ public class ShopView {
         return instance;
     }
     private ShopController sc = ShopController.getInstance();
+    private PlayerDto player = PlayerDto.getInstance();
     private Scanner scan = new Scanner(System.in);
 
     public void printShopView(){
@@ -75,18 +76,23 @@ public class ShopView {
             }
         }else if(ch == 3 && rand == 2){
             scan.nextLine();
-            ArrayList<Card> cards = sc.getPlayerCard();//현재 플레이어의 카드
+            ArrayList<Card> cards = player.getCard(); //현재 플레이어의 카드 덱
 
             boolean result = false;
-            System.out.print("삭제할 카드명을 정확하게 입력하세요: "); String removeCard = scan.nextLine();
-            for(Card card : cards){
-                if(removeCard.equals(card.getName())){
-                    result = sc.removeCard(card.getCard_no(), 100);
+            while(!result){ //삭제할 때까지 무한반복 -1 입력시 탈출
+                System.out.print("삭제할 카드명을 정확하게 입력하세요(되돌아가기 -1입력): "); String removeCard = scan.nextLine();
+                if(removeCard.equals("-1")){ // -1입력시 탈출
                     break;
                 }
+                for(Card card : cards){
+                    if(removeCard.equals(card.getName())){
+                        result = sc.removeCard(card.getCard_no(), 100);
+                        break;
+                    }
+                }
+                if(result){ System.out.println("[안내]카드 삭제에 성공하셨습니다."); }
+                else{ System.out.println("[경고]카드 삭제에 실패하셨습니다."); }
             }
-            if(result){ System.out.println("[안내]카드 삭제에 성공하셨습니다."); }
-            else{ System.out.println("[경고]카드 삭제에 실패하셨습니다."); }
         }
 
     }

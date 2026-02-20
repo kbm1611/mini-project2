@@ -89,10 +89,4 @@ public class ShopService {
             return false;
         }
     }
-
-    public ArrayList<Card> getPlayerCard(){
-        ArrayList<Card>cards = player.getCard();
-        return cards;
-    }
-
 }
