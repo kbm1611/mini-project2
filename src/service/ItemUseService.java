@@ -33,7 +33,7 @@ public class ItemUseService {
         }
 
         public boolean useRevelationOfSpirit() {
-                ArrayList<Card> hand = gameService.getHand();
+                ArrayList<Card> hand = gameService.getCurrent_hand();
 
                 // 현재 손패에서 '광'이 아닌 카드만 추려냄
                 ArrayList<Card> nonKwangCards = new ArrayList<>();
@@ -60,6 +60,7 @@ public class ItemUseService {
 
                 System.out.println("\n✨ [신령님의 계시 발동!] 손패의 카드가 찬란하게 빛납니다...");
                 System.out.println("👉 이번 턴에만 [" + targetCard.getMonth() + "월 " + originalType + "] 카드가 [광]으로 취급됩니다!");
+                consumeItem(4);
                 return true;
         }
 
@@ -83,7 +84,7 @@ public class ItemUseService {
         }
 
         public boolean useBottomDealing() {
-                ArrayList<Card> hand = gameService.getHand();
+                ArrayList<Card> hand = gameService.getCurrent_hand();
                 if (hand.isEmpty()) {
                         System.out.println("⚠️ 버릴 손패가 없습니다!");
                         return false;
@@ -92,13 +93,14 @@ public class ItemUseService {
                 int handSize = hand.size();
 
                 // 손패를 모두 무덤으로
-                gameService.getGrave().addAll(hand);
+                gameService.getCurrent_grave().addAll(hand);
                 hand.clear();
 
                 // 버린 만큼 새로 덱에서 뽑기
                 gameService.drawCard(handSize);
 
                 System.out.println("\n🃏 [밑장 빼기 발동!] 손패 " + handSize + "장을 모두 버리고 은밀하게 새로 뽑았습니다!");
+                consumeItem(5);
                 return true;
         }
 
@@ -167,11 +169,27 @@ public class ItemUseService {
         ancestorBuffActive = false; // 한 번 적용 후 자동 해제
         return 3;
     }
+    // 7번
+    private boolean itemstate = false;
 
     // 아이템 번호 7 (동작 그만)(점괘)
-    public void moveStop(){
+    public boolean moveStop(){
         //지금 패를 다음 판에도 유지한다
+        if (!hasItem(7)) return false;
+
+        itemstate = true;
+        consumeItem(7);
+        System.out.println("[동작 그만 발동] 지금 패를 다음 판에도 유지");
+        return true;
     }
+    public  boolean getItemstate(){
+        if(!itemstate){
+            return false;
+        }
+        itemstate = false;
+        return true;
+    }
+
 
     // 아이템 번호 8 (붉은 띠)(부적)
     public int redBand(JokboDto jokbo){

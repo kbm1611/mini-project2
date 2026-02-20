@@ -51,13 +51,21 @@ public class PlayController {
 
         PV.printMessage("============== 🎴 화투로 시작 🎴 ==============");
 
-        int currentStage = 1;
+        int currentStage = model.dto.PlayerDto.getInstance().getCurrent_round();
 
         while (true){
             RoundDto boss = GS.startRound(currentStage);
 
             while (true){
-                PV.printGameStatus(boss,GS.getCurrentScore(),GS.getSubmitLeft(),GS.getDiscardLeft(),GS.getHand());
+                model.dto.PlayerDto player = model.dto.PlayerDto.getInstance();
+
+                PV.printGameStatus(
+                        boss,
+                        player.getCurrent_score(),    // 현재 점수
+                        player.getCurrent_hp(),       // 남은 손패 내기 기회
+                        player.getCurrent_discard(),  // 남은 버리기 기회
+                        player.getCurrent_hand()              // 현재 내 손패
+                );
                 int choice = PV.printMenu();
                 if (choice == 1){
                     ArrayList<model.dto.Item> myItems = model.dto.PlayerDto.getInstance().getItem();
@@ -69,7 +77,9 @@ public class PlayController {
                         service.ItemUseService.getInstance().useBottomDealing(); // 밑장 빼기 발동!
                     }else if (itemChoice == 6){
                         service.ItemUseService.getInstance().ancestorHelp(); // 조상님의 도움 발동
-                    }else if (itemChoice == 10){
+                    }else if (itemChoice == 7){
+                        service.ItemUseService.getInstance().moveStop(); // 동작 그만 발동
+                    } else if (itemChoice == 10){
                         service.ItemUseService.getInstance().magic(); // 아수라발발타 발동
                     } else if (itemChoice != -1 && itemChoice != 0) {
                         PV.printMessage("⚠️ 잘못된 점괘 번호입니다.");
@@ -94,6 +104,7 @@ public class PlayController {
                     PV.printMessage("\n🎉 축하합니다! [" + boss.getRoundName() + "] 라운드를 클리어했습니다!");
                     GS.resetRound();
                     currentStage++;
+                    model.dto.PlayerDto.getInstance().setCurrent_round(currentStage);
                     ShopView.getInstance().printShopView();
                     if (currentStage > 8){
                         PV.printMessage("\uD83C\uDFC6 전설의 타짜가 되셨습니다! 게임 승리!");

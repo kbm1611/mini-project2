@@ -12,66 +12,45 @@ public class GameService {
     private static GameService instance = new GameService();
     public static GameService getInstance(){return instance;}
 
-    private ArrayList<Card> deck; // 남은덱
-    private ArrayList<Card> hand; // 내 손패
-    private ArrayList<Card> grave; // 무덤
-    private int currentRound;  // 현재 라운드
-    private int currentScore;  // 현재 점수
-    private int targetScore; // 목표 점수
-    private int submitLeft; // 남은 카드 내기 기회
-    private int discardLeft;// 남은 카드 버리기 기회
-
-    public static void setInstance(GameService instance) {
-        GameService.instance = instance;
-    }
+    private ArrayList<Card> deck;  // 남은 뽑기 덱
+    private int targetScore;       // 이번 라운드 목표 점수
 
     public ArrayList<Card> getDeck() {return deck;}
     public void setDeck(ArrayList<Card> deck) {this.deck = deck;}
-    public ArrayList<Card> getHand() {return hand;}
-    public void setHand(ArrayList<Card> hand) {this.hand = hand;}
-    public ArrayList<Card> getGrave() {return grave;}
-    public void setGrave(ArrayList<Card> grave) {this.grave = grave;}
-    public int getCurrentRound() {return currentRound;}
-    public void setCurrentRound(int currentRound) {this.currentRound = currentRound;}
-    public int getCurrentScore() {return currentScore;}
-    public void setCurrentScore(int currentScore) {this.currentScore = currentScore;}
     public int getTargetScore() {return targetScore;}
     public void setTargetScore(int targetScore) {this.targetScore = targetScore;}
-    public int getSubmitLeft() {return submitLeft;}
-    public void setSubmitLeft(int submitLeft) {this.submitLeft = submitLeft;}
-    public int getDiscardLeft() {return discardLeft;}
-    public void setDiscardLeft(int discardLeft) {this.discardLeft = discardLeft;}
+
+    // (선택) ItemUseService 등에서 쓰기 편하게 Getter 유지
+    public ArrayList<Card> getCurrent_hand() { return PlayerDto.getInstance().getCurrent_hand(); }
+    public ArrayList<Card> getCurrent_grave() { return PlayerDto.getInstance().getCurrent_grave(); }
+
     private GameService() {
         this.deck = new ArrayList<>();
-        this.hand = new ArrayList<>();
-        this.grave = new ArrayList<>();
-        this.currentRound = 1;
-        this.currentScore = 0;
     }
 
     private RankService rs = RankService.getInstance();
 
-
-    // 🆕 [새 게임 시작] (타이틀에서 1번 선택 시 호출)
+    // 🆕 [새 게임 시작]
     public void startNewGame() {
         PlayerDto player = PlayerDto.getInstance();
 
-        // 1. 플레이어 스탯 초기화
         player.setCurrent_round(1);
         player.setCurrent_score(0);
         player.setCurrent_money(0);
+        player.setCurrent_hp(5);
+        player.setCurrent_discard(3);
 
         player.setCard(new ArrayList<>(GameConst.BASIC_DECK));
         player.setItem(new ArrayList<>());
+        player.setCurrent_hand(new ArrayList<>());  // 손패 초기화
+        player.setCurrent_grave(new ArrayList<>()); // 무덤 초기화
 
         System.out.println("🆕 새로운 타짜의 길을 걷습니다. (기본 화투패 48장 지급 완료)");
     }
+
     public boolean loadGame() {
         PlayerDto player = PlayerDto.getInstance();
 
-        // (나중에 DAO 연결하면 여기서 DB 데이터를 PlayerDto에 담아옵니다)
-
-        // 만약 카드가 1장이라도 있다면 진행 중인 게임으로 간주!
         if (player.getCard() != null && !player.getCard().isEmpty()) {
             System.out.println("💾 저장된 게임을 불러왔습니다! (" + player.getCurrent_round() + "라운드부터 시작)");
             return true;
@@ -83,101 +62,115 @@ public class GameService {
 
     public RoundDto startRound(int roundNo){
         PlayerDto player = PlayerDto.getInstance();
-
-        // 1. 라운드 및 점수 세팅
-        player.setCurrent_round(roundNo);
-        this.currentRound = roundNo;
-        this.currentScore = 0;
         RoundDto boss = GameConst.ROUND_LIST.get(roundNo-1);
         this.targetScore = boss.getTargetScore();
-        // 2. 기회 초기화
-        this.submitLeft = 5;
-        this.discardLeft = 3;
+
+        //  만약 손패에 카드가 이미 있다면? (중간에 껐다가 '이어하기'로 들어온 상황)
+        if (player.getCurrent_hand() != null && !player.getCurrent_hand().isEmpty()) {
+            System.out.println("💾 저장된 손패와 무덤을 복구하여 라운드를 이어갑니다.");
+
+            // 덱(deck) 복구: 내 전체 소유 카드에서 -> 손패와 무덤에 있는 카드를 빼면 = 남은 덱!
+            this.deck.clear();
+            this.deck.addAll(player.getCard());
+            this.deck.removeAll(player.getCurrent_hand());
+            this.deck.removeAll(player.getCurrent_grave());
+            Collections.shuffle(this.deck);
+
+            return boss; // 초기화 로직을 건너뛰고 바로 보스 정보 리턴
+        }
+
+        //  손패가 비어 있다면 (완전히 새로운 라운드를 시작하는 상황)
+        player.setCurrent_round(roundNo);
+        player.setCurrent_score(0);
+        player.setCurrent_hp(5);
+        player.setCurrent_discard(3);
 
         this.deck.clear();
-        this.deck.addAll(player.getCard());
+        this.deck.addAll(player.getCard()); // 소유한 덱 전체를 가져옴
         Collections.shuffle(this.deck);
 
-        this.hand.clear();
-        this.grave.clear();
-        // 4. 8장 뽑기
+        player.setCurrent_hand(new ArrayList<>());
+        player.setCurrent_grave(new ArrayList<>());
+
+        // 새 라운드니까 8장 뽑기
         drawCard(8);
 
         return boss;
     }
 
     public void recycleGrave(){
-        if(this.grave.isEmpty()){ // 무덤이 비었으면(덱으로 되돌릴 카드가 없음)
-            return; //아무것도 리턴 안함
+        PlayerDto player = PlayerDto.getInstance();
+        if(player.getCurrent_grave().isEmpty()){
+            return;
         }
-        this.deck.addAll(this.grave); // 무덤에 있는 카드들을 덱으로 옮김
-        this.grave.clear(); // 무덤 비우기
-        Collections.shuffle(this.deck); // 덱섞기
+        this.deck.addAll(player.getCurrent_grave());
+        player.getCurrent_grave().clear();
+        Collections.shuffle(this.deck);
 
-        // 반환값을 boolean 으로 바꿔서 view에서 출력해도 됨
         System.out.println("\"\uD83D\uDD04 덱이 다 떨어져서 버린 패를 섞었습니다!\"");
     }
 
-    public ArrayList<Card> drawCard(int count){ //뽑아야 하는 카드 수를 매개변수로 받음
-        ArrayList<Card> newlyDrawn = new ArrayList<>(); // 뽑은 패를 놓아놓는 AraayList
+    public ArrayList<Card> drawCard(int count){
+        PlayerDto player = PlayerDto.getInstance();
+        ArrayList<Card> newlyDrawn = new ArrayList<>();
 
-        for(int i = 0; i < count; i++){ //뽑아야 하는 카드 수만큼 반복
-            if(this.deck.isEmpty()){ // 덱이 비어있다면
-                recycleGrave(); // 무덤에 있는 카드들을 덱으로 이동
+        for(int i = 0; i < count; i++){
+            if(this.deck.isEmpty()){
+                recycleGrave();
 
-                if (this.deck.isEmpty()){ // 그래도 덱이 비어있다면 무덤도 비어있고 덱도 비어있는 엄청 안나오는 특이한 상황
+                if (this.deck.isEmpty()){
                     System.out.println("⚠️ 더 이상 뽑을 카드가 없습니다!");
                     break;
                 }
             }
 
-            Card drawnCard = this.deck.remove(0); // 덱에서 제일 첫번째 카드를 뽑아옴
-            this.hand.add(drawnCard); // 핸드에 추가
-            newlyDrawn.add(drawnCard); // 뽑은 패를 놓아놓는 리스트에 추가
+            Card drawnCard = this.deck.remove(0);
+            player.getCurrent_hand().add(drawnCard); // PlayerDto의 손패에 추가!
+            newlyDrawn.add(drawnCard);
         }
-        return newlyDrawn; //뽑은 목록 반환
+        return newlyDrawn;
     }
 
-
-    public ArrayList<Card> discardHand(int[] indexes){ // 버릴 카드의 위치 indexes를 매개변수로 받음
-        if (this.discardLeft <= 0){ // 버리기 기회를 이미 다쓴 상황
+    public ArrayList<Card> discardHand(int[] indexes){
+        PlayerDto player = PlayerDto.getInstance();
+        if (player.getCurrent_discard() <= 0){
             System.out.println("⚠️ 패 버리기 기회를 모두 소모했습니다!");
-            return new ArrayList<>(); // 빈배열 반환
+            return new ArrayList<>();
         }
 
-        this.discardLeft--; // 버리기 기회 소모
-        Arrays.sort(indexes); // 버리는 인덱스들을 정렬함 이유는 0번 버리고 1번 버리면 0번 버리고 나서 1번이 0번 위치로 가기 때문
+        player.setCurrent_discard(player.getCurrent_discard() - 1); // 기회 감소
+        Arrays.sort(indexes);
         ArrayList<Card> trashedCards = new ArrayList<>();
-        for (int i = indexes.length-1; i>=0; i--){ //버리는 인덱스 배열의 길이 = 버릴 카드의 수 만큼 반복
-            int idx = indexes[i]; // 버릴 카드의 위치 저장 변수
-            Card trashedCard = this.hand.remove(idx); //버리는 카드 저장하는 객체 = 핸드에서 idx 번째를 뽑은 객체
-            trashedCards.add(trashedCard); // 임시 리스트에 버릴 카드 추가
+        for (int i = indexes.length-1; i>=0; i--){
+            int idx = indexes[i];
+            Card trashedCard = player.getCurrent_hand().remove(idx); // PlayerDto에서 제거
+            trashedCards.add(trashedCard);
         }
 
         ItemUseService.getInstance().revertCardIfNeeded(trashedCards);
-        this.grave.addAll(trashedCards);
+        player.getCurrent_grave().addAll(trashedCards); // PlayerDto 무덤에 추가
 
-        int dropCount = indexes.length; // 버린 카드의 수  = 버리는 인덱스 길이
-        ArrayList<Card> newlyDrawn = drawCard(dropCount); // 버려진 만큼 카드를 뽑아서 배열에 저장
-        System.out.println("🗑️ 카드 " + dropCount + "장을 버리고 새로 뽑았습니다. (남은 기회: " + this.discardLeft + ")");
+        int dropCount = indexes.length;
+        ArrayList<Card> newlyDrawn = drawCard(dropCount);
+        System.out.println("🗑️ 카드 " + dropCount + "장을 버리고 새로 뽑았습니다. (남은 기회: " + player.getCurrent_discard() + ")");
 
-        return newlyDrawn; // 뽑은 카드들을 저장해 놓은 배열을 리턴
+        return newlyDrawn;
     }
 
+    public JokboDto checkJokbo(ArrayList<Card> submittedCards){
+        // ... (이 부분은 기존과 완벽하게 동일하므로 그대로 유지) ...
+        int kwangCount=0, yulCount =0, ddiCount = 0, piCount = 0;
+        ArrayList<Integer> kwangMonths = new ArrayList<>();
+        ArrayList<Integer> yulMonths = new ArrayList<>();
+        ArrayList<Integer> ddiMonths = new ArrayList<>();
 
-    public JokboDto checkJokbo(ArrayList<Card> submittedCards){ // 제출하는 카드들의 모임인 배열이 매개변수
-        int kwangCount=0, yulCount =0, ddiCount = 0, piCount = 0; // 각각의 타입 카운트 변수들
-        ArrayList<Integer> kwangMonths = new ArrayList<>(); // 월 계산 변수
-        ArrayList<Integer> yulMonths = new ArrayList<>(); // ""
-        ArrayList<Integer> ddiMonths = new ArrayList<>(); // ""
+        for(Card card : submittedCards){
+            String type = card.getType();
+            int month = card.getMonth();
 
-        for(Card card : submittedCards){ //제출한 카드만큼 반복
-            String type = card.getType(); // 카드의 타입 저장 지역 변수
-            int month = card.getMonth(); // 카드의 월 저장 지역 변수
-
-            if (type.equals("광")){ // 만약 카드의 타입이 광일경우
-                kwangCount++; // 광의 카운트 증가
-                kwangMonths.add(month); // 월계산 배열에 해당 월 넣기
+            if (type.equals("광")){
+                kwangCount++;
+                kwangMonths.add(month);
             } else if (type.equals("열")){
                 yulCount++;
                 yulMonths.add(month);
@@ -189,44 +182,25 @@ public class GameService {
             }
         }
 
-        // 1. 오광 (광 5개)
         if (kwangCount == 5) return GameConst.JOKBO_LIST.get(0);
-        // 2. 사광 (광 4개)
         if (kwangCount == 4) return GameConst.JOKBO_LIST.get(1);
-        // 3. 삼광 (광 3개)
         if (kwangCount == 3) return GameConst.JOKBO_LIST.get(2);
-        // 4. 띠 모음 (띠 5개)
         if (ddiCount == 5) return GameConst.JOKBO_LIST.get(3);
-        // 5. 멍텅구리 (열 5개)
         if (yulCount == 5) return GameConst.JOKBO_LIST.get(4);
-
-        // 6. 38광땡 (3월 광, 8월 광 포함)
         if (kwangMonths.contains(3) && kwangMonths.contains(8)) return GameConst.JOKBO_LIST.get(5);
-        // 7. 18광땡 (1월 광, 8월 광 포함)
         if (kwangMonths.contains(1) && kwangMonths.contains(8)) return GameConst.JOKBO_LIST.get(6);
-        // 8. 13광땡 (1월 광, 3월 광 포함)
         if (kwangMonths.contains(1) && kwangMonths.contains(3)) return GameConst.JOKBO_LIST.get(7);
-
-        // 9. 고도리 (2월, 4월, 8월 열 포함)
         if (yulMonths.contains(2) && yulMonths.contains(4) && yulMonths.contains(8)) return GameConst.JOKBO_LIST.get(8);
-
-        // 10. 홍단 (1월, 2월, 3월 띠 포함)
         if (ddiMonths.contains(1) && ddiMonths.contains(2) && ddiMonths.contains(3)) return GameConst.JOKBO_LIST.get(9);
-        // 11. 청단 (6월, 9월, 10월 띠 포함)
         if (ddiMonths.contains(6) && ddiMonths.contains(9) && ddiMonths.contains(10)) return GameConst.JOKBO_LIST.get(10);
-        // 12. 초단 (4월, 5월, 7월 띠 포함)
         if (ddiMonths.contains(4) && ddiMonths.contains(5) && ddiMonths.contains(7)) return GameConst.JOKBO_LIST.get(11);
-
-        // 13. 피바다 (피 5개)
         if (piCount == 5) return GameConst.JOKBO_LIST.get(12);
 
-        // 아무 족보도 아닐 경우
         return null;
-
     }
 
-    private int getCardScore(Card card) { // 카드의 기본 점수 가져오는 함수 매개변수는 카드 객체
-        String type = card.getType(); // 카드객체의 type 값 저장하는 문자열 변수
+    private int getCardScore(Card card) {
+        String type = card.getType();
         if (type.equals("광")) {
             int multi = ItemUseService.getInstance().getKwangMultiplier();
             return 20 * multi;
@@ -235,94 +209,89 @@ public class GameService {
         if (type.equals("띠")) return 5;
         return 1;
     }
-    public int calculateScore(ArrayList<Card> submittedCards, JokboDto jokbo){ //점수 계산 하는 함수 매개변수는 제출된 카드 배열, 족보 계산해서 넘어온 족보
-        int totalChips = jokbo.getJokboScore(); // 일단 족보의 기본점수를 총합 점수 변수에 저장
-        int totalMult = jokbo.getJokboRatio(); // 일단 족보의 기본 배율을 종합 배율 변수에 저장
 
-        for(Card card : submittedCards){ // 제출된 카드 객체를 돌며
-            int cardScore = getCardScore(card); // 카드 점수는 객체의 카드 점수
-            totalChips += cardScore; // 총합 점수에 카드 점수 더해주기
+    public int calculateScore(ArrayList<Card> submittedCards, JokboDto jokbo){
+        int totalChips = jokbo.getJokboScore();
+        int totalMult = jokbo.getJokboRatio();
+
+        for(Card card : submittedCards){
+            int cardScore = getCardScore(card);
+            totalChips += cardScore;
         }
 
-        /*
-
-        아이템 적용 구간 나중에 구현
-
-        */
         totalChips += ItemUseService.getInstance().getAnimalBoostScore(submittedCards);
 
+        totalMult += ItemUseService.getInstance().getAncestorMultiplier();
+        totalMult += ItemUseService.getInstance().redBand(jokbo);
+        totalMult += ItemUseService.getInstance().blueBand(jokbo);
 
-        // 수정 start ( 다음족보 ,홍단, 청단 +3배)
-        totalMult += ItemUseService.getInstance().getAncestorMultiplier();  // 다음 족보 배율 +3배
-        totalMult += ItemUseService.getInstance().redBand(jokbo);           // 홍단 배율 +3배
-        totalMult += ItemUseService.getInstance().blueBand(jokbo);          // 청단 배율 +3배
-        // 수정 end
-
-        int finalScore = totalChips * totalMult; // 최종 점수 계산
+        int finalScore = totalChips * totalMult;
 
         System.out.println("🧮 계산 결과: (" + totalChips + " 칩) x (" + totalMult + " 배) = " + finalScore + "점");
-
         return finalScore;
     }
 
+    public ResultDto submitHand(int[] indexes){
+        PlayerDto player = PlayerDto.getInstance();
 
-    public ResultDto submitHand(int[] indexes){ // 카드 제출 함수 제출하는 손패에서의 카드 인덱스 번호들을 배열로 매개변수로 받음
-        if(this.submitLeft <= 0){ // 만약 제출 기회가 없다면
-            return new ResultDto(false, "❌ 남은 기회가 없습니다!", "없음", 0, this.currentScore); //이 결과 객체 반환
+        if(player.getCurrent_hp() <= 0){
+            return new ResultDto(false, "❌ 남은 기회가 없습니다!", "없음", 0, player.getCurrent_score());
         }
 
-        Arrays.sort(indexes); // 제출한 카드들을 순서대로 정렬 0번을 빼고 1번을 빼면 0번을뺏을때 1번이 0번 자리로가서 1번을 빼지를 못해서
-        ArrayList<Card> submittedCards = new ArrayList<>(); // 제출한 카드들을 저장할 변수
+        Arrays.sort(indexes);
+        ArrayList<Card> submittedCards = new ArrayList<>();
 
+        // 아이템 7번을 위한 if문 추가
+        if (!ItemUseService.getInstance().getItemstate()){
         for (int i = indexes.length-1; i >= 0; i--){ // 제출한 배열의 길이만큼 반복 == 카드수만큼 반복
             int idx = indexes[i]; // 인덱스값 가져오는 변수
-            Card card = this.hand.remove(idx); // 패에서 카드를 가져와서 card 객체에 저장
+            Card card = player.getCurrent_hand().remove(idx); // 패에서 카드를 가져와서 card 객체에 저장
             submittedCards.add(card); // 패에서 가져온 카드를 제출 배열에 삽입
         }
+        }
 
-        JokboDto jokbo = checkJokbo(submittedCards); // 제출한 카드들의 배열로 족보 판별을 해서 저장
-        if (jokbo == null){ // 판별한 족보가 null이라면 족보가 없는 경우임
+        JokboDto jokbo = checkJokbo(submittedCards);
+        if (jokbo == null){
             jokbo = new JokboDto(0, "족보 없음(꽝)", 1, 0);
         }
 
-        int gainedScore = calculateScore(submittedCards, jokbo); // 얻을 점수 계산
+        int gainedScore = calculateScore(submittedCards, jokbo);
 
-        this.currentScore += gainedScore; // 현재 점수 갱신
-        drawCard(submittedCards.size()); // 제출한 카드 수만큼 카드 뽑기 진행
+        // 점수 갱신 (PlayerDto에!)
+        player.setCurrent_score(player.getCurrent_score() + gainedScore);
+        drawCard(submittedCards.size());
+
+        // 수정
+        if (!ItemUseService.getInstance().getItemstate()){ // 동작 그만 아이템이 사용중이지 않으면
+            drawCard(submittedCards.size());}  // 제출한 카드 수만큼 카드 뽑기 진행
+
         String msg = "🎉 [" + jokbo.getJokboName() + "] 완성! " + gainedScore + "점을 획득했습니다.";
 
-        this.submitLeft--;
+        player.setCurrent_hp(player.getCurrent_hp() - 1); // 기회 깎기
         ItemUseService.getInstance().revertCardIfNeeded(submittedCards);
-        this.grave.addAll(submittedCards);
-        return new ResultDto(true, msg, jokbo.getJokboName(), gainedScore, this.currentScore);
+        player.getCurrent_grave().addAll(submittedCards); // PlayerDto 무덤에 넣기
 
+        return new ResultDto(true, msg, jokbo.getJokboName(), gainedScore, player.getCurrent_score());
     }
 
-
     public boolean checkRoundClear() {
-        if (this.currentScore >= this.targetScore) {
+        PlayerDto player = PlayerDto.getInstance();
+
+        // 내 점수가 타겟 점수보다 크거나 같은지 확인
+        if (player.getCurrent_score() >= this.targetScore) {
             System.out.println("🎉 [클리어] 목표 점수 " + this.targetScore + "점 달성! 다음 라운드로 갑니다.");
 
-            PlayerDto player = PlayerDto.getInstance();
-
-            //  돈 계산 공식
             int baseMoney = 100 + (player.getCurrent_round() * 50);
-
-            //  남은 기회 보너스
-            int bonusMoney = this.submitLeft * 20;
-
-            //  이자 보너스 (현재 가진 돈의 10%, 최대 250원까지)
+            int bonusMoney = player.getCurrent_hp() * 20; // 남은 HP 기준
             int interestMoney = (int)(player.getCurrent_money() * 0.1);
-            if (interestMoney > 250) interestMoney = 250; // 이자 상한선 250원
+            if (interestMoney > 250) interestMoney = 250;
 
-            // [아이템 연동] 재물 부적(2번)이 있다면 1.5배 뻥튀기
-            int totalEarned = baseMoney + bonusMoney + interestMoney; // 총 수익
+            int totalEarned = baseMoney + bonusMoney + interestMoney;
             totalEarned = ItemUseService.getInstance().applyWealthAmulet(totalEarned);
 
             int newBalance = player.getCurrent_money() + totalEarned;
             player.setCurrent_money(newBalance);
 
-            // 영수증 출력
             view.PlayView.getInstance().printClearReceipt(
                     player.getCurrent_round(),
                     baseMoney,
@@ -338,22 +307,19 @@ public class GameService {
     }
 
     public boolean isGameOver() {
-        // 남은 기회가 0 이하인데, 현재 점수가 목표 점수에 도달하지 못했을 때
-        if (this.submitLeft <= 0 && this.currentScore < this.targetScore) {
-            System.out.println("💀 [게임 오버] 기회를 모두 사용했는데 목표 점수에 도달하지 못했습니다...");
+        PlayerDto player = PlayerDto.getInstance();
 
-            PlayerDto player = PlayerDto.getInstance();
-            player.setCurrent_score(this.currentScore);
-            //게임 로그 생성
+        // 기회가 0 이하인데, 점수가 안 될 때
+        if (player.getCurrent_hp() <= 0 && player.getCurrent_score() < this.targetScore) {
+            System.out.println("💀 [게임 오버] 기회를 모두 사용했는데 목표 점수에 도달하지 못했습니다...");
             rs.AddGameLog();
             return true;
         }
         return false;
     }
 
-    public ArrayList<Card> getDeckInfo(){ // 현재 덱을 정렬해서 보여주는 함수
-
-        ArrayList<Card> sortedDeck = new ArrayList<>(this.deck); //현재 덱 복사
+    public ArrayList<Card> getDeckInfo(){
+        ArrayList<Card> sortedDeck = new ArrayList<>(this.deck);
         Collections.sort(sortedDeck, new Comparator<Card>() {
             @Override
             public int compare(Card c1, Card c2) {
@@ -367,19 +333,20 @@ public class GameService {
         return sortedDeck;
     }
 
-    public void resetRound(){ // 라운드 종료후 다음 라운드 세팅하는 함수
+    public void resetRound(){
+        PlayerDto player = PlayerDto.getInstance();
         ItemUseService.getInstance().clearBuff();
-        if (!this.hand.isEmpty()){ // 손패에 카드가 있다면
-            this.deck.addAll(this.hand); // 덱에 손패 카드들을 모두 더함
-            this.hand.clear(); // 손패 비우기
+
+        if (!player.getCurrent_hand().isEmpty()){
+            this.deck.addAll(player.getCurrent_hand());
+            player.getCurrent_hand().clear();
         }
 
-        if (!this.grave.isEmpty()){ // 무덤에 카드가 있다면
-            this.deck.addAll(this.grave); // 덱에 무덤 카드들을 모두 더함
-            this.grave.clear(); // 무덤 비우기
+        if (!player.getCurrent_grave().isEmpty()){
+            this.deck.addAll(player.getCurrent_grave());
+            player.getCurrent_grave().clear();
         }
 
-        Collections.shuffle(this.deck); // 덱섞기
+        Collections.shuffle(this.deck);
     }
-
 }
