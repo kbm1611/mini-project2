@@ -179,7 +179,7 @@ public class ItemUseService {
 
         itemstate = true;
         consumeItem(7);
-        System.out.println("[동작 그만 발동] 지금 패를 다음 판에도 유지");
+        System.out.println("[동작 그만 발동] 지금 패를 제출한 후에도 유지(제출 전까지 버리기 가능)");
         return true;
     }
     public  boolean getItemstate(){

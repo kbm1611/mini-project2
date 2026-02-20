@@ -236,14 +236,37 @@ public class PlayView {
         System.out.println(msg);
         System.out.print(">> 입력: ");
         try {
-            String[] parts = sc.nextLine().split(" ");
+            String input = sc.nextLine().trim();
+            if (input.isEmpty()) return null; // 그냥 엔터만 쳤을 때 취소 처리
+
+            String[] parts = input.split("\\s+"); // 띄어쓰기를 여러 번 해도 하나로 인식
             int[] indexes = new int[parts.length];
+
+            // 내 손패가 지금 몇 장인지 확인
+            int handSize = model.dto.PlayerDto.getInstance().getCurrent_hand().size();
+
             for (int i = 0; i < parts.length; i++) {
-                indexes[i] = Integer.parseInt(parts[i]);
+                int idx = Integer.parseInt(parts[i]);
+
+                // 방어 1: 손패 범위를 벗어난 숫자 (예: 8장인데 9 입력)
+                if (idx < 0 || idx >= handSize) {
+                    System.out.println("⚠️ 없는 번호입니다! (0 ~ " + (handSize - 1) + " 사이로 입력하세요)");
+                    return null;
+                }
+                indexes[i] = idx;
             }
+
+            // 방어 2: 똑같은 번호 중복 입력 방지 (예: 1 1 2 입력 방지)
+            long distinctCount = java.util.Arrays.stream(indexes).distinct().count();
+            if (distinctCount != indexes.length) {
+                System.out.println("⚠️ 같은 카드 번호를 중복해서 낼 수 없습니다!");
+                return null;
+            }
+
             return indexes;
+
         } catch (Exception e) {
-            System.out.println("⚠️ 입력 형식이 잘못되었습니다.");
+            System.out.println("⚠️ 숫자만 띄어쓰기로 구분해서 정확히 입력해주세요.");
             return null;
         }
     }

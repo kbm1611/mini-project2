@@ -20,7 +20,6 @@ public class GameService {
     public int getTargetScore() {return targetScore;}
     public void setTargetScore(int targetScore) {this.targetScore = targetScore;}
 
-    // (선택) ItemUseService 등에서 쓰기 편하게 Getter 유지
     public ArrayList<Card> getCurrent_hand() { return PlayerDto.getInstance().getCurrent_hand(); }
     public ArrayList<Card> getCurrent_grave() { return PlayerDto.getInstance().getCurrent_grave(); }
 
@@ -30,7 +29,6 @@ public class GameService {
 
     private RankService rs = RankService.getInstance();
 
-    // 🆕 [새 게임 시작]
     public void startNewGame() {
         PlayerDto player = PlayerDto.getInstance();
 
@@ -158,7 +156,6 @@ public class GameService {
     }
 
     public JokboDto checkJokbo(ArrayList<Card> submittedCards){
-        // ... (이 부분은 기존과 완벽하게 동일하므로 그대로 유지) ...
         int kwangCount=0, yulCount =0, ddiCount = 0, piCount = 0;
         ArrayList<Integer> kwangMonths = new ArrayList<>();
         ArrayList<Integer> yulMonths = new ArrayList<>();
@@ -241,13 +238,24 @@ public class GameService {
         Arrays.sort(indexes);
         ArrayList<Card> submittedCards = new ArrayList<>();
 
-        // 아이템 7번을 위한 if문 추가
-        if (!ItemUseService.getInstance().getItemstate()){
-        for (int i = indexes.length-1; i >= 0; i--){ // 제출한 배열의 길이만큼 반복 == 카드수만큼 반복
-            int idx = indexes[i]; // 인덱스값 가져오는 변수
-            Card card = player.getCurrent_hand().remove(idx); // 패에서 카드를 가져와서 card 객체에 저장
-            submittedCards.add(card); // 패에서 가져온 카드를 제출 배열에 삽입
-        }
+        // 7번 아이템(동작 그만)이 발동 중인지 먼저 확인
+        boolean isKeepHandActive = ItemUseService.getInstance().getItemstate();
+
+        if (isKeepHandActive) {
+            System.out.println("🛑 [동작 그만] 효과 발동! 낸 패가 소모되지 않고 손에 그대로 남습니다!");
+            // 아이템 발동 중: remove가 아니라 get으로 '복사'만 해옴 (뒤에서부터 뺄 필요도 없음)
+            for (int i = 0; i < indexes.length; i++){
+                int idx = indexes[i];
+                Card card = player.getCurrent_hand().get(idx);
+                submittedCards.add(card);
+            }
+        } else {
+            // 평소: 손패에서 진짜로 없앱니다 (인덱스 밀림 방지를 위해 뒤에서부터 remove)
+            for (int i = indexes.length-1; i >= 0; i--){
+                int idx = indexes[i];
+                Card card = player.getCurrent_hand().remove(idx);
+                submittedCards.add(card);
+            }
         }
 
         JokboDto jokbo = checkJokbo(submittedCards);
@@ -257,19 +265,24 @@ public class GameService {
 
         int gainedScore = calculateScore(submittedCards, jokbo);
 
-        // 점수 갱신 (PlayerDto에!)
+
         player.setCurrent_score(player.getCurrent_score() + gainedScore);
-        drawCard(submittedCards.size());
-
-        // 수정
-        if (!ItemUseService.getInstance().getItemstate()){ // 동작 그만 아이템이 사용중이지 않으면
-            drawCard(submittedCards.size());}  // 제출한 카드 수만큼 카드 뽑기 진행
-
         String msg = "🎉 [" + jokbo.getJokboName() + "] 완성! " + gainedScore + "점을 획득했습니다.";
 
+
+        if (!isKeepHandActive) {
+            drawCard(submittedCards.size());
+        }
+
         player.setCurrent_hp(player.getCurrent_hp() - 1); // 기회 깎기
+
+
         ItemUseService.getInstance().revertCardIfNeeded(submittedCards);
-        player.getCurrent_grave().addAll(submittedCards); // PlayerDto 무덤에 넣기
+
+
+        if (!isKeepHandActive) {
+            player.getCurrent_grave().addAll(submittedCards);
+        }
 
         return new ResultDto(true, msg, jokbo.getJokboName(), gainedScore, player.getCurrent_score());
     }
