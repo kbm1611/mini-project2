@@ -29,11 +29,15 @@ public class RankView {
         if(ranks.isEmpty()){
             System.out.println("  아직 등록된 기록이 없습니다. 첫 번째 랭커가 되어보세요! 🎴");
             System.out.println("====================================================");
-            System.out.println("[0] 뒤로 가기"); System.out.print(">>입력:"); int ch = scan.nextInt();
-            if(ch == 0){
-                UserView.getInstance().mainview();
+            System.out.println("[0] 뒤로 가기");
+            while(true){
+                System.out.print(">> 입력: ");
+                int ch = scan.nextInt();
+                if(ch == 0){
+                    return;
+                }
+                System.out.println("(시스템)0만 입력 가능합니다.");
             }
-            return;
         }
         int count = 1;
         for(GameLogDto rank : ranks){
@@ -44,10 +48,13 @@ public class RankView {
         }
         System.out.println("====================================================");
         System.out.println("[0] 뒤로 가기");
-        System.out.print(">>입력:"); int ch = scan.nextInt();
-
-        if(ch == 0){
-            UserView.getInstance().mainview();
+        while(true){
+            System.out.print(">> 입력: ");
+            int ch = scan.nextInt();
+            if(ch == 0){
+                return;
+            }
+            System.out.println("(시스템)0만 입력 가능합니다.");
         }
     }
     public void myLogView(){
@@ -66,12 +73,14 @@ public class RankView {
             System.out.println("   아직 플레이 기록이 없습니다. 게임을 먼저 즐겨보세요! 🎴");
             System.out.println("=======================================================");
             System.out.println("\n[0] 뒤로 가기");
-            System.out.print(">> 입력: ");
-            int ch = scan.nextInt();
-            if(ch == 0){
-                UserView.getInstance().mainview();
+            while(true){
+                System.out.print(">> 입력: ");
+                int ch = scan.nextInt();
+                if(ch == 0){
+                    return;
+                }
+                System.out.println("(시스템)0만 입력 가능합니다.");
             }
-            return;
         }
 
         System.out.printf("""
@@ -97,12 +106,14 @@ public class RankView {
                 
                 ===================================================================
                 [0] 뒤로 가기
-                >> 입력 :""");
-        System.out.print(" ");
-        int ch = scan.nextInt();
-        if(ch == 0){
-            UserView.getInstance().mainview();
+                """);
+        while(true){
+            System.out.print(">> 입력: ");
+            int ch = scan.nextInt();
+            if(ch == 0){
+                return;
+            }
+            System.out.println("(시스템)0만 입력 가능합니다.");
         }
-
     }
 }
