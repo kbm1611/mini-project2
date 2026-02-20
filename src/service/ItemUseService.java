@@ -13,8 +13,7 @@ public class ItemUseService {
         private ItemUseService() { }
         private static final ItemUseService instance = new ItemUseService();
         public static ItemUseService getInstance() { return instance; }
-        ArrayList<JokboDto> jokbo = new ArrayList<>();
-        ArrayList<Card> cards = new ArrayList<>();
+
 
         private PlayerDto player = PlayerDto.getInstance();
         private GameService gameService = GameService.getInstance();
@@ -134,49 +133,83 @@ public class ItemUseService {
         }
         //==============================================
 
-    // 아이템 번호 6 (조상님의 도움)(점괘)
-    public void ancestorHelp(){
-        // 다음 족보 배수를 +3배 추가한다
-        if(!hasItem(6)){
-            return;
-        }
+    // 1회용 아이템 사용시 player가 보유한 리스트에서 삭제(6번, 10번)
+    private boolean consumeItem(int itemId) {
+        if (player.getItem() == null) return false;
 
+        for (int i = 0; i < player.getItem().size(); i++) {  // 플레이어가 가지고있는 아이템을 확인
+            if (player.getItem().get(i).getItem_no() == itemId) {   // 플레이어가 가지고 있는 아이템의 번호와 해당 아이템 번호가 일치하면 삭제
+                player.getItem().remove(i);
+                return true;
+            }
+        }
+        return false;
     }
+
+    // 아이템 번호 6 (조상님의 도움)(점괘)  다음 족보 배수를 +3배 추가한다
+    private boolean ancestorBuffActive = false;
+    public boolean ancestorHelp(){
+
+        if (!hasItem(6)) return false;  // 아이템 없으면 사용 불가
+
+        ancestorBuffActive = true;           // 다음 족보에 적용
+        consumeItem(6);               // player 보유 아이템 리스트에서 삭제
+
+        System.out.println("[조상님의 도움 발동] 다음 족보 배수 +3");
+        return true;
+    }
+    // 아이템 6번 발동 상태
+    public int getAncestorMultiplier() {
+
+        if (!ancestorBuffActive)
+            return 0; // 아이템 발동중이 아니면 +0배
+
+        ancestorBuffActive = false; // 한 번 적용 후 자동 해제
+        return 3;
+    }
+
     // 아이템 번호 7 (동작 그만)(점괘)
     public void moveStop(){
         //지금 패를 다음 판에도 유지한다
     }
 
     // 아이템 번호 8 (붉은 띠)(부적)
-    public void redBand(ArrayList<JokboDto> applyJokbo){
+    public int redBand(JokboDto jokbo){
         // 홍단 점수 +3배
-        if(hasItem(8)) {
-
-            jokbo.set(9, new JokboDto(12, "홍단", 6, 30));
+        if (jokbo == null) return 0;
+        if(hasItem(8) && jokbo.getJokboNo() == 10) {  // 아이템 8번을 가지고 있고 족보가 10번이면
             System.out.println("[붉은 띠 발동] 홍단 점수가 +3배 ");
-        }else if(!hasItem(8)){
-            jokbo.set(9, new JokboDto(12, "홍단", 3, 30));
+            return 3;
         }
+        return 0;
     }
 
     // 아이템 번호 9 (푸른 띠)(부적)
-    public void blueBand() {
+    public int blueBand(JokboDto jokbo) {
         // 청단 점수 +3배
-        if (hasItem(9)) {
-            jokbo.set(10, new JokboDto(12, "청단", 6, 30));
-            System.out.println(" [푸른 띠 발동] 청단 점수가 +3배");
-        }else if(!hasItem(8)){
-            jokbo.set(10, new JokboDto(12, "청단", 3, 30));
+        if (jokbo == null) return 0;
+        if(hasItem(9) && jokbo.getJokboNo() == 11) {   // 아이템 9번을 가지고 있고 족보가 11번이면
+            System.out.println("[푸른 띠 발동] 청단 점수가 +3배 ");
+            return 3;
         }
+        return 0;
     }
-    /*
+
     // 아이템 번호 10 (아수라발발타)(점괘)
     public boolean magic(){
         // 목숨을 3개로 만든다.
-        if (player.getCurrent_hp() != 3){
-           player.getCurrent_hp() = 3;
+        if (!hasItem(10)){
+           return false;
         }
-    }*/
+        if(player.getCurrent_hp() == 3){   // 현재 목숨이 3개이면 사용 불가
+            System.out.println("아이템 사용불가(현재 목숨 : 3)");
+            return false;
+        }
+        player.setCurrent_hp(3); // 목숨 : 3
+        consumeItem(10); // 아이템 10번 삭제
+        System.out.println("[아수라발발타 발동] 목숨 : 3");
+        return true;
+    }
 }
 
 

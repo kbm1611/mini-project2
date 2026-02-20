@@ -252,6 +252,12 @@ public class GameService {
         totalChips += ItemUseService.getInstance().getAnimalBoostScore(submittedCards);
 
 
+        // 수정 start ( 다음족보 ,홍단, 청단 +3배)
+        totalMult += ItemUseService.getInstance().getAncestorMultiplier();  // 다음 족보 배율 +3배
+        totalMult += ItemUseService.getInstance().redBand(jokbo);           // 홍단 배율 +3배
+        totalMult += ItemUseService.getInstance().blueBand(jokbo);          // 청단 배율 +3배
+        // 수정 end
+
         int finalScore = totalChips * totalMult; // 최종 점수 계산
 
         System.out.println("🧮 계산 결과: (" + totalChips + " 칩) x (" + totalMult + " 배) = " + finalScore + "점");
