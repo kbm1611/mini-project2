@@ -200,6 +200,10 @@ public class GameService {
         String type = card.getType();
         if (type.equals("광")) {
             int multi = ItemUseService.getInstance().getKwangMultiplier();
+            if (multi > 1) {
+                System.out.println("✨ [광끼 부적 발동] 번쩍! '광' 카드의 점수가 2배가 됩니다! (20점 ➡️ 40점)");
+            }
+
             return 20 * multi;
         }
         if (type.equals("열")) return 10;
