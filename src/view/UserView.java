@@ -2,6 +2,7 @@ package view;
 
 import controller.PlayController;
 import controller.UserController;
+import model.dto.PlayerDto;
 
 
 import java.util.InputMismatchException;
@@ -85,9 +86,10 @@ public class UserView {
     // main 화면(로그인 후)
 
     public void mainview(){
+        PlayerDto player = PlayerDto.getInstance();
         System.out.println("==================================");
-        System.out.printf("환영합니다.%s");
-        System.out.printf("나의 최고 기록 :%s ");
+        System.out.printf("환영합니다.%s\n", player.getNickname());
+        System.out.printf("나의 최고 기록 :%s\n", uc.myBestScore(player.getUser_no()));
         System.out.println("==================================\n");
         System.out.println(" [1] 게임 시작(새로운판)");
         System.out.println(" [2] 전당 보기(랭킹확인)");
