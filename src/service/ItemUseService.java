@@ -137,8 +137,8 @@ public class ItemUseService {
     private boolean consumeItem(int itemId) {
         if (player.getItem() == null) return false;
 
-        for (int i = 0; i < player.getItem().size(); i++) {
-            if (player.getItem().get(i).getItem_no() == itemId) {
+        for (int i = 0; i < player.getItem().size(); i++) {  // 플레이어가 가지고있는 아이템을 확인
+            if (player.getItem().get(i).getItem_no() == itemId) {   // 플레이어가 가지고 있는 아이템의 번호와 해당 아이템 번호가 일치하면 삭제
                 player.getItem().remove(i);
                 return true;
             }
