@@ -4,6 +4,7 @@ import model.dto.Card;
 import model.dto.ResultDto;
 import model.dto.RoundDto;
 import service.GameService;
+import service.RankService;
 import view.PlayView;
 import view.ShopView;
 
@@ -16,6 +17,7 @@ public class PlayController {
     public static PlayController getInstance(){return instance;}
     private GameService GS = GameService.getInstance();
     private PlayView PV = PlayView.getInstance();
+    private RankService rs = RankService.getInstance();
 
     public void play(){
         boolean isGameReady = false;
@@ -108,7 +110,8 @@ public class PlayController {
                     ShopView.getInstance().printShopView();
                     if (currentStage > 8){
                         PV.printMessage("\uD83C\uDFC6 전설의 타짜가 되셨습니다! 게임 승리!");
-                        // 게임 결과 저장하고 메인화면으로 나가지기
+                        rs.AddGameLog();
+                        player.setCurrent_hp(0);
                         return;
                     }
 
@@ -118,7 +121,6 @@ public class PlayController {
                 }
                 if (GS.isGameOver()){
                     PV.printMessage("\n💀 게임 오버... [" + boss.getRoundName() + "]에게 패배했습니다.");
-                    GS.startNewGame();
                     service.GameSaveService.getInstance().saveGame();
                     return;
                 }
@@ -128,8 +130,14 @@ public class PlayController {
     }
 
     private void processSubmitHand() {
-        int[] indexes = PV.getInputIndexes("내실 카드 번호를 입력하세요");
+        int[] indexes = PV.getInputIndexes("내실 카드 번호를 입력하세요 (최대 5장)");
         if (indexes == null) return;
+
+        if (indexes.length > 5) {
+            PV.printMessage("⚠️ 카드는 한 번에 최대 5장까지만 낼 수 있습니다.");
+            return;
+        }
+
         ResultDto result = GS.submitHand(indexes);
         PV.printSubmitResult(result);
     }
