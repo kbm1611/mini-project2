@@ -20,6 +20,16 @@ public class ItemUseService {
 
         private Card buffedCard = null;
         private String originalType = "";
+        public int getItemCount(int itemId) {
+            if (player.getItem() == null) return 0;
+            int count = 0;
+            for (Item item : player.getItem()) {
+                if (item.getItem_no() == itemId) {
+                    count++;
+                }
+            }
+            return count;
+        }
 
         //[공통] 유저가 특정 번호의 아이템을 가지고 있는지 확인하는 메서드
         public boolean hasItem(int itemId) {
@@ -105,33 +115,38 @@ public class ItemUseService {
         }
 
         public int getAnimalBoostScore(ArrayList<Card> submittedCards) {
-                if (!hasItem(1)) return 0; // 아이템 없으면 0점
+            int count = getItemCount(1); // 호랑이 기운이 몇 개인지 확인!
+            if (count == 0) return 0;
 
-                int bonus = 0;
-                for (Card card : submittedCards) {
-                        if (card.getType().equals("열")) {
-                                bonus += 10;
-                        }
+            int bonus = 0;
+            for (Card card : submittedCards) {
+                if (card.getType().equals("열")) {
+                    bonus += (10 * count);
                 }
-                if (bonus > 0) {
-                        System.out.println("🐯 [호랑이 기운 발동] 으르렁! '열' 카드 보너스 +" + bonus + "점!");
-                }
-                return bonus;
+            }
+            if (bonus > 0) {
+                System.out.println("🐯 [호랑이 기운 발동] 으르렁! (x" + count + "중첩) '열' 카드 보너스 +" + bonus + "점!");
+            }
+            return bonus;
         }
 
         public int applyWealthAmulet(int totalMoney) {
-                if (!hasItem(2)) return totalMoney; // 아이템 없으면 원래 돈 그대로
+            int count = getItemCount(2); // 재물 부적이 몇 개인지 확인
+            if (count == 0) return totalMoney;
 
-                int boostedMoney = (int) (totalMoney * 1.5);
-                System.out.println("💸 [재물 부적 발동] 엽전이 복사됩니다! 획득 금액 1.5배 증가!");
-                return boostedMoney;
+            double multiplier = 1.0 + (0.5 * count);
+            int boostedMoney = (int) (totalMoney * multiplier);
+            System.out.println("💸 [재물 부적 발동] 엽전이 복사됩니다! (x" + count + "중첩) 획득 금액 " + multiplier + "배 증가!");
+            return boostedMoney;
         }
 
         public int getKwangMultiplier() {
-                if (hasItem(3)) {
-                        return 2; // 아이템 있으면 광 점수 2배!
-                }
-                return 1; // 없으면 평범하게 1배
+            int count = getItemCount(3); // 광끼 부적이 몇 개인지 확인
+            if (count > 0) {
+
+                return 1 + count;
+            }
+            return 1;
         }
         //==============================================
 
@@ -193,22 +208,25 @@ public class ItemUseService {
 
     // 아이템 번호 8 (붉은 띠)(부적)
     public int redBand(JokboDto jokbo){
-        // 홍단 점수 +3배
         if (jokbo == null) return 0;
-        if(hasItem(8) && jokbo.getJokboNo() == 10) {  // 아이템 8번을 가지고 있고 족보가 10번이면
-            System.out.println("[붉은 띠 발동] 홍단 점수가 +3배 ");
-            return 3;
+        int count = getItemCount(8); // 붉은 띠가 몇 개인지 확인
+        if(count > 0 && jokbo.getJokboNo() == 10) {
+            int multiplier = 3 * count;
+            System.out.println("🧧 [붉은 띠 발동] (x" + count + "중첩) 홍단 점수가 +" + multiplier + "배 ");
+            return multiplier;
         }
         return 0;
     }
 
     // 아이템 번호 9 (푸른 띠)(부적)
     public int blueBand(JokboDto jokbo) {
-        // 청단 점수 +3배
         if (jokbo == null) return 0;
-        if(hasItem(9) && jokbo.getJokboNo() == 11) {   // 아이템 9번을 가지고 있고 족보가 11번이면
-            System.out.println("[푸른 띠 발동] 청단 점수가 +3배 ");
-            return 3;
+        int count = getItemCount(9); // 푸른 띠가 몇 개인지 확인
+
+        if(count > 0 && jokbo.getJokboNo() == 11) {
+            int multiplier = 3 * count;
+            System.out.println("🎐 [푸른 띠 발동] (x" + count + "중첩) 청단 점수가 +" + multiplier + "배 ");
+            return multiplier;
         }
         return 0;
     }
