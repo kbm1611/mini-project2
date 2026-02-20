@@ -86,32 +86,34 @@ public class UserView {
     // main 화면(로그인 후)
 
     public void mainview(){
-        PlayerDto player = PlayerDto.getInstance();
-        System.out.println("==================================");
-        System.out.printf("환영합니다.%s\n", player.getNickname());
-        System.out.printf("나의 최고 기록 :%s\n", uc.myBestScore(player.getUser_no()));
-        System.out.println("==================================\n");
-        System.out.println(" [1] 게임 시작(새로운판)");
-        System.out.println(" [2] 전당 보기(랭킹확인)");
-        System.out.println(" [3] 지난 기록");
-        System.out.println(" [4] 로그아웃");
-        System.out.println("==================================");
-        System.out.print(">>선택");
-        try{
-            int ch = userscan.nextInt();
-            if (ch == 1){ PlayController.getInstance().play(); }
-            else if(ch == 2 ){RankView.getInstance().rankingView();}
-            else if(ch == 3){RankView.getInstance().myLogView();}
-            else if(ch == 4){
-                //저장 후 로그아웃
-                boolean result = uc.saveGame();
-                if(result){ System.out.println("(시스템)저장 성공"); }
-                else{ System.out.println("(시스템)저장 실패"); }
-                //처음 화면으로 이동
-                index();
+        while(true){
+            PlayerDto player = PlayerDto.getInstance();
+            System.out.println("==================================");
+            System.out.printf("환영합니다.%s\n", player.getNickname());
+            System.out.printf("나의 최고 기록 :%s\n", uc.myBestScore(player.getUser_no()));
+            System.out.println("==================================\n");
+            System.out.println(" [1] 게임 시작(새로운판)");
+            System.out.println(" [2] 전당 보기(랭킹확인)");
+            System.out.println(" [3] 지난 기록");
+            System.out.println(" [4] 로그아웃");
+            System.out.println("==================================");
+            System.out.print(">>선택");
+            try{
+                int ch = userscan.nextInt();
+                if (ch == 1){ PlayController.getInstance().play(); }
+                else if(ch == 2 ){RankView.getInstance().rankingView();}
+                else if(ch == 3){RankView.getInstance().myLogView();}
+                else if(ch == 4){
+                    //저장 후 로그아웃
+                    boolean result = uc.saveGame();
+                    if(result){ System.out.println("(시스템)저장 성공"); }
+                    else{ System.out.println("(시스템)저장 실패"); }
+                    //처음 화면으로 이동
+                    index();
+                }
+            }catch (Exception e){
+                System.out.println("main 화면 선택 오류"+e);
             }
-        }catch (Exception e){
-            System.out.println("main 화면 선택 오류"+e);
         }
     }
 
