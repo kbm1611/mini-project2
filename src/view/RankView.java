@@ -3,6 +3,7 @@ package view;
 import controller.RankController;
 import controller.UserController;
 import model.dto.GameLogDto;
+import model.dto.PlayerDto;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -42,10 +43,11 @@ public class RankView {
         }
     }
     public void myLogView(){
+        PlayerDto player = PlayerDto.getInstance();
         int playCount = 0;
         double winCount = 0;
 
-        int user_id = 1; //!!추후에 로그인 정보 넣어주기
+        int user_id = player.getUser_no(); //!!추후에 로그인 정보 넣어주기
         ArrayList<GameLogDto> myLogs = rc.printMyLog(user_id);
 
         System.out.printf("""
