@@ -20,7 +20,6 @@ public class RankView {
     public void rankingView(){
         ArrayList<GameLogDto> ranks = rc.printRanking(); //함수 선언
 
-        int count = 1;
         System.out.print("""
                 ====================================================
                          🏆 [ 명 예 의  전 당 ] TOP 5 🏆
@@ -28,12 +27,13 @@ public class RankView {
                  순위 |   닉네임   |  최고 점수  |         달성일
                 ----------------------------------------------------
                 """);
-        for(GameLogDto rank : ranks){ //컨트롤러에서 랭킹 함수를 가져와 출력
+        ranks.forEach( (rank) -> {
+            int count = 1;
             System.out.printf("""
                 %3d  |%6s    |%6d점   | %s
                 """, count, rank.getNickname(), rank.getFinal_score(), rank.getPlay_date());
             count++;
-        }
+        });
         System.out.println("====================================================");
         System.out.println("[0] 뒤로 가기");
         System.out.print(">>입력:"); int ch = scan.nextInt();
