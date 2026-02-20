@@ -77,7 +77,9 @@ public class PlayController {
                         service.ItemUseService.getInstance().useBottomDealing(); // 밑장 빼기 발동!
                     }else if (itemChoice == 6){
                         service.ItemUseService.getInstance().ancestorHelp(); // 조상님의 도움 발동
-                    }else if (itemChoice == 10){
+                    }else if (itemChoice == 7){
+                        service.ItemUseService.getInstance().moveStop(); // 동작 그만 발동
+                    } else if (itemChoice == 10){
                         service.ItemUseService.getInstance().magic(); // 아수라발발타 발동
                     } else if (itemChoice != -1 && itemChoice != 0) {
                         PV.printMessage("⚠️ 잘못된 점괘 번호입니다.");
