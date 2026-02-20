@@ -13,9 +13,26 @@ public class PlayerDto {
     private int current_discard; // 남은 버리기 기회
     private int current_money;
     private int current_score;
+    private ArrayList<Card> current_grave;
+    private ArrayList<Card> current_hand;
     private ArrayList<Card> card;
     private ArrayList<Item> item;
 
+    public ArrayList<Card> getCurrent_grave() {
+        return current_grave;
+    }
+
+    public ArrayList<Card> getCurrent_hand() {
+        return current_hand;
+    }
+
+    public void setCurrent_grave(ArrayList<Card> current_grave) {
+        this.current_grave = current_grave;
+    }
+
+    public void setCurrent_hand(ArrayList<Card> current_hand) {
+        this.current_hand = current_hand;
+    }
 
     public int getUser_no() {
         return user_no;
@@ -75,8 +92,11 @@ public class PlayerDto {
                 ", nickname='" + nickname + '\'' +
                 ", current_round=" + current_round +
                 ", current_hp=" + current_hp +
+                ", current_discard=" + current_discard +
                 ", current_money=" + current_money +
                 ", current_score=" + current_score +
+                ", current_grave=" + current_grave +
+                ", current_hand=" + current_hand +
                 ", card=" + card +
                 ", item=" + item +
                 '}';

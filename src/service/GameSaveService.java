@@ -23,6 +23,8 @@ public class GameSaveService {
     public boolean saveGame(){
         ArrayList<Card> cardList = player.getCard();
         ArrayList<Item> itemList = player.getItem();
+        ArrayList<Card> grave = player.getCurrent_grave();
+        ArrayList<Card> current_hand = player.getCurrent_hand();
         String cardsStr = "";
         String itemsStr = "";
 
@@ -32,6 +34,25 @@ public class GameSaveService {
         int current_discard = player.getCurrent_discard();
         int current_money = player.getCurrent_money();
         int current_score = player.getCurrent_score();
+
+        if( grave != null && !grave.isEmpty()){
+            for(Card card : cardList ){
+                if(cardsStr.isEmpty()) {
+                    cardsStr += card.getCard_no(); // 첫 번째는 콤마 없이
+                } else {
+                    cardsStr += "," + card.getCard_no(); // 두 번째부터 콤마 추가
+                }
+            }
+        }
+        if( current_hand != null && !current_hand.isEmpty()){
+            for(Card card : cardList ){
+                if(cardsStr.isEmpty()) {
+                    cardsStr += card.getCard_no(); // 첫 번째는 콤마 없이
+                } else {
+                    cardsStr += "," + card.getCard_no(); // 두 번째부터 콤마 추가
+                }
+            }
+        }
 
         if( cardList != null && !cardList.isEmpty() ){ //cardList가 null이 아니고 동시에 비어있지 않을 때
             for(Card card : cardList ){
