@@ -18,7 +18,6 @@ public class ShopView {
     }
     private ShopController sc = ShopController.getInstance();
     private PlayerDto player = PlayerDto.getInstance();
-    private GameService gs = GameService.getInstance();
     private Scanner scan = new Scanner(System.in);
 
     public void printShopView(){
@@ -106,7 +105,8 @@ public class ShopView {
                     else{ System.out.println("[경고]카드 삭제에 실패하셨습니다."); }
                 }
             }else if(ch == 4){ //내 덱 확인
-            ArrayList<Card> deck = gs.getDeckInfo();
+                scan.nextLine();
+                ArrayList<Card> deck = player.getCard();
                 System.out.println("\n[ 덱에 남은 카드 (" + deck.size() + "장) ]");
                 int count = 0;
                 for(Card c : deck) {

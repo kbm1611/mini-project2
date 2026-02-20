@@ -77,16 +77,22 @@ public class ShopService {
     }
     // 플레이어의 카드 리스트에 카드를 삭제하는 함수(플레이어의 잔고랑 비교)
     public boolean removeCard(int card_no, int price){
+
+        if (card_no <= 0 || card_no > cards.size()) {
+            return false;
+        }
+
         Card card = cards.get(card_no-1);
         //현재 플레이어의 카드 리스트를 변경해야함.
         //현재 플레이어의 잔고 변경해야함
-        if(player.getCurrent_money() >= price){
-            int money = player.getCurrent_money();
-            player.getCard().remove(card);
-            player.setCurrent_money(money - price);
-            return true;
-        }else{
+        if (player.getCurrent_money() < price) {
             return false;
         }
+        boolean removed = player.getCard().remove(card);
+        if (!removed) {
+            return false; // 삭제 실패 -> 돈 차감 안 함
+        }
+        player.setCurrent_money(player.getCurrent_money() - price);
+        return true;
     }
 }
