@@ -37,6 +37,9 @@ public class UserController {
             String nickname = ud.printNickName(result);
             PlayerDto.getInstance().setNickname(nickname);
 
+            // 현재 플레이어 번호 설정
+            PlayerDto.getInstance().setUser_no(result);
+
             return true;
         }
         return false;
