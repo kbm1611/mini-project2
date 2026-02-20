@@ -49,6 +49,8 @@ public class GameService {
         this.currentScore = 0;
     }
 
+    private RankService rs = RankService.getInstance();
+
 
     // 🆕 [새 게임 시작] (타이틀에서 1번 선택 시 호출)
     public void startNewGame() {
@@ -333,6 +335,8 @@ public class GameService {
         // 남은 기회가 0 이하인데, 현재 점수가 목표 점수에 도달하지 못했을 때
         if (this.submitLeft <= 0 && this.currentScore < this.targetScore) {
             System.out.println("💀 [게임 오버] 기회를 모두 사용했는데 목표 점수에 도달하지 못했습니다...");
+            //게임 로그 생성
+            rs.AddGameLog();
             return true;
         }
         return false;
