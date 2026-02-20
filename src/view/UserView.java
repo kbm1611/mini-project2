@@ -38,6 +38,7 @@ public class UserView {
                 System.out.println("숫자를 입력하세요.");
 
             } catch (InputMismatchException e2) {
+                userscan.nextLine();
                 System.out.println("숫자만 입력해 주세요\n" + e2);
             } catch (Exception e3) {
                 System.out.println("입력오류" + e3);
@@ -109,7 +110,7 @@ public class UserView {
                     if(result){ System.out.println("(시스템)저장 성공"); }
                     else{ System.out.println("(시스템)저장 실패"); }
                     //처음 화면으로 이동
-                    index();
+                    return ;
                 }
             }catch (Exception e){
                 System.out.println("main 화면 선택 오류"+e);
