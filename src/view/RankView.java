@@ -1,7 +1,6 @@
 package view;
 
 import controller.RankController;
-import controller.UserController;
 import model.dto.GameLogDto;
 import model.dto.PlayerDto;
 
@@ -27,13 +26,22 @@ public class RankView {
                  순위 |   닉네임   |  최고 점수  |         달성일
                 ----------------------------------------------------
                 """);
-        ranks.forEach( (rank) -> {
-            int count = 1;
+        if(ranks.isEmpty()){
+            System.out.println("  아직 등록된 기록이 없습니다. 첫 번째 랭커가 되어보세요! 🎴");
+            System.out.println("====================================================");
+            System.out.println("[0] 뒤로 가기"); System.out.print(">>입력:"); int ch = scan.nextInt();
+            if(ch == 0){
+                UserView.getInstance().mainview();
+            }
+            return;
+        }
+        int count = 1;
+        for(GameLogDto rank : ranks){
             System.out.printf("""
                 %3d  |%6s    |%6d점   | %s
                 """, count, rank.getNickname(), rank.getFinal_score(), rank.getPlay_date());
             count++;
-        });
+        }
         System.out.println("====================================================");
         System.out.println("[0] 뒤로 가기");
         System.out.print(">>입력:"); int ch = scan.nextInt();
