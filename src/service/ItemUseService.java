@@ -60,6 +60,7 @@ public class ItemUseService {
 
                 System.out.println("\n✨ [신령님의 계시 발동!] 손패의 카드가 찬란하게 빛납니다...");
                 System.out.println("👉 이번 턴에만 [" + targetCard.getMonth() + "월 " + originalType + "] 카드가 [광]으로 취급됩니다!");
+                consumeItem(4);
                 return true;
         }
 
@@ -99,6 +100,7 @@ public class ItemUseService {
                 gameService.drawCard(handSize);
 
                 System.out.println("\n🃏 [밑장 빼기 발동!] 손패 " + handSize + "장을 모두 버리고 은밀하게 새로 뽑았습니다!");
+                consumeItem(5);
                 return true;
         }
 
