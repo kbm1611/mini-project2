@@ -13,8 +13,7 @@ public class ItemUseService {
         private ItemUseService() { }
         private static final ItemUseService instance = new ItemUseService();
         public static ItemUseService getInstance() { return instance; }
-        ArrayList<JokboDto> jokbo = new ArrayList<>();
-        ArrayList<Card> cards = new ArrayList<>();
+
 
         private PlayerDto player = PlayerDto.getInstance();
         private GameService gameService = GameService.getInstance();
@@ -147,17 +146,19 @@ public class ItemUseService {
         return false;
     }
 
-    // 아이템 번호 6 (조상님의 도움)(점괘)
+    // 아이템 번호 6 (조상님의 도움)(점괘)  다음 족보 배수를 +3배 추가한다
     private boolean ancestorBuffActive = false;
     public boolean ancestorHelp(){
-        // 다음 족보 배수를 +3배 추가한다
-        ancestorBuffActive = true;   // 다음 족보에 적용
-        consumeItem(6);              // player 보유 아이템 리스트에서 삭제
+
+        if (!hasItem(6)) return false;  // 아이템 없으면 사용 불가
+
+        ancestorBuffActive = true;           // 다음 족보에 적용
+        consumeItem(6);               // player 보유 아이템 리스트에서 삭제
 
         System.out.println("[조상님의 도움 발동] 다음 족보 배수 +3");
         return true;
     }
-
+    // 아이템 6번 발동 상태
     public int getAncestorMultiplier() {
 
         if (!ancestorBuffActive)
@@ -175,7 +176,8 @@ public class ItemUseService {
     // 아이템 번호 8 (붉은 띠)(부적)
     public int redBand(JokboDto jokbo){
         // 홍단 점수 +3배
-        if(hasItem(8) && jokbo.getJokboNo() == 10) {
+        if (jokbo == null) return 0;
+        if(hasItem(8) && jokbo.getJokboNo() == 10) {  // 아이템 8번을 가지고 있고 족보가 10번이면
             System.out.println("[붉은 띠 발동] 홍단 점수가 +3배 ");
             return 3;
         }
@@ -185,8 +187,9 @@ public class ItemUseService {
     // 아이템 번호 9 (푸른 띠)(부적)
     public int blueBand(JokboDto jokbo) {
         // 청단 점수 +3배
-        if(hasItem(9) && jokbo.getJokboNo() == 11) {
-            System.out.println("[붉은 띠 발동 청단 점수가 +3배 ");
+        if (jokbo == null) return 0;
+        if(hasItem(9) && jokbo.getJokboNo() == 11) {   // 아이템 9번을 가지고 있고 족보가 11번이면
+            System.out.println("[푸른 띠 발동] 청단 점수가 +3배 ");
             return 3;
         }
         return 0;
