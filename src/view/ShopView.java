@@ -80,7 +80,7 @@ public class ShopView {
 
             boolean result = false;
             while(!result){ //삭제할 때까지 무한반복 -1 입력시 탈출
-                System.out.print("삭제할 카드명을 정확하게 입력하세요(되돌아가기 -1입력): "); String removeCard = scan.nextLine();
+                System.out.print("삭제할 카드명을 정확하게 입력하세요(되돌아가기 -1): "); String removeCard = scan.nextLine();
                 if(removeCard.equals("-1")){ // -1입력시 탈출
                     break;
                 }
