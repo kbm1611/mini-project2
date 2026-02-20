@@ -102,7 +102,14 @@ public class UserView {
             if (ch == 1){ PlayController.getInstance().play(); }
             else if(ch == 2 ){RankView.getInstance().rankingView();}
             else if(ch == 3){RankView.getInstance().myLogView();}
-            else if(ch == 4){index();}
+            else if(ch == 4){
+                //저장 후 로그아웃
+                boolean result = uc.saveGame();
+                if(result){ System.out.println("(시스템)저장 성공"); }
+                else{ System.out.println("(시스템)저장 실패"); }
+                //처음 화면으로 이동
+                index();
+            }
         }catch (Exception e){
             System.out.println("main 화면 선택 오류"+e);
         }

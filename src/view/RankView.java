@@ -50,6 +50,22 @@ public class RankView {
         int user_id = player.getUser_no(); //!!추후에 로그인 정보 넣어주기
         ArrayList<GameLogDto> myLogs = rc.printMyLog(user_id);
 
+        //만약 신규유저라면(로그가 없음)
+        if (myLogs == null || myLogs.isEmpty()) {
+            System.out.println("=======================================================");
+            System.out.println("👤 플레이어 : [ " + player.getNickname() + " ] 님의 지난 기록");
+            System.out.println("=======================================================");
+            System.out.println("   아직 플레이 기록이 없습니다. 게임을 먼저 즐겨보세요! 🎴");
+            System.out.println("=======================================================");
+            System.out.println("\n[0] 뒤로 가기");
+            System.out.print(">> 입력: ");
+            int ch = scan.nextInt();
+            if(ch == 0){
+                UserView.getInstance().mainview();
+            }
+            return;
+        }
+
         System.out.printf("""
                 =======================================================
                 👤 플레이어 : [ %s ] 님의 지난 기록
