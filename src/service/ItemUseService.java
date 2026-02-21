@@ -234,16 +234,16 @@ public class ItemUseService {
     // 아이템 번호 10 (아수라발발타)(점괘)
     public boolean magic(){
         // 목숨을 3개로 만든다.
-        if (!hasItem(10)){
+        if (!hasItem(10)){  // 아이템을 가지고 있지 않으면
            return false;
         }
-        if(player.getCurrent_hp() == 3){   // 현재 목숨이 3개이면 사용 불가
-            System.out.println("아이템 사용불가(현재 목숨 : 3)");
+        if(player.getCurrent_hp() >= 3){   // 현재 기회가 3개 이상이면 사용 불가
+            System.out.printf("아이템 사용불가(현재 기회 : %d)",player.getCurrent_hp());
             return false;
         }
-        player.setCurrent_hp(3); // 목숨 : 3
+        player.setCurrent_hp(3); // 기회 : 3
         consumeItem(10); // 아이템 10번 삭제
-        System.out.println("[아수라발발타 발동] 목숨 : 3");
+        System.out.println("[아수라발발타 발동] 기회 : 3");
         return true;
     }
 }
