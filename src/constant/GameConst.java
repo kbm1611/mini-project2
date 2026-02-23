@@ -84,47 +84,47 @@ public class GameConst {
 
     public static final ArrayList<JokboDto> JOKBO_LIST = new ArrayList<>();
     static {
-        JOKBO_LIST.add(new JokboDto(1, "오광", 15, 200));       // get(0)
-        JOKBO_LIST.add(new JokboDto(2, "사광", 10, 120));       // get(1)
-        JOKBO_LIST.add(new JokboDto(3, "삼광", 6, 60));         // get(2)
-        JOKBO_LIST.add(new JokboDto(4, "띠 모음", 4, 40));      // get(3)
-        JOKBO_LIST.add(new JokboDto(5, "멍텅구리", 4, 40));     // get(4)
-        JOKBO_LIST.add(new JokboDto(6, "38광땡", 8, 150));      // get(5)
-        JOKBO_LIST.add(new JokboDto(7, "18광땡", 6, 100));      // get(6)
-        JOKBO_LIST.add(new JokboDto(8, "13광땡", 5, 80));       // get(7)
-        JOKBO_LIST.add(new JokboDto(9, "고도리", 5, 70));       // get(8)
-        JOKBO_LIST.add(new JokboDto(10, "홍단", 3, 30));        // get(9)
-        JOKBO_LIST.add(new JokboDto(11, "청단", 3, 30));        // get(10)
-        JOKBO_LIST.add(new JokboDto(12, "초단", 3, 30));        // get(11)
-        JOKBO_LIST.add(new JokboDto(13, "피바다", 2, 20));      // get(12)
+        JOKBO_LIST.add(new JokboDto(1, "오광", 20, 500));       // get(0)
+        JOKBO_LIST.add(new JokboDto(2, "사광", 12, 200));       // get(1)
+        JOKBO_LIST.add(new JokboDto(3, "삼광", 6, 100));        // get(2)
+        JOKBO_LIST.add(new JokboDto(4, "띠 모음", 4, 50));      // get(3)  - 아무 띠 5장
+        JOKBO_LIST.add(new JokboDto(5, "멍텅구리", 4, 150));    // get(4)  - 아무 열 5장
+        JOKBO_LIST.add(new JokboDto(6, "38광땡", 10, 200));     // get(5)
+        JOKBO_LIST.add(new JokboDto(7, "18광땡", 8, 150));      // get(6)
+        JOKBO_LIST.add(new JokboDto(8, "13광땡", 6, 120));      // get(7)
+        JOKBO_LIST.add(new JokboDto(9, "고도리", 7, 150));      // get(8)
+        JOKBO_LIST.add(new JokboDto(10, "홍단", 6, 120));       // get(9)
+        JOKBO_LIST.add(new JokboDto(11, "청단", 6, 120));       // get(10)
+        JOKBO_LIST.add(new JokboDto(12, "초단", 6, 120));       // get(11)
+        JOKBO_LIST.add(new JokboDto(13, "피바다", 3, 30));      // get(12) - 아무 피 5장 (난이도 하)
     }
 
     public static final ArrayList<RoundDto> ROUND_LIST = new ArrayList<>();
     static {
         ROUND_LIST.add(new RoundDto(1, "호구", 100));
-        ROUND_LIST.add(new RoundDto(2, "곽철용", 1200));
-        ROUND_LIST.add(new RoundDto(3, "광팔이", 2500));
-        ROUND_LIST.add(new RoundDto(4, "정마담", 5000));
-        ROUND_LIST.add(new RoundDto(5, "평경장", 10000));
-        ROUND_LIST.add(new RoundDto(6, "짝귀", 20000));
-        ROUND_LIST.add(new RoundDto(7, "아귀", 30000));
-        ROUND_LIST.add(new RoundDto(8, "고니", 50000));
+        ROUND_LIST.add(new RoundDto(2, "곽철용", 700));
+        ROUND_LIST.add(new RoundDto(3, "광팔이", 1500));
+        ROUND_LIST.add(new RoundDto(4, "정마담", 4000));
+        ROUND_LIST.add(new RoundDto(5, "평경장", 6000));
+        ROUND_LIST.add(new RoundDto(6, "짝귀", 10000));
+        ROUND_LIST.add(new RoundDto(7, "아귀", 12000));
+        ROUND_LIST.add(new RoundDto(8, "고니", 20000));
     }
     public static void jokboView(){
         System.out.println("\n=======================================");
-        System.out.println("오광 : 광이 5장 (족보점수 200점, 배율 15배)");
-        System.out.println("사광 : 광이 4장 (족보점수 120점, 배율 10배)");
-        System.out.println("삼광 : 광이 3장 (족보점수 60점, 배율 6배)");
-        System.out.println("띠 모음 : 띠가 5장  (족보점수 40점, 배율 4배)");
-        System.out.println("멍텅구리 : 열이 5장 (족보점수 40점, 배율 4배)");
-        System.out.println("38광땡 : 3광 + 8광 (족보점수 150점, 배율 8배)");
-        System.out.println("18광땡 : 1광 + 8광 (족보점수 100점, 배율 6배)");
-        System.out.println("13광땡 : 1광 + 3광 (족보점수 80점, 배율 5배)");
-        System.out.println("고도리 : 2·4·8월 새 패 (족보점수 70점, 배율 5배)");
-        System.out.println("홍단 : 홍단 3장 (족보점수 30점, 배율 3배)");
-        System.out.println("청단 : 청단 3장 (족보점수 30점, 배율 3배)");
-        System.out.println("초단 : 초단 3장 (족보점수 30점, 배율 3배)");
-        System.out.println("피바다 : 피5장 (족보점수 20점, 배율 2배)");
+        System.out.println("오광 : 광이 5장 (족보점수 500점, 배율 20배)");
+        System.out.println("사광 : 광이 4장 (족보점수 200점, 배율 12배)");
+        System.out.println("삼광 : 광이 3장 (족보점수 100점, 배율 6배)");
+        System.out.println("띠 모음 : 띠가 5장  (족보점수 50점, 배율 4배)");
+        System.out.println("멍텅구리 : 열이 5장 (족보점수 150점, 배율 4배)");
+        System.out.println("38광땡 : 3광 + 8광 (족보점수 200점, 배율 10배)");
+        System.out.println("18광땡 : 1광 + 8광 (족보점수 150점, 배율 8배)");
+        System.out.println("13광땡 : 1광 + 3광 (족보점수 120점, 배율 6배)");
+        System.out.println("고도리 : 2·4·8월 새 패 (족보점수 150점, 배율 7배)");
+        System.out.println("홍단 : 홍단 3장 (족보점수 120점, 배율 6배)");
+        System.out.println("청단 : 청단 3장 (족보점수 120점, 배율 6배)");
+        System.out.println("초단 : 초단 3장 (족보점수 120점, 배율 6배)");
+        System.out.println("피바다 : 피 5장 (족보점수 30점, 배율 3배)");
         System.out.println("=======================================");
     }
 }
