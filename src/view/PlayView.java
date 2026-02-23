@@ -20,7 +20,11 @@ public class PlayView {
         System.out.println("                 🃏 화투로 🃏                    ");
         System.out.println("================================================");
         System.out.println("  1. 🆕 새로하기 (New Game)");
-        System.out.println("  2. 💾 이어하기 (Continue)");
+        if(service.GameSaveService.getInstance().hasSaveData(model.dto.PlayerDto.getInstance().getUser_no())) { //save파일이 있다면 데이터 있음 출력
+            System.out.println("  2. 💾 이어하기(데이터 있음) (Continue)");
+        }else{
+            System.out.println("  2. 💾 이어하기 (Continue)");
+        }
         System.out.println("  0. ❌ 종료하기 (Exit)");
         System.out.println("================================================");
         System.out.print(">> 선택 : ");
