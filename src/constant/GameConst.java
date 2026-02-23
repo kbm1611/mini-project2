@@ -16,7 +16,7 @@ public class GameConst {
         BASIC_DECK.add(new Card(4, 1, "피", 1, "1월_피"));
 
         // 2월 (매조)
-        BASIC_DECK.add(new Card(5, 2, "열", 10, "2월_열"));
+        BASIC_DECK.add(new Card(5, 2, "열", 10, "2월_열(새)"));
         BASIC_DECK.add(new Card(6, 2, "띠", 5, "2월_홍단"));
         BASIC_DECK.add(new Card(7, 2, "피", 1, "2월_피"));
         BASIC_DECK.add(new Card(8, 2, "피", 1, "2월_피"));
@@ -28,7 +28,7 @@ public class GameConst {
         BASIC_DECK.add(new Card(12, 3, "피", 1, "3월_피"));
 
         // 4월 (흑싸리)
-        BASIC_DECK.add(new Card(13, 4, "열", 10, "4월_열"));
+        BASIC_DECK.add(new Card(13, 4, "열", 10, "4월_열(새)"));
         BASIC_DECK.add(new Card(14, 4, "띠", 5, "4월_초단"));
         BASIC_DECK.add(new Card(15, 4, "피", 1, "4월_피"));
         BASIC_DECK.add(new Card(16, 4, "피", 1, "4월_피"));
@@ -53,7 +53,7 @@ public class GameConst {
 
         // 8월 (공산)
         BASIC_DECK.add(new Card(29, 8, "광", 20, "8월_광"));
-        BASIC_DECK.add(new Card(30, 8, "열", 10, "8월_열"));
+        BASIC_DECK.add(new Card(30, 8, "열", 10, "8월_열(새)"));
         BASIC_DECK.add(new Card(31, 8, "피", 1, "8월_피"));
         BASIC_DECK.add(new Card(32, 8, "피", 1, "8월_피"));
 
@@ -84,19 +84,19 @@ public class GameConst {
 
     public static final ArrayList<JokboDto> JOKBO_LIST = new ArrayList<>();
     static {
-        JOKBO_LIST.add(new JokboDto(1, "오광", 15, 200));       // get(0)
-        JOKBO_LIST.add(new JokboDto(2, "사광", 10, 120));       // get(1)
-        JOKBO_LIST.add(new JokboDto(3, "삼광", 6, 60));         // get(2)
-        JOKBO_LIST.add(new JokboDto(4, "띠 모음", 4, 40));      // get(3)
-        JOKBO_LIST.add(new JokboDto(5, "멍텅구리", 4, 40));     // get(4)
-        JOKBO_LIST.add(new JokboDto(6, "38광땡", 8, 150));      // get(5)
-        JOKBO_LIST.add(new JokboDto(7, "18광땡", 6, 100));      // get(6)
-        JOKBO_LIST.add(new JokboDto(8, "13광땡", 5, 80));       // get(7)
-        JOKBO_LIST.add(new JokboDto(9, "고도리", 5, 70));       // get(8)
-        JOKBO_LIST.add(new JokboDto(10, "홍단", 3, 30));        // get(9)
-        JOKBO_LIST.add(new JokboDto(11, "청단", 3, 30));        // get(10)
-        JOKBO_LIST.add(new JokboDto(12, "초단", 3, 30));        // get(11)
-        JOKBO_LIST.add(new JokboDto(13, "피바다", 2, 20));      // get(12)
+        JOKBO_LIST.add(new JokboDto(1, "오광", 20, 500));       // get(0)
+        JOKBO_LIST.add(new JokboDto(2, "사광", 12, 200));       // get(1)
+        JOKBO_LIST.add(new JokboDto(3, "삼광", 6, 100));        // get(2)
+        JOKBO_LIST.add(new JokboDto(4, "띠 모음", 4, 50));      // get(3)  - 아무 띠 5장
+        JOKBO_LIST.add(new JokboDto(5, "멍텅구리", 4, 150));    // get(4)  - 아무 열 5장
+        JOKBO_LIST.add(new JokboDto(6, "38광땡", 10, 200));     // get(5)
+        JOKBO_LIST.add(new JokboDto(7, "18광땡", 8, 150));      // get(6)
+        JOKBO_LIST.add(new JokboDto(8, "13광땡", 6, 120));      // get(7)
+        JOKBO_LIST.add(new JokboDto(9, "고도리", 7, 150));      // get(8)
+        JOKBO_LIST.add(new JokboDto(10, "홍단", 6, 120));       // get(9)
+        JOKBO_LIST.add(new JokboDto(11, "청단", 6, 120));       // get(10)
+        JOKBO_LIST.add(new JokboDto(12, "초단", 6, 120));       // get(11)
+        JOKBO_LIST.add(new JokboDto(13, "피바다", 3, 30));      // get(12) - 아무 피 5장      // get(12)
     }
 
     public static final ArrayList<RoundDto> ROUND_LIST = new ArrayList<>();
