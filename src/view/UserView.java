@@ -112,6 +112,9 @@ public class UserView {
                     //처음 화면으로 이동
                     return ;
                 }
+            }catch(InputMismatchException e){
+                userscan.nextLine(); // 잘못된 토큰 제거
+                System.out.println("숫자만 입력해 주세요\n" + e);
             }catch (Exception e){
                 System.out.println("main 화면 선택 오류"+e);
             }
