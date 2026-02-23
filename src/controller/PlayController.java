@@ -8,6 +8,7 @@ import service.GameService;
 import service.RankService;
 import view.PlayView;
 import view.ShopView;
+import constant.GameConst;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -103,7 +104,12 @@ public class PlayController {
                     service.GameSaveService.getInstance().saveGame();
                     PV.printMessage("💾 게임이 성공적으로 저장되었습니다. 안녕히 가세요!");
                     return;
-                } else {PV.printMessage("⚠️ 잘못된 입력입니다. 다시 선택해 주세요.");}
+                } else if(choice == 7){ constant.GameConst.jokboView();
+                    PV.printMessage("엔터를 치면 다음 라운드로 넘어갑니다...");
+                    new java.util.Scanner(System.in).nextLine();
+                    break;
+                }
+                else {PV.printMessage("⚠️ 잘못된 입력입니다. 다시 선택해 주세요.");}
 
                 if(GS.checkRoundClear()){
                     PV.printMessage("\n🎉 축하합니다! [" + boss.getRoundName() + "] 라운드를 클리어했습니다!");
