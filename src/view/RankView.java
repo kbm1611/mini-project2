@@ -103,7 +103,7 @@ public class RankView {
                    %6d 점  |%5d R    |%5d 냥  | %s
                    """, mylog.getFinal_score(), mylog.getFinal_round(), mylog.getFinal_money(), mylog.getPlay_date());
                 playCount++;
-                if(mylog.getFinal_round() >= 8){
+                if(mylog.getFinal_round() >= 9){
                     winCount++;
                 }
             }
