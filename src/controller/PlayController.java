@@ -105,7 +105,7 @@ public class PlayController {
                     PV.printMessage("💾 게임이 성공적으로 저장되었습니다. 안녕히 가세요!");
                     return;
                 } else if(choice == 7){ constant.GameConst.jokboView();
-                    PV.printMessage("엔터를 치면 다음 라운드로 넘어갑니다...");
+                    PV.printMessage("엔터를 치면 게임화면으로 넘어갑니다...");
                     new java.util.Scanner(System.in).nextLine();
                     break;
                 }
