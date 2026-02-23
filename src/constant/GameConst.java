@@ -109,6 +109,7 @@ public class GameConst {
         ROUND_LIST.add(new RoundDto(6, "짝귀", 20000));
         ROUND_LIST.add(new RoundDto(7, "아귀", 30000));
         ROUND_LIST.add(new RoundDto(8, "고니", 50000));
+        ROUND_LIST.add(new RoundDto(9,"도박왕",Integer.MAX_VALUE));
     }
     public static void jokboView(){
         System.out.println("\n=======================================");

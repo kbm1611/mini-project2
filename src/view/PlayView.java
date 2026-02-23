@@ -35,9 +35,14 @@ public class PlayView {
         model.dto.PlayerDto player = model.dto.PlayerDto.getInstance();
         int currentMoney = player.getCurrent_money();
         ArrayList<model.dto.Item> myItems = player.getItem();
+        if(boss.getRoundNo() == 9){ //9라운드에 도달 시
+            System.out.printf("[ Round %d  %s : 목표 점수 INF", boss.getRoundNo(), boss.getRoundName());
+        }else{ // 1~8라운드
+            System.out.printf("[ Round %d  %s : 목표 점수 %d점 ]\n", boss.getRoundNo(), boss.getRoundName(), boss.getTargetScore());
+        }
         System.out.println("\n\n\n\n\n");
         System.out.println("================================================");
-        System.out.printf("[ Round %d  %s : 목표 점수 %d점 ]\n", boss.getRoundNo(), boss.getRoundName(), boss.getTargetScore());
+
         System.out.printf("현재 점수: %d | 💵 잔액: %d냥 | 남은 손패 횟수: %d | 버리기 횟수: %d\n",
                 currentScore, currentMoney, submitLeft, discardLeft);
         System.out.println("================================================");
