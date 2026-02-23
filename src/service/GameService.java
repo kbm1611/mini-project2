@@ -96,7 +96,9 @@ public class GameService {
 
         //손패가 비어 있다면 (새로운 라운드)
         player.setCurrent_round(roundNo);
-        player.setCurrent_score(0);
+        if(roundNo != 9){
+            player.setCurrent_score(0);
+        }
         player.setCurrent_hp(5);
         player.setCurrent_discard(3);
 
