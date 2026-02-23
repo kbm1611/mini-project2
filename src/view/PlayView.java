@@ -20,7 +20,11 @@ public class PlayView {
         System.out.println("                 🃏 화투로 🃏                    ");
         System.out.println("================================================");
         System.out.println("  1. 🆕 새로하기 (New Game)");
-        System.out.println("  2. 💾 이어하기 (Continue)");
+        if(service.GameSaveService.getInstance().hasSaveData(model.dto.PlayerDto.getInstance().getUser_no())) { //save파일이 있다면 데이터 있음 출력
+            System.out.println("  2. 💾 이어하기(데이터 있음) (Continue)");
+        }else{
+            System.out.println("  2. 💾 이어하기 (Continue)");
+        }
         System.out.println("  0. ❌ 종료하기 (Exit)");
         System.out.println("================================================");
         System.out.print(">> 선택 : ");
@@ -152,6 +156,7 @@ public class PlayView {
     public int printMenu(){
         System.out.println("1. 점괘 적용   2. 부적 효과 확인   3. 카드 버리기");
         System.out.println("4. 손패 내기   5. 덱에 남은 카드 보기   6. 저장하고 나가기");
+        System.out.println("7. 족보 보기");
         System.out.print(">> 선택 : ");
         return getInputNumber();
     }

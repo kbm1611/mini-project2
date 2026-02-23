@@ -96,9 +96,9 @@ public class UserView {
         while(true){
             PlayerDto player = PlayerDto.getInstance();
             System.out.println("==================================");
-            System.out.printf("환영합니다.%s\n", player.getNickname());
+            System.out.printf("환영합니다.%s님\n", player.getNickname());
             System.out.printf("나의 최고 기록 :%s\n", uc.myBestScore(player.getUser_no()));
-            System.out.println("==================================\n");
+            System.out.println("==================================");
             System.out.println(" [1] 게임 시작");
             System.out.println(" [2] 전당 보기(랭킹확인)");
             System.out.println(" [3] 지난 기록");
@@ -118,6 +118,9 @@ public class UserView {
                     //처음 화면으로 이동
                     return ;
                 }
+            }catch(InputMismatchException e){
+                userscan.nextLine(); // 잘못된 토큰 제거
+                System.out.println("숫자만 입력해 주세요\n" + e);
             }catch (Exception e){
                 System.out.println("main 화면 선택 오류"+e);
             }

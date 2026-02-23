@@ -87,7 +87,7 @@ public class GameSaveService {
         // playerDto에 현재 플레이어 정보 넣기
         if(loadfile == null){ //처음 사용자라면
             player.setCurrent_round(1); //시작 라운드
-            player.setCurrent_hp(3);    // 시작 체력
+            player.setCurrent_hp(5);    // 시작 내는 횟수
             player.setCurrent_discard(3); //시작 버리기 횟수
             player.setCurrent_money(0); // 시작 돈
             player.setCurrent_score(0); // 시작 점수
@@ -173,5 +173,13 @@ public class GameSaveService {
             }
         }
         player.setCurrent_hand(current_hand); //카드리스트 추가
+    }
+
+    public boolean hasSaveData(int user_no){
+        SaveFileDto loadfile = gs.loadGame(user_no);
+        //만약 손패와 무덤이 모두 비어있다면 -> 신규유저
+        if(loadfile.getHand().isEmpty() && loadfile.getGrave().isEmpty()){ return false; }
+        else if(loadfile.getCurrent_hp() == 0){ return false; } //파산한 유저도 false 반환
+        else{ return true; }
     }
 }

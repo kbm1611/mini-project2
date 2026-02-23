@@ -31,7 +31,7 @@ public class UserController {
     public boolean login(String uid, String upwd){
         int result = ud.login(uid, upwd);
         if(result !=-1){
-            GameSaveService.getInstance().loadGame(result); //로그인 성공 시 게임정보 불러오기
+             GameSaveService.getInstance().loadGame(result); //로그인 성공 시 게임정보 불러오기
 
             //닉네임 설정
             String nickname = ud.printNickName(result);

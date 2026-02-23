@@ -110,5 +110,22 @@ public class GameConst {
         ROUND_LIST.add(new RoundDto(7, "아귀", 30000));
         ROUND_LIST.add(new RoundDto(8, "고니", 50000));
     }
+    public static void jokboView(){
+        System.out.println("\n=======================================");
+        System.out.println("오광 : 광이 5장 (족보점수 200점, 배율 15배)");
+        System.out.println("사광 : 광이 4장 (족보점수 120점, 배율 10배)");
+        System.out.println("삼광 : 광이 3장 (족보점수 60점, 배율 6배)");
+        System.out.println("띠 모음 : 띠가 5장  (족보점수 40점, 배율 4배)");
+        System.out.println("멍텅구리 : 열이 5장 (족보점수 40점, 배율 4배)");
+        System.out.println("38광땡 : 3광 + 8광 (족보점수 150점, 배율 8배)");
+        System.out.println("18광땡 : 1광 + 8광 (족보점수 100점, 배율 6배)");
+        System.out.println("13광땡 : 1광 + 3광 (족보점수 80점, 배율 5배)");
+        System.out.println("고도리 : 2·4·8월 새 패 (족보점수 70점, 배율 5배)");
+        System.out.println("홍단 : 홍단 3장 (족보점수 30점, 배율 3배)");
+        System.out.println("청단 : 청단 3장 (족보점수 30점, 배율 3배)");
+        System.out.println("초단 : 초단 3장 (족보점수 30점, 배율 3배)");
+        System.out.println("피바다 : 피5장 (족보점수 20점, 배율 2배)");
+        System.out.println("=======================================");
+    }
 }
 

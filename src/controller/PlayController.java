@@ -1,12 +1,14 @@
 package controller;
 
 import model.dto.Card;
+import model.dto.PlayerDto;
 import model.dto.ResultDto;
 import model.dto.RoundDto;
 import service.GameService;
 import service.RankService;
 import view.PlayView;
 import view.ShopView;
+import constant.GameConst;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -18,6 +20,7 @@ public class PlayController {
     private GameService GS = GameService.getInstance();
     private PlayView PV = PlayView.getInstance();
     private RankService rs = RankService.getInstance();
+    private PlayerDto player = PlayerDto.getInstance();
 
     public void play(){
         boolean isGameReady = false;
@@ -30,15 +33,16 @@ public class PlayController {
                 GS.startNewGame();
                 service.GameSaveService.getInstance().saveGame();
                 isGameReady = true;
-
             } else if (menuChoice == 2) {
                 // 💾 [이어하기] : 저장된 데이터 확인
-                if (model.dto.PlayerDto.getInstance().getCurrent_hp() > 0) {
+                if (player.getCurrent_round() == 1 && player.getCurrent_hp() == 5 && player.getCurrent_discard() == 3) { // 신규 유저
+                    PV.printMessage("🚫 신규유저입니다. '새로하기'를 선택하세요.");
+                } else if(player.getCurrent_hp() == 0){ //파산 상태
+                    PV.printMessage("🚫 이미 파산했습니다. '새로하기'를 선택하세요.");
+                } else{
                     PV.printMessage("💾 저장된 게임을 불러왔습니다! ("
                             + model.dto.PlayerDto.getInstance().getCurrent_round() + "라운드부터 시작)");
                     isGameReady = true;
-                } else {
-                    PV.printMessage("🚫 저장된 데이터가 없거나 이미 파산했습니다. '새로하기'를 선택하세요.");
                 }
 
             } else if (menuChoice == 0) {
@@ -100,7 +104,12 @@ public class PlayController {
                     service.GameSaveService.getInstance().saveGame();
                     PV.printMessage("💾 게임이 성공적으로 저장되었습니다. 안녕히 가세요!");
                     return;
-                } else {PV.printMessage("⚠️ 잘못된 입력입니다. 다시 선택해 주세요.");}
+                } else if(choice == 7){ constant.GameConst.jokboView();
+                    PV.printMessage("엔터를 치면 게임화면으로 넘어갑니다...");
+                    new java.util.Scanner(System.in).nextLine();
+                    break;
+                }
+                else {PV.printMessage("⚠️ 잘못된 입력입니다. 다시 선택해 주세요.");}
 
                 if(GS.checkRoundClear()){
                     PV.printMessage("\n🎉 축하합니다! [" + boss.getRoundName() + "] 라운드를 클리어했습니다!");
@@ -150,7 +159,7 @@ public class PlayController {
 
     private void processDiscardHand() {
 
-        int[] indexes = PV.getInputIndexes("버릴 카드 번호를 입력하세요");
+        int[] indexes = PV.getInputIndexes("버릴 카드 번호를 입력하세요 (최대 8장)");
         if (indexes == null) return;
         GS.discardHand(indexes);
         PV.printMessage("🗑️ 카드를 버리고 새로 뽑았습니다.");
