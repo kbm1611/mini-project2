@@ -36,7 +36,7 @@ public class PlayView {
         int currentMoney = player.getCurrent_money();
         ArrayList<model.dto.Item> myItems = player.getItem();
         if(boss.getRoundNo() == 9){ //9라운드에 도달 시
-            System.out.printf("[ Round %d  %s : 목표 점수 INF", boss.getRoundNo(), boss.getRoundName());
+            System.out.printf("[ Round %d  %s : 목표 점수 INF ]\n", boss.getRoundNo(), boss.getRoundName());
         }else{ // 1~8라운드
             System.out.printf("[ Round %d  %s : 목표 점수 %d점 ]\n", boss.getRoundNo(), boss.getRoundName(), boss.getTargetScore());
         }

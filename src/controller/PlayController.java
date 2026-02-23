@@ -116,7 +116,6 @@ public class PlayController {
                     GS.resetRound();
                     currentStage++;
                     model.dto.PlayerDto.getInstance().setCurrent_round(currentStage);
-                    ShopView.getInstance().printShopView();
                     if (currentStage > 8){
                         PV.printMessage("\uD83C\uDFC6 전설의 타짜가 되셨습니다! 게임 승리!");
                         rs.AddGameLog();
@@ -124,7 +123,7 @@ public class PlayController {
                         service.GameSaveService.getInstance().saveGame();
                         return;
                     }
-
+                    ShopView.getInstance().printShopView();
                     PV.printMessage("엔터를 치면 다음 라운드로 넘어갑니다...");
                     new java.util.Scanner(System.in).nextLine();
                     break;
