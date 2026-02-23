@@ -101,6 +101,7 @@ public class UserView {
             System.out.print(">>선택");
             try{
                 int ch = userscan.nextInt();
+                userscan.nextLine(); //비어 읽히는 현상 방지
                 if (ch == 1){ PlayController.getInstance().play(); }
                 else if(ch == 2 ){RankView.getInstance().rankingView();}
                 else if(ch == 3){RankView.getInstance().myLogView();}
