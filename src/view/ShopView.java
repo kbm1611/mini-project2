@@ -4,7 +4,6 @@ import controller.ShopController;
 import model.dto.Card;
 import model.dto.Item;
 import model.dto.PlayerDto;
-import service.GameService;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -107,7 +106,7 @@ public class ShopView {
             }else if(ch == 4){ //내 덱 확인
                 scan.nextLine();
                 ArrayList<Card> deck = player.getCard();
-                System.out.println("\n[ 덱에 남은 카드 (" + deck.size() + "장) ]");
+                System.out.println("\n[ 내 덱 카드 (" + deck.size() + "장) ]");
                 int count = 0;
                 for(Card c : deck) {
                     System.out.print("[" + c.getName() + "] ");
