@@ -37,8 +37,8 @@ public class UserDao {
                }if (e.getMessage().contains("nickname")){
                    System.out.println("이미 사용 중인 닉네임입니다.");
                }
-           }
-           System.out.println("[시스템] SQL "+ e);
+           }else{
+           System.out.println("[시스템] SQL "+ e);}
        }return false;
 }
     // Dao 로그인
