@@ -34,11 +34,11 @@ public class PlayController {
                 isGameReady = true;
             } else if (menuChoice == 2) {
                 // 💾 [이어하기] : 저장된 데이터 확인
-                if (player.getCurrent_round() == 1 && player.getCurrent_hp() == 3 && player.getCurrent_discard() == 3) { // 신규 유저
+                if (player.getCurrent_round() == 1 && player.getCurrent_hp() == 5 && player.getCurrent_discard() == 3) { // 신규 유저
                     PV.printMessage("🚫 신규유저입니다. '새로하기'를 선택하세요.");
                 } else if(player.getCurrent_hp() == 0){ //파산 상태
                     PV.printMessage("🚫 이미 파산했습니다. '새로하기'를 선택하세요.");
-                } else {
+                } else{
                     PV.printMessage("💾 저장된 게임을 불러왔습니다! ("
                             + model.dto.PlayerDto.getInstance().getCurrent_round() + "라운드부터 시작)");
                     isGameReady = true;
