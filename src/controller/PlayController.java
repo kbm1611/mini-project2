@@ -158,7 +158,7 @@ public class PlayController {
 
     private void processDiscardHand() {
 
-        int[] indexes = PV.getInputIndexes("버릴 카드 번호를 입력하세요");
+        int[] indexes = PV.getInputIndexes("버릴 카드 번호를 입력하세요 (최대 8장)");
         if (indexes == null) return;
         GS.discardHand(indexes);
         PV.printMessage("🗑️ 카드를 버리고 새로 뽑았습니다.");
