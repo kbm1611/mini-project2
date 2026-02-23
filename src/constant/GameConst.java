@@ -16,7 +16,7 @@ public class GameConst {
         BASIC_DECK.add(new Card(4, 1, "피", 1, "1월_피"));
 
         // 2월 (매조)
-        BASIC_DECK.add(new Card(5, 2, "열", 10, "2월_열"));
+        BASIC_DECK.add(new Card(5, 2, "열", 10, "2월_열(새)"));
         BASIC_DECK.add(new Card(6, 2, "띠", 5, "2월_홍단"));
         BASIC_DECK.add(new Card(7, 2, "피", 1, "2월_피"));
         BASIC_DECK.add(new Card(8, 2, "피", 1, "2월_피"));
@@ -28,7 +28,7 @@ public class GameConst {
         BASIC_DECK.add(new Card(12, 3, "피", 1, "3월_피"));
 
         // 4월 (흑싸리)
-        BASIC_DECK.add(new Card(13, 4, "열", 10, "4월_열"));
+        BASIC_DECK.add(new Card(13, 4, "열", 10, "4월_열(새)"));
         BASIC_DECK.add(new Card(14, 4, "띠", 5, "4월_초단"));
         BASIC_DECK.add(new Card(15, 4, "피", 1, "4월_피"));
         BASIC_DECK.add(new Card(16, 4, "피", 1, "4월_피"));
@@ -53,7 +53,7 @@ public class GameConst {
 
         // 8월 (공산)
         BASIC_DECK.add(new Card(29, 8, "광", 20, "8월_광"));
-        BASIC_DECK.add(new Card(30, 8, "열", 10, "8월_열"));
+        BASIC_DECK.add(new Card(30, 8, "열", 10, "8월_열(새)"));
         BASIC_DECK.add(new Card(31, 8, "피", 1, "8월_피"));
         BASIC_DECK.add(new Card(32, 8, "피", 1, "8월_피"));
 
