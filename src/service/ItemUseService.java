@@ -91,6 +91,8 @@ public class ItemUseService {
                         buffedCard = null;
                         originalType = "";
                 }
+                ancestorBuffActive = false;
+                itemstate = false;
         }
 
         public boolean useBottomDealing() {
@@ -238,7 +240,7 @@ public class ItemUseService {
            return false;
         }
         if(player.getCurrent_hp() >= 3){   // 현재 기회가 3개 이상이면 사용 불가
-            System.out.printf("아이템 사용불가(현재 기회 : %d)",player.getCurrent_hp());
+            System.out.printf("아이템 사용불가(현재 기회 : %d)\n",player.getCurrent_hp());
             return false;
         }
         player.setCurrent_hp(3); // 기회 : 3

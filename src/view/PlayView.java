@@ -42,15 +42,29 @@ public class PlayView {
                 currentScore, currentMoney, submitLeft, discardLeft);
         System.out.println("================================================");
 
-        String amulets = "";     // 부적 (패시브)
-        String divinations = ""; // 점괘 (액티브)
+        String amulets = "";
+        String divinations = "";
 
         if (myItems != null && !myItems.isEmpty()) {
+            // 부적 중복 카운트를 위한 임시 배열/리스트 (아이템 이름과 개수 저장)
+            java.util.HashMap<String, Integer> amuletCount = new java.util.HashMap<>();
+
             for (model.dto.Item item : myItems) {
                 if ("부적".equals(item.getType())) {
-                    amulets += "[" + item.getName() + "] ";
+                    // 부적은 해시맵에 카운트 누적
+                    amuletCount.put(item.getName(), amuletCount.getOrDefault(item.getName(), 0) + 1);
                 } else if ("점괘".equals(item.getType())) {
                     divinations += item.getName() + "(" + item.getItem_no() + ") ";
+                }
+            }
+
+            // 누적된 부적 맵을 순회하면서 [이름] x개수로 출력!
+            for (String amuletName : amuletCount.keySet()) {
+                int count = amuletCount.get(amuletName);
+                if (count > 1) {
+                    amulets += "[" + amuletName + "] x" + count + " ";
+                } else {
+                    amulets += "[" + amuletName + "] ";
                 }
             }
         }

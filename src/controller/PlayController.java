@@ -121,6 +121,7 @@ public class PlayController {
                         PV.printMessage("\uD83C\uDFC6 전설의 타짜가 되셨습니다! 게임 승리!");
                         rs.AddGameLog();
                         player.setCurrent_hp(0);
+                        service.GameSaveService.getInstance().saveGame();
                         return;
                     }
 
