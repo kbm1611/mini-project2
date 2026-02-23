@@ -20,6 +20,7 @@ public class ItemUseService {
 
         private Card buffedCard = null;
         private String originalType = "";
+        private String originalName = "";
         public int getItemCount(int itemId) {
             if (player.getItem() == null) return 0;
             int count = 0;
@@ -66,8 +67,9 @@ public class ItemUseService {
                 // 3. 원래 타입을 기억해두고 '광'으로 임시 변환
                 buffedCard = targetCard;
                 originalType = targetCard.getType();
+                originalName = targetCard.getName();;
                 targetCard.setType("광");
-
+                targetCard.setName(targetCard.getMonth() + "월_광");
                 System.out.println("\n✨ [신령님의 계시 발동!] 손패의 카드가 찬란하게 빛납니다...");
                 System.out.println("👉 이번 턴에만 [" + targetCard.getMonth() + "월 " + originalType + "] 카드가 [광]으로 취급됩니다!");
                 consumeItem(4);
@@ -80,16 +82,21 @@ public class ItemUseService {
                 // 제출하거나 버린 카드 목록(movedCards)에 내가 변환했던 카드가 들어있다면?
                 if (movedCards.contains(buffedCard)) {
                         buffedCard.setType(originalType); // 원래 타입(피, 띠, 열)으로 원상복구!
+                        buffedCard.setName(originalName);
                         buffedCard = null; // 기억 지우기
                         originalType = "";
+                        originalName = "";
                 }
         }
 
         public void clearBuff() {
                 if (buffedCard != null) {
                         buffedCard.setType(originalType);
+                        buffedCard.setName(originalName);
                         buffedCard = null;
+
                         originalType = "";
+                        originalName = "";
                 }
                 ancestorBuffActive = false;
                 itemstate = false;
