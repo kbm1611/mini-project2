@@ -141,6 +141,9 @@ public class ShopView {
                         rand = new Random().nextInt(2)+1; // 추가 or 삭제 다시 랜덤하게
                         player.setCurrent_money(player.getCurrent_money() - reroll); // 50원 차감
                         reroll += 10; //다음 리롤 10원 증가
+                        isBuy1st = false;
+                        isBuy2nd = false;
+                        isBuy3rd = false;
                     }else{
                         System.out.println("[경고]돈이 부족합니다.");
                     }
