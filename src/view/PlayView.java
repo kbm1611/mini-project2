@@ -121,22 +121,17 @@ public class PlayView {
 
             // 4. 타입 정보 (홍단/청단/초단 변환)
             for (int j = i; j < end; j++) {
-                String typeStr = hand.get(j).getType();
-                int month = hand.get(j).getMonth();
+                String typeStr = hand.get(j).getName().split("_")[1];
 
-                if (typeStr.equals("띠")) {
-                    if (month == 1 || month == 2 || month == 3) typeStr = "홍단";
-                    else if (month == 6 || month == 9 || month == 10) typeStr = "청단";
-                    else if (month == 4 || month == 5 || month == 7) typeStr = "초단";
-                }
 
-                // 여백 완벽 계산
-                if(typeStr.length() == 1) {
-                    System.out.print(" |  " + typeStr + "  | ");
+                if (typeStr.length() == 1) {
+                    System.out.print(" |  " + typeStr + "  | ");   // 광, 피, 열, 띠
                 } else if (typeStr.length() == 2) {
-                    System.out.print(" | " + typeStr + " | ");
+                    System.out.print(" | " + typeStr + " | ");    // 홍단, 청단, 쌍피
+                } else if (typeStr.length() == 3) {
+                    System.out.print(" | " + typeStr + "| ");     // 3글자 예외 처리
                 } else {
-                    System.out.print(" |" + typeStr + "| ");
+                    System.out.print(" |" + typeStr + "| ");      // 열(새) 등 4글자 이상
                 }
             }
             System.out.println();
