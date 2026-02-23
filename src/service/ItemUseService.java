@@ -245,7 +245,7 @@ public class ItemUseService {
         }
         player.setCurrent_hp(5); // 기회 : 3
         consumeItem(10); // 아이템 10번 삭제
-        System.out.println("[아수라발발타 발동] 기회 : 3");
+        System.out.println("[아수라발발타 발동] 기회 : 5");
         return true;
     }
 }
