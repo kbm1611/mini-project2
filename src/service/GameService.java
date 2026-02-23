@@ -105,7 +105,7 @@ public class GameService {
         player.getCurrent_grave().clear();
         Collections.shuffle(this.deck);
 
-        System.out.println("\"\uD83D\uDD04 덱이 다 떨어져서 버린 패를 섞었습니다!\"");
+        System.out.println("\uD83D\uDD04 덱이 다 떨어져서 버린 패를 섞었습니다!");
     }
 
     public ArrayList<Card> drawCard(int count){

@@ -47,7 +47,7 @@ public class PlayController {
 
             } else if (menuChoice == 0) {
                 // ❌ [종료]
-                PV.printMessage("게임을 종료합니다. 안녕히 가세요! 👋");
+                PV.printMessage("메인 메뉴로 돌아갑니다. 안녕히 가세요! 👋");
                 return; // 프로그램 종료
 
             } else {

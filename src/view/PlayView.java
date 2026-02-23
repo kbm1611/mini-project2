@@ -38,7 +38,7 @@ public class PlayView {
         System.out.println("\n\n\n\n\n");
         System.out.println("================================================");
         System.out.printf("[ Round %d  %s : 목표 점수 %d점 ]\n", boss.getRoundNo(), boss.getRoundName(), boss.getTargetScore());
-        System.out.printf("현재 점수: %d | 💵 잔액: %d원 | 남은 손패 횟수: %d | 버리기 횟수: %d\n",
+        System.out.printf("현재 점수: %d | 💵 잔액: %d냥 | 남은 손패 횟수: %d | 버리기 횟수: %d\n",
                 currentScore, currentMoney, submitLeft, discardLeft);
         System.out.println("================================================");
 
