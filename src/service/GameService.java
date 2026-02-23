@@ -63,34 +63,50 @@ public class GameService {
         RoundDto boss = GameConst.ROUND_LIST.get(roundNo-1);
         this.targetScore = boss.getTargetScore();
 
-        //  만약 손패에 카드가 이미 있다면? (중간에 껐다가 '이어하기'로 들어온 상황)
+        // 만약 손패에 카드가 이미 있다면 (이어하기)
         if (player.getCurrent_hand() != null && !player.getCurrent_hand().isEmpty()) {
             System.out.println("💾 저장된 손패와 무덤을 복구하여 라운드를 이어갑니다.");
 
-            // 덱(deck) 복구: 내 전체 소유 카드에서 -> 손패와 무덤에 있는 카드를 빼면 = 남은 덱!
             this.deck.clear();
-            this.deck.addAll(player.getCard());
-            this.deck.removeAll(player.getCurrent_hand());
-            this.deck.removeAll(player.getCurrent_grave());
-            Collections.shuffle(this.deck);
+            this.deck.addAll(player.getCard()); // 1. 전체 덱 복사
 
-            return boss; // 초기화 로직을 건너뛰고 바로 보스 정보 리턴
+            // 손패에 있는 카드들 이름 기준으로 딱 1장씩만 덱에서 제거
+            for (Card handCard : player.getCurrent_hand()) {
+                for (int i = 0; i < this.deck.size(); i++) {
+                    if (this.deck.get(i).getName().equals(handCard.getName())) {
+                        this.deck.remove(i);
+                        break; // 1장 지웠으면 멈추고 다음 손패 카드로 넘어감
+                    }
+                }
+            }
+
+            // 무덤에 있는 카드들 이름 기준으로 딱 1장씩만 덱에서 제거
+            for (Card graveCard : player.getCurrent_grave()) {
+                for (int i = 0; i < this.deck.size(); i++) {
+                    if (this.deck.get(i).getName().equals(graveCard.getName())) {
+                        this.deck.remove(i);
+                        break;
+                    }
+                }
+            }
+
+            Collections.shuffle(this.deck);
+            return boss;
         }
 
-        //  손패가 비어 있다면 (완전히 새로운 라운드를 시작하는 상황)
+        //손패가 비어 있다면 (새로운 라운드)
         player.setCurrent_round(roundNo);
         player.setCurrent_score(0);
         player.setCurrent_hp(5);
         player.setCurrent_discard(3);
 
         this.deck.clear();
-        this.deck.addAll(player.getCard()); // 소유한 덱 전체를 가져옴
+        this.deck.addAll(player.getCard());
         Collections.shuffle(this.deck);
 
         player.setCurrent_hand(new ArrayList<>());
         player.setCurrent_grave(new ArrayList<>());
 
-        // 새 라운드니까 8장 뽑기
         drawCard(8);
 
         return boss;
