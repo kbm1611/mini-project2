@@ -119,6 +119,7 @@ public class ShopView {
                 }
             }catch (InputMismatchException e){
                 scan.nextLine(); //버퍼 비우기
+                System.out.println("(시스템)숫자만 입력해 주세요");
             }
         }
 

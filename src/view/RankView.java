@@ -60,6 +60,7 @@ public class RankView {
             }
         }catch ( InputMismatchException e){
             scan.nextLine();
+            System.out.println("(시스템)숫자만 입력해 주세요");
         }
 
     }
@@ -124,6 +125,7 @@ public class RankView {
             }
         }catch (InputMismatchException e){
             scan.nextLine();
+            System.out.println("(시스템)숫자만 입력해 주세요");
         }
     }
 }
