@@ -90,9 +90,9 @@ public class UserView {
         while(true){
             PlayerDto player = PlayerDto.getInstance();
             System.out.println("==================================");
-            System.out.printf("환영합니다.%s\n", player.getNickname());
+            System.out.printf("환영합니다.%s님\n", player.getNickname());
             System.out.printf("나의 최고 기록 :%s\n", uc.myBestScore(player.getUser_no()));
-            System.out.println("==================================\n");
+            System.out.println("==================================");
             System.out.println(" [1] 게임 시작");
             System.out.println(" [2] 전당 보기(랭킹확인)");
             System.out.println(" [3] 지난 기록");

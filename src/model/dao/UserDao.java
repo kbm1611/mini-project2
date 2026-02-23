@@ -3,6 +3,8 @@ package model.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import model.dto.UserDto;
 public class UserDao {
 
@@ -28,7 +30,14 @@ public class UserDao {
            int count =ps.executeUpdate();
            if(count == 1){ return true; }
            else {return false;}
-    }catch (Exception e){
+        }catch (SQLException e){
+           if (e.getErrorCode() == 1062){
+               if (e.getMessage().contains("uid")) {
+                   System.out.println("이미 사용 중인 아이디입니다.");
+               }if (e.getMessage().contains("nickname")){
+                   System.out.println("이미 사용 중인 닉네임입니다.");
+               }
+           }
            System.out.println("[시스템] SQL "+ e);
        }return false;
 }
