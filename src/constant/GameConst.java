@@ -120,7 +120,7 @@ public class GameConst {
         System.out.println("38광땡 : 3광 + 8광 (족보점수 150점, 배율 8배)");
         System.out.println("18광땡 : 1광 + 8광 (족보점수 100점, 배율 6배)");
         System.out.println("13광땡 : 1광 + 3광 (족보점수 80점, 배율 5배)");
-        System.out.println("고도리 : 2·4·8월 새 패 (족보점수 70점, 배율 5배)");
+        System.out.println("고도리 : 2·4·8월 열 (족보점수 70점, 배율 5배)");
         System.out.println("홍단 : 홍단 3장 (족보점수 30점, 배율 3배)");
         System.out.println("청단 : 청단 3장 (족보점수 30점, 배율 3배)");
         System.out.println("초단 : 초단 3장 (족보점수 30점, 배율 3배)");
