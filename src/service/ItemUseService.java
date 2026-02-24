@@ -250,7 +250,7 @@ public class ItemUseService {
             System.out.printf("아이템 사용불가(현재 기회 : %d)\n",player.getCurrent_hp());
             return false;
         }
-        player.setCurrent_hp(5); // 기회 : 3
+        player.setCurrent_hp(5); // 기회 : 5
         consumeItem(10); // 아이템 10번 삭제
         System.out.println("[아수라발발타 발동] 기회 : 5");
         return true;

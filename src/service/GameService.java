@@ -46,18 +46,6 @@ public class GameService {
         System.out.println("🆕 새로운 타짜의 길을 걷습니다. (기본 화투패 48장 지급 완료)");
     }
 
-    public boolean loadGame() {
-        PlayerDto player = PlayerDto.getInstance();
-
-        if (player.getCard() != null && !player.getCard().isEmpty()) {
-            System.out.println("💾 저장된 게임을 불러왔습니다! (" + player.getCurrent_round() + "라운드부터 시작)");
-            return true;
-        } else {
-            System.out.println("🚫 저장된 데이터가 없습니다. 새로하기를 선택해 주세요.");
-            return false;
-        }
-    }
-
     public RoundDto startRound(int roundNo){
         PlayerDto player = PlayerDto.getInstance();
         RoundDto boss = GameConst.ROUND_LIST.get(roundNo-1);
@@ -197,19 +185,23 @@ public class GameService {
             }
         }
 
-        if (kwangCount == 5) return GameConst.JOKBO_LIST.get(0);    // 5광
-        if (kwangCount == 4) return GameConst.JOKBO_LIST.get(1);    // 4광
-        if (kwangCount == 3) return GameConst.JOKBO_LIST.get(2);    // 3광
-        if (ddiCount == 5) return GameConst.JOKBO_LIST.get(3);      // 띠 모음
-        if (yulCount == 5) return GameConst.JOKBO_LIST.get(4);      // 멍텅구리
-        if (kwangMonths.contains(3) && kwangMonths.contains(8)) return GameConst.JOKBO_LIST.get(5);     //38광땡
-        if (kwangMonths.contains(1) && kwangMonths.contains(8)) return GameConst.JOKBO_LIST.get(6);     // 18광땡
-        if (kwangMonths.contains(1) && kwangMonths.contains(3)) return GameConst.JOKBO_LIST.get(7);     // 13광땡
-        if (yulMonths.contains(2) && yulMonths.contains(4) && yulMonths.contains(8)) return GameConst.JOKBO_LIST.get(8);    // 고도리
-        if (ddiMonths.contains(1) && ddiMonths.contains(2) && ddiMonths.contains(3)) return GameConst.JOKBO_LIST.get(9);    // 홍단
-        if (ddiMonths.contains(6) && ddiMonths.contains(9) && ddiMonths.contains(10)) return GameConst.JOKBO_LIST.get(10);  // 청단
-        if (ddiMonths.contains(4) && ddiMonths.contains(5) && ddiMonths.contains(7)) return GameConst.JOKBO_LIST.get(11);   // 초단
-        if (piCount == 5) return GameConst.JOKBO_LIST.get(12);      // 피바다
+        if (kwangCount == 5) return GameConst.JOKBO_LIST.get(0); // 1. 오광
+        if (kwangCount == 4) return GameConst.JOKBO_LIST.get(1); // 2. 사광
+        if (kwangMonths.contains(3) && kwangMonths.contains(8)) return GameConst.JOKBO_LIST.get(2); // 3. 38광땡
+        if (kwangMonths.contains(1) && kwangMonths.contains(8)) return GameConst.JOKBO_LIST.get(3); // 4. 18광땡
+        if (yulMonths.contains(2) && yulMonths.contains(4) && yulMonths.contains(8)) return GameConst.JOKBO_LIST.get(4); // 5. 고도리
+        if (kwangMonths.contains(1) && kwangMonths.contains(3)) return GameConst.JOKBO_LIST.get(5); // 6. 13광땡
+
+        if (ddiMonths.contains(1) && ddiMonths.contains(2) && ddiMonths.contains(3)) return GameConst.JOKBO_LIST.get(6); // 7. 홍단
+        if (ddiMonths.contains(6) && ddiMonths.contains(9) && ddiMonths.contains(10)) return GameConst.JOKBO_LIST.get(7); // 8. 청단
+        if (ddiMonths.contains(4) && ddiMonths.contains(5) && ddiMonths.contains(7)) return GameConst.JOKBO_LIST.get(8); // 9. 초단
+
+        if (yulCount == 5) return GameConst.JOKBO_LIST.get(9); // 10. 멍텅구리
+
+        if (kwangCount == 3) return GameConst.JOKBO_LIST.get(10); // 11. 삼광
+
+        if (ddiCount == 5) return GameConst.JOKBO_LIST.get(11); // 12. 띠 모음
+        if (piCount == 5) return GameConst.JOKBO_LIST.get(12);  // 13. 피바다
 
         return null;
     }
