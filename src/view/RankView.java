@@ -37,6 +37,8 @@ public class RankView {
                     int ch = scan.nextInt();
                     if(ch == 0){
                         return;
+                    }else{
+                        System.out.println("(시스템)0이외의 숫자가 입력되었습니다. 다시 입력해주세요.");
                     }
                 }
                 int count = 1;
@@ -52,6 +54,8 @@ public class RankView {
                 int ch = scan.nextInt();
                 if(ch == 0){
                     return;
+                }else{
+                    System.out.println("(시스템)0이외의 숫자가 입력되었습니다. 다시 입력해주세요.");
                 }
             }catch ( InputMismatchException e){
                 scan.nextLine();
@@ -82,6 +86,8 @@ public class RankView {
                     int ch = scan.nextInt();
                     if(ch == 0){
                         return;
+                    }else{
+                        System.out.println("(시스템)0이외의 숫자가 입력되었습니다. 다시 입력해주세요.");
                     }
                 }
 
@@ -113,6 +119,8 @@ public class RankView {
                 int ch = scan.nextInt();
                 if(ch == 0){
                     return;
+                }else{
+                    System.out.println("(시스템)0이외의 숫자가 입력되었습니다. 다시 입력해주세요.");
                 }
             }catch (InputMismatchException e){
                 scan.nextLine();

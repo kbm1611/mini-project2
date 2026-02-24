@@ -148,6 +148,8 @@ public class ShopView {
                     }
                 } else if(ch == 6){
                     return; //상점 탈출
+                }else{
+                    System.out.println("(시스템)1~6사이의 숫자로 다시 입력해주세요.");
                 }
             }catch (InputMismatchException e){
                 scan.nextLine(); //버퍼 비우기
