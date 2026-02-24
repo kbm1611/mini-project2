@@ -123,7 +123,6 @@ public class PlayController {
                         rs.AddGameLog(); PV.printMessage("💾게임 저장 완료");
                         PV.printMessage("\uD83C\uDF00무한모드에 진입합니다...");
                         service.GameSaveService.getInstance().saveGame();
-                        return;
                     }
                     ShopView.getInstance().printShopView();
                     PV.printMessage("엔터를 치면 다음 라운드로 넘어갑니다...");
