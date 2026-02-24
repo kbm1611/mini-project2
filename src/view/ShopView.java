@@ -86,21 +86,32 @@ public class ShopView {
                     if(result){ System.out.printf("[안내][%s]%s이/가 추가되었습니다.\n", itemlist.get(1).getType(), itemlist.get(1).getName()); isBuy2nd = true; }
                     else{ System.out.println("[경고]돈이 부족합니다."); }
                 }else if(ch == 3 && rand == 1 && !isBuy3rd){
+                    scan.nextLine();
                     ArrayList<Card> cards = sc.getFiveCard();
-                    System.out.printf("""
+                    while(true){
+                        try{
+                            System.out.printf("""
                     -------------------뽑기 선택-------------------
-                    1. [%s]  2. [%s]  3.[%s]
-                    4.[%s] 5.[%s]
+                    1.[%s] 2.[%s]  3.[%s]
+                    4.[%s] 5.[%s] 6. 뽑기 선택 안함
                     """, cards.get(0).getName(), cards.get(1).getName(), cards.get(2).getName(), cards.get(3).getName(), cards.get(4).getName()
-                    );
-                    int ch2 = scan.nextInt();
-                    if( ch2 >= 1 && ch2 <= 5){
-                        //플레이어 덱에 해당 카드를 추가하는 알고리즘을 넣기
-                        boolean result = sc.addCard( cards.get(ch2-1).getCard_no(), 100 );
-                        if(result){ System.out.printf("[안내][%s]이/가 추가되었습니다.\n", cards.get(ch2-1).getName()); isBuy3rd = true; }
-                        else{ System.out.println("[경고]돈이 부족합니다."); }
-                    }else{
-                        System.out.println("다시 입력해주세요.");
+                            );
+                            int ch2 = scan.nextInt();
+                            if( ch2 >= 1 && ch2 <= 5){
+                                //플레이어 덱에 해당 카드를 추가하는 알고리즘을 넣기
+                                boolean result = sc.addCard( cards.get(ch2-1).getCard_no(), 100 );
+                                if(result){ System.out.printf("[안내][%s]이/가 추가되었습니다.\n", cards.get(ch2-1).getName()); isBuy3rd = true; break; }
+                                else{ System.out.println("[경고]돈이 부족합니다."); }
+                            }else if(ch2 == 6){
+                                isBuy3rd = true;
+                                break;
+                            } else{
+                                System.out.println("1~6 사이의 숫자로 다시 입력해주세요.");
+                            }
+                        }catch (InputMismatchException e){
+                            scan.nextLine(); //버퍼 비우기
+                            System.out.println("(시스템)숫자만 입력해 주세요");
+                        }
                     }
                 }else if(ch == 3 && rand == 2 && !isBuy3rd){
                     scan.nextLine();
@@ -108,7 +119,7 @@ public class ShopView {
 
                     boolean result = false;
                     while(!result){ //삭제할 때까지 무한반복 -1 입력시 탈출
-                        System.out.print("삭제할 카드명을 정확하게 입력하세요(되돌아가기 -1): "); String removeCard = scan.nextLine();
+                        System.out.print("삭제할 카드명을 정확하게 입력하세요(되돌아가기 -1) [ ex) 1월_피 ]: "); String removeCard = scan.nextLine();
                         if(removeCard.equals("-1")){ // -1입력시 탈출
                             break;
                         }
@@ -122,7 +133,7 @@ public class ShopView {
                             System.out.println("[안내]카드 삭제에 성공하셨습니다.");
                             isBuy3rd = true;
                         }
-                        else{ System.out.println("[경고]카드 삭제에 실패하셨습니다."); }
+                        else{ System.out.println("[경고]카드 삭제에 실패하셨습니다. 다시 입력하세요."); }
                     }
                 }else if(ch == 4){ //내 덱 확인
                     scan.nextLine();
