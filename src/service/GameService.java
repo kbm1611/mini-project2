@@ -46,18 +46,6 @@ public class GameService {
         System.out.println("🆕 새로운 타짜의 길을 걷습니다. (기본 화투패 48장 지급 완료)");
     }
 
-    public boolean loadGame() {
-        PlayerDto player = PlayerDto.getInstance();
-
-        if (player.getCard() != null && !player.getCard().isEmpty()) {
-            System.out.println("💾 저장된 게임을 불러왔습니다! (" + player.getCurrent_round() + "라운드부터 시작)");
-            return true;
-        } else {
-            System.out.println("🚫 저장된 데이터가 없습니다. 새로하기를 선택해 주세요.");
-            return false;
-        }
-    }
-
     public RoundDto startRound(int roundNo){
         PlayerDto player = PlayerDto.getInstance();
         RoundDto boss = GameConst.ROUND_LIST.get(roundNo-1);
