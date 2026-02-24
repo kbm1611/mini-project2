@@ -333,12 +333,19 @@ public class GameService {
         return false;
     }
 
-    public boolean isGameOver() {
+    public boolean isGameOver(model.dto.RoundDto boss) {
         PlayerDto player = PlayerDto.getInstance();
 
         // 기회가 0 이하인데, 점수가 안 될 때
-        if (player.getCurrent_hp() <= 0 && player.getCurrent_score() < this.targetScore) {
-            System.out.println("💀 [게임 오버] 기회를 모두 사용했는데 목표 점수에 도달하지 못했습니다...");
+        if (player.getCurrent_hp() <= 0 && player.getCurrent_score() < boss.getTargetScore()) {
+
+            if (boss.getRoundNo() == 9) {
+                // 무한 모드(9라운드)
+                System.out.println("🔥 [무한 모드 종료] 모든 기회를 소진하여 도전을 마감합니다!");
+            } else {
+                // 일반 라운드(1~8라운드)
+                System.out.println("💀 [게임 오버] 기회를 모두 사용했는데 목표 점수에 도달하지 못했습니다...");
+            }
             rs.AddGameLog();
             return true;
         }

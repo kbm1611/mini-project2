@@ -117,11 +117,13 @@ public class PlayController {
                     currentStage++;
                     model.dto.PlayerDto.getInstance().setCurrent_round(currentStage);
                     if (currentStage > 8){
-                        PV.printMessage("\uD83C\uDFC6 전설의 타짜가 되셨습니다! 게임 승리! ");
+                        PV.printMessage("\n================================================");
+                        PV.printMessage(" 🏆 전설의 타짜가 되셨습니다! 기본 게임 승리! 🏆 ");
+                        PV.printMessage("================================================");
                         try{ Thread.sleep(2000); } //2초 휴식
                         catch (InterruptedException e){ Thread.currentThread().interrupt(); }
-                        rs.AddGameLog(); PV.printMessage("💾게임 저장 완료");
-                        PV.printMessage("\uD83C\uDF00무한모드에 진입합니다...");
+                        rs.AddGameLog(); PV.printMessage("💾 게임 승리 기록 저장 완료!");
+                        PV.printMessage("🌀 지금부터 한계에 도전하는 [무한 모드]에 진입합니다...");
                         service.GameSaveService.getInstance().saveGame();
                     }
                     ShopView.getInstance().printShopView();
@@ -129,8 +131,15 @@ public class PlayController {
                     new java.util.Scanner(System.in).nextLine();
                     break;
                 }
-                if (GS.isGameOver()){
-                    PV.printMessage("\n💀 게임 오버... [" + boss.getRoundName() + "]에게 패배했습니다.");
+                if (GS.isGameOver(boss)){
+                    if (boss.getRoundNo() == 9) {
+                        PV.printMessage("\n================================================");
+                        PV.printMessage(" 🏆 위대한 타짜의 전설이 여기서 마무리됩니다.");
+                        PV.printMessage(" 💰 달성한 최종 점수: [ " + PlayerDto.getInstance().getCurrent_score() + " 점 ]");
+                        PV.printMessage("================================================");
+                    } else {
+                        PV.printMessage("\n💀 게임 오버... [" + boss.getRoundName() + "]에게 패배했습니다.");
+                    }
                     service.GameSaveService.getInstance().saveGame();
                     return;
                 }
