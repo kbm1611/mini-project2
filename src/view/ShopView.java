@@ -92,8 +92,8 @@ public class ShopView {
                         try{
                             System.out.printf("""
                     -------------------뽑기 선택-------------------
-                    1.[%s] 2.[%s]  3.[%s]
-                    4.[%s] 5.[%s] 6. 뽑기 선택 안함
+                    1.[%s] 2.[%s] 3.[%s]
+                    4.[%s] 5.[%s] 6.뽑기 선택 안함
                     """, cards.get(0).getName(), cards.get(1).getName(), cards.get(2).getName(), cards.get(3).getName(), cards.get(4).getName()
                             );
                             int ch2 = scan.nextInt();
