@@ -86,17 +86,21 @@ public class GameConst {
     static {
         JOKBO_LIST.add(new JokboDto(1, "오광", 20, 500));       // get(0)
         JOKBO_LIST.add(new JokboDto(2, "사광", 12, 200));       // get(1)
-        JOKBO_LIST.add(new JokboDto(3, "삼광", 6, 100));        // get(2)
-        JOKBO_LIST.add(new JokboDto(4, "띠 모음", 4, 50));      // get(3)  - 아무 띠 5장
-        JOKBO_LIST.add(new JokboDto(5, "멍텅구리", 4, 150));    // get(4)  - 아무 열 5장
-        JOKBO_LIST.add(new JokboDto(6, "38광땡", 10, 200));     // get(5)
-        JOKBO_LIST.add(new JokboDto(7, "18광땡", 8, 150));      // get(6)
-        JOKBO_LIST.add(new JokboDto(8, "13광땡", 6, 120));      // get(7)
-        JOKBO_LIST.add(new JokboDto(9, "고도리", 7, 150));      // get(8)
-        JOKBO_LIST.add(new JokboDto(10, "홍단", 6, 120));       // get(9)
-        JOKBO_LIST.add(new JokboDto(11, "청단", 6, 120));       // get(10)
-        JOKBO_LIST.add(new JokboDto(12, "초단", 6, 120));       // get(11)
-        JOKBO_LIST.add(new JokboDto(13, "피바다", 3, 30));      // get(12) - 아무 피 5장      // get(12)
+        JOKBO_LIST.add(new JokboDto(6, "38광땡", 10, 200));     // get(2)
+
+        JOKBO_LIST.add(new JokboDto(7, "18광땡", 8, 150));      // get(3)
+        JOKBO_LIST.add(new JokboDto(9, "고도리", 7, 150));      // get(4)
+        JOKBO_LIST.add(new JokboDto(8, "13광땡", 6, 120));      // get(5)
+
+        JOKBO_LIST.add(new JokboDto(10, "홍단", 6, 120));       // get(6)
+        JOKBO_LIST.add(new JokboDto(11, "청단", 6, 120));       // get(7)
+        JOKBO_LIST.add(new JokboDto(12, "초단", 6, 120));       // get(8)
+
+        JOKBO_LIST.add(new JokboDto(5, "멍텅구리", 4, 150));    // get(9)
+
+        JOKBO_LIST.add(new JokboDto(3, "삼광", 6, 100));        // get(10)
+        JOKBO_LIST.add(new JokboDto(4, "띠 모음", 4, 50));      // get(11)
+        JOKBO_LIST.add(new JokboDto(13, "피바다", 3, 30));      // get(12)
     }
 
     public static final ArrayList<RoundDto> ROUND_LIST = new ArrayList<>();
