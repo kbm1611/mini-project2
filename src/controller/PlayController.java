@@ -116,7 +116,7 @@ public class PlayController {
                     GS.resetRound();
                     currentStage++;
                     model.dto.PlayerDto.getInstance().setCurrent_round(currentStage);
-                    if (currentStage > 9){
+                    if (currentStage > 8){
                         PV.printMessage("\uD83C\uDFC6 전설의 타짜가 되셨습니다! 게임 승리! ");
                         try{ Thread.sleep(2000); } //2초 휴식
                         catch (InterruptedException e){ Thread.currentThread().interrupt(); }
