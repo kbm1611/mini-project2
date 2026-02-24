@@ -60,7 +60,7 @@ public class ShopView {
                 System.out.println();
             }
             if(isBuy3rd){
-                System.out.println("3. 구매완료");
+                System.out.println("3. 구매 완료");
             }else{
                 System.out.printf("3. %s\n", ThirdText);
             }
