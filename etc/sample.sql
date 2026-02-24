@@ -75,7 +75,7 @@ INSERT INTO item_info (item_no, name, type, price, description, effect_code) VAL
 (7, '동작 그만', '점괘', 300, '지금 패를 다음 판에도 유지한다', 'ACTIVE_KEEP_HAND'),
 (8, '붉은 띠', '부적', 100, '홍단 점수 +3배', 'PASSIVE_RED_MULT_UP'),
 (9, '푸른 띠', '부적', 100, '청단 점수 +3배', 'PASSIVE_BLUE_MULT_UP'),
-(10, '아수라발발타', '점괘', 400, '목숨을 3으로 만든다', 'ACTIVE_ASURA_HP');
+(10, '아수라발발타', '점괘', 400, '목숨을 5으로 만든다', 'ACTIVE_ASURA_HP');
 
 -- game_log 테이블 샘플 데이터
 INSERT INTO game_log (log_no, user_no, play_date, final_score, final_round, final_money) VALUES
@@ -89,6 +89,7 @@ INSERT INTO game_log (log_no, user_no, play_date, final_score, final_round, fina
 (8, 5, '2026-02-06', 8912, 8, 150),
 (9, 6, '2026-02-06', 5356, 6, 180),
 (10, 6, '2026-02-05', 4954, 5, 220);
+
 
 -- save_file 테이블 샘플 데이터
 INSERT INTO save_file (user_no, current_round, current_hp, current_discard, current_grave, current_hand, current_money, current_score, card, item) VALUES
