@@ -177,8 +177,8 @@ public class GameSaveService {
 
     public boolean hasSaveData(int user_no){
         SaveFileDto loadfile = gs.loadGame(user_no);
-        //만약 손패와 무덤이 모두 비어있다면 -> 신규유저
-        if(loadfile.getHand().isEmpty() && loadfile.getGrave().isEmpty()){ return false; }
+        //신규유저(저장없음)
+        if(loadfile == null){ return false; }
         else if(loadfile.getCurrent_hp() == 0){ return false; } //파산한 유저도 false 반환
         else{ return true; }
     }
