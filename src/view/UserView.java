@@ -85,7 +85,7 @@ public class UserView {
         boolean result = uc.login(uid, upwd);
         if(result){
             System.out.println("(시스템) 로그인 성공 ");
-            System.out.print("\n\n\n\n");
+            System.out.print("\n\n\n\n\n");
             mainview();
         }else {
             System.out.println("(시스템) 로그인 실패 ");
@@ -109,15 +109,15 @@ public class UserView {
             System.out.print(">>선택");
             try{
                 int ch = userscan.nextInt();
-                if (ch == 1){ System.out.print("\n\n\n\n"); PlayController.getInstance().play(); }
-                else if(ch == 2 ){ System.out.print("\n\n\n\n"); RankView.getInstance().rankingView();}
-                else if(ch == 3){ System.out.print("\n\n\n\n"); RankView.getInstance().myLogView();}
+                if (ch == 1){ System.out.print("\n\n\n\n\n"); PlayController.getInstance().play(); }
+                else if(ch == 2 ){ System.out.print("\n\n\n\n\n"); RankView.getInstance().rankingView();}
+                else if(ch == 3){ System.out.print("\n\n\n\n\n"); RankView.getInstance().myLogView();}
                 else if(ch == 4){
                     //저장 후 로그아웃
                     boolean result = uc.saveGame();
                     if(result){ System.out.println("(시스템)저장 성공"); }
                     else{ System.out.println("(시스템)저장 실패"); }
-                    System.out.print("\n\n\n\n");
+                    System.out.print("\n\n\n\n\n");
                     //처음 화면으로 이동
                     return ;
                 }
