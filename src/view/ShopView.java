@@ -24,14 +24,13 @@ public class ShopView {
         ArrayList<Item> itemlist = sc.getAmFo();
         PlayerDto playerDto = PlayerDto.getInstance(); //로그인한 유저의 정보 객체
 
-        boolean flag = true; //상점에서 탈출할 지 결정
         boolean isBuy1st = false; // 첫번째 아이템을 구매했는지
         boolean isBuy2nd = false; // 두번째 아이템을 구매했는지
         boolean isBuy3rd = false; // 세번째 아이템을 구매했는지
 
         int reroll = 50;
         int rand = new Random().nextInt(2)+1;
-        while(flag){
+        while(true){
             String ThirdText = "";
 
             if(rand == 1){
@@ -148,7 +147,7 @@ public class ShopView {
                         System.out.println("[경고]돈이 부족합니다.");
                     }
                 } else if(ch == 6){
-                    flag = false; //상점 탈출!
+                    return; //상점 탈출
                 }
             }catch (InputMismatchException e){
                 scan.nextLine(); //버퍼 비우기
