@@ -24,14 +24,13 @@ public class ShopView {
         ArrayList<Item> itemlist = sc.getAmFo();
         PlayerDto playerDto = PlayerDto.getInstance(); //로그인한 유저의 정보 객체
 
-        boolean flag = true; //상점에서 탈출할 지 결정
         boolean isBuy1st = false; // 첫번째 아이템을 구매했는지
         boolean isBuy2nd = false; // 두번째 아이템을 구매했는지
         boolean isBuy3rd = false; // 세번째 아이템을 구매했는지
 
         int reroll = 50;
         int rand = new Random().nextInt(2)+1;
-        while(flag){
+        while(true){
             String ThirdText = "";
 
             if(rand == 1){
@@ -40,8 +39,8 @@ public class ShopView {
                 ThirdText = "[삭제]덱에서 화투패 삭제(가격: 100냥)";
             }
 
-            System.out.println("========== [ 🏚️ 만물상 (상점) ] ==========");
-            System.out.printf("보유 엽전: %d냥\n", playerDto.getCurrent_money());
+            System.out.println("\n=========== [ 🏚️ 만물상 (상점) ] ===========");
+            System.out.printf("                             보유 엽전: %d냥\n", playerDto.getCurrent_money());
 
 
             if(isBuy1st){
@@ -70,7 +69,7 @@ public class ShopView {
                4. 내 덱 확인
                5. 상점 리롤(%d)
                6. 다음라운드로
-               ---------------------------------------------
+               --------------------------------------------
                >>선택:""", reroll
             ); System.out.print(" ");
 
@@ -89,8 +88,9 @@ public class ShopView {
                 }else if(ch == 3 && rand == 1 && !isBuy3rd){
                     ArrayList<Card> cards = sc.getFiveCard();
                     System.out.printf("""
-                    ---------------------------뽑기 선택---------------------
-                    1. [%s]  2. [%s]  3.[%s] 4.[%s] 5.[%s]
+                    -------------------뽑기 선택-------------------
+                    1. [%s]  2. [%s]  3.[%s]
+                    4.[%s] 5.[%s]
                     """, cards.get(0).getName(), cards.get(1).getName(), cards.get(2).getName(), cards.get(3).getName(), cards.get(4).getName()
                     );
                     int ch2 = scan.nextInt();
@@ -148,7 +148,9 @@ public class ShopView {
                         System.out.println("[경고]돈이 부족합니다.");
                     }
                 } else if(ch == 6){
-                    flag = false; //상점 탈출!
+                    return; //상점 탈출
+                }else{
+                    System.out.println("(시스템)1~6사이의 숫자로 다시 입력해주세요.");
                 }
             }catch (InputMismatchException e){
                 scan.nextLine(); //버퍼 비우기
