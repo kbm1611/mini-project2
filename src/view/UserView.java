@@ -19,17 +19,18 @@ public class UserView {
 
     public void index() {
         for (; ; ) {
-            System.out.println("======================================");
-            System.out.println("덱 빌링 로그라이크 : 화투로 ");
-            System.out.println("Deck Building Hwaturo v1.0");
+            System.out.println("=============================================================");
+            System.out.println("덱 빌링 로그라이크 : 화투로");
             System.out.println("██╗  ██╗██╗    ██╗ █████╗ ████████╗██╗   ██╗██████╗  ██████╗ \n" +
                     "██║  ██║██║    ██║██╔══██╗╚══██╔══╝██║   ██║██╔══██╗██╔═══██╗\n" +
                     "███████║██║ █╗ ██║███████║   ██║   ██║   ██║██████╔╝██║   ██║\n" +
                     "██╔══██║██║███╗██║██╔══██║   ██║   ██║   ██║██╔══██╗██║   ██║\n" +
                     "██║  ██║╚███╔███╔╝██║  ██║   ██║   ╚██████╔╝██║  ██║╚██████╔╝\n" +
                     "╚═╝  ╚═╝ ╚══╝╚══╝ ╚═╝  ╚═╝   ╚═╝    ╚═════╝ ╚═╝  ╚═╝ ╚═════╝ ");
-            System.out.println("======================================\n");
-            System.out.println("  섯다보다 쫄깃하고 고스톱보다 전략적이다!\n");
+            System.out.println("                                 Deck Building Hwaturo v1.0");
+            System.out.println("=============================================================\n");
+            System.out.println("            섯다보다 쫄깃하고 고스톱보다 전략적이다!\n");
+            System.out.println("=============================================================");
             System.out.println(" [1] 회원가입(Register)");
             System.out.println(" [2] 로그인(Login)");
             System.out.println(" [3] 게임 종료(Exit)\n");
@@ -56,7 +57,7 @@ public class UserView {
     public void register() {
         System.out.println("==================================");
         System.out.println("             [회원가입]");
-        System.out.println("==================================\n");
+        System.out.println("==================================");
         System.out.println("사용할 아이디와 비밀번호를 입력하세요");
 
         System.out.print(">> 아이디 : ");
@@ -77,13 +78,14 @@ public class UserView {
     public void login(){
         System.out.println("==================================");
         System.out.println("             [로그인]");
-        System.out.println("==================================\n");
+        System.out.println("==================================");
         System.out.print(">> 아이디 : "); String uid = userscan.next();
         System.out.print(">> 비밀번호 : "); String upwd = userscan.next();
 
         boolean result = uc.login(uid, upwd);
         if(result){
             System.out.println("(시스템) 로그인 성공 ");
+            System.out.print("\n\n\n\n");
             mainview();
         }else {
             System.out.println("(시스템) 로그인 실패 ");
@@ -107,14 +109,15 @@ public class UserView {
             System.out.print(">>선택");
             try{
                 int ch = userscan.nextInt();
-                if (ch == 1){ PlayController.getInstance().play(); }
-                else if(ch == 2 ){RankView.getInstance().rankingView();}
-                else if(ch == 3){RankView.getInstance().myLogView();}
+                if (ch == 1){ System.out.print("\n\n\n\n"); PlayController.getInstance().play(); }
+                else if(ch == 2 ){ System.out.print("\n\n\n\n"); RankView.getInstance().rankingView();}
+                else if(ch == 3){ System.out.print("\n\n\n\n"); RankView.getInstance().myLogView();}
                 else if(ch == 4){
                     //저장 후 로그아웃
                     boolean result = uc.saveGame();
                     if(result){ System.out.println("(시스템)저장 성공"); }
                     else{ System.out.println("(시스템)저장 실패"); }
+                    System.out.print("\n\n\n\n");
                     //처음 화면으로 이동
                     return ;
                 }
